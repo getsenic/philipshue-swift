@@ -1,0 +1,8 @@
+# Xcode
+
+build/
+xcuserdata
+*.pbxuser
+*.xccheckout
+*.xcuserstate
+

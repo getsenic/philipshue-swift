@@ -1,0 +1,6 @@
+framework module PhilipsHue {
+  umbrella header "PhilipsHue-umbrella.h"
+
+  export *
+  module * { export * }
+}
