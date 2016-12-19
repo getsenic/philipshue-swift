@@ -18,10 +18,10 @@ class LightSettingsViewController: UIViewController {
         super.viewDidLoad()
 
         title = "\(lights.count) Lights/Groups"
-        onSwitch.isOn = lights.filter({ $0.on }).count == lights.count
+        onSwitch.isOn = lights.filter({ $0.isOn }).count == lights.count
     }
 
     @IBAction func didChangeIsOn() {
-        lights.forEach { $0.on = onSwitch.isOn }
+        lights.forEach { $0.isOn = onSwitch.isOn }
     }
 }

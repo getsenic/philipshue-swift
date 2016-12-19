@@ -34,7 +34,7 @@ public class PhilipsHueDemo {
 
     public func flashFirstLight() {
         guard let light = bridge.lights.filter({$0.key == "5"}).first?.value else { return }
-        light.on = false
+        light.isOn = false
         light.writeChanges()
     }
 }

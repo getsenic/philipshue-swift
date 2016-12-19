@@ -16,7 +16,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
     public private(set) var lightIdentifiers: [String]
     public private(set) var type:             PhilipsHueGroupType
 
-    public var on: Bool {
+    public var isOn: Bool {
         get {
             //TODO: Implement
             return false

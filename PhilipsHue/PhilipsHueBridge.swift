@@ -105,7 +105,7 @@ internal protocol PhilipsHueBridgeItem {
 }
 
 public protocol PhilipsHueLightItem: class {
-    var on: Bool { get set }
+    var isOn: Bool { get set }
 }
 
 public let PhilipsHueErrorDomain = "PhilipsHueErrorDomain"

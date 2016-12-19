@@ -11,7 +11,7 @@ import Alamofire
 public class PhilipsHueLight: PhilipsHueBridgeItem, PhilipsHueLightItem {
     public private(set) weak var bridge: PhilipsHueBridge?
     public let identifier: String
-    public var on: Bool { didSet { signalStateChange(for: .on) } }
+    public var isOn: Bool { didSet { signalStateChange(for: .on) } }
     public var alert: PhilipsHueLightAlert? { didSet { signalStateChange(for: .alert) } }
     public var writeChangesImmediately = true
 
@@ -21,19 +21,19 @@ public class PhilipsHueLight: PhilipsHueBridgeItem, PhilipsHueLightItem {
     public required init?(bridge: PhilipsHueBridge, identifier: String, json: [String : AnyObject]) {
         guard
             let stateJson = json["state"]   as? [String : AnyObject],
-            let on        = stateJson["on"] as? Bool
+            let isOn      = stateJson["on"] as? Bool
         else {
             return nil
         }
         self.bridge         = bridge
         self.identifier     = identifier
-        self.on             = on
+        self.isOn           = isOn
         self.alert          = PhilipsHueLightAlert(fromJsonValue: stateJson["alert"] as? String ?? "")
     }
 
     internal func update(from light: PhilipsHueLight) {
         isUpdating = true
-        on = light.on
+        isOn = light.isOn
         pendingStates = []
         isUpdating = false
     }
@@ -46,7 +46,7 @@ public class PhilipsHueLight: PhilipsHueBridgeItem, PhilipsHueLightItem {
     public func writeChanges() {
         guard pendingStates.count > 0 else { return }
         var parameters: [String : AnyObject] = [:]
-        if pendingStates.contains(.on) { parameters["on"] = on as AnyObject }
+        if pendingStates.contains(.on) { parameters["on"] = isOn as AnyObject }
         if pendingStates.contains(.alert), let alert = alert { parameters["alert"] = alert.jsonValue as AnyObject }
         pendingStates = []
         bridge?.enqueueStateChangeRequest("lights/\(identifier)/state", parameters: parameters) { result in
