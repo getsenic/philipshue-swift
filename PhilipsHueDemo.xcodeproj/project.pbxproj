@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		465363BA1E08329B00A05AA8 /* BridgeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465363B91E08329B00A05AA8 /* BridgeSelectionViewController.swift */; };
+		465363BC1E08336F00A05AA8 /* BridgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465363BB1E08336F00A05AA8 /* BridgeViewController.swift */; };
 		469F28971E03F1150087A791 /* PhilipsHueBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469F28961E03F1150087A791 /* PhilipsHueBridge.swift */; };
 		469F28991E0405670087A791 /* PhilipsHueDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469F28981E0405670087A791 /* PhilipsHueDemo.swift */; };
 		469F289D1E0427050087A791 /* PhilipsHueGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469F289C1E0427050087A791 /* PhilipsHueGroup.swift */; };
 		469F289F1E044DD20087A791 /* PhilipsHueLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469F289E1E044DD20087A791 /* PhilipsHueLight.swift */; };
 		46EB44251E03E23F009A4CC4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EB44241E03E23F009A4CC4 /* AppDelegate.swift */; };
-		46EB44271E03E23F009A4CC4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EB44261E03E23F009A4CC4 /* ViewController.swift */; };
 		46EB442A1E03E23F009A4CC4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46EB44281E03E23F009A4CC4 /* Main.storyboard */; };
 		46EB442C1E03E23F009A4CC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46EB442B1E03E23F009A4CC4 /* Assets.xcassets */; };
 		46EB442F1E03E23F009A4CC4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46EB442D1E03E23F009A4CC4 /* LaunchScreen.storyboard */; };
@@ -21,13 +22,14 @@
 
 /* Begin PBXFileReference section */
 		443E4D3881F0E1FBC8282629 /* Pods-PhilipsHueDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhilipsHueDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PhilipsHueDemo/Pods-PhilipsHueDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		465363B91E08329B00A05AA8 /* BridgeSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BridgeSelectionViewController.swift; sourceTree = "<group>"; };
+		465363BB1E08336F00A05AA8 /* BridgeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BridgeViewController.swift; sourceTree = "<group>"; };
 		469F28961E03F1150087A791 /* PhilipsHueBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhilipsHueBridge.swift; sourceTree = "<group>"; };
 		469F28981E0405670087A791 /* PhilipsHueDemo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhilipsHueDemo.swift; sourceTree = "<group>"; };
 		469F289C1E0427050087A791 /* PhilipsHueGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhilipsHueGroup.swift; sourceTree = "<group>"; };
 		469F289E1E044DD20087A791 /* PhilipsHueLight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhilipsHueLight.swift; sourceTree = "<group>"; };
 		46EB44211E03E23F009A4CC4 /* PhilipsHueDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhilipsHueDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46EB44241E03E23F009A4CC4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		46EB44261E03E23F009A4CC4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		46EB44291E03E23F009A4CC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		46EB442B1E03E23F009A4CC4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		46EB442E1E03E23F009A4CC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -81,8 +83,9 @@
 			isa = PBXGroup;
 			children = (
 				46EB44241E03E23F009A4CC4 /* AppDelegate.swift */,
+				465363B91E08329B00A05AA8 /* BridgeSelectionViewController.swift */,
+				465363BB1E08336F00A05AA8 /* BridgeViewController.swift */,
 				469F28981E0405670087A791 /* PhilipsHueDemo.swift */,
-				46EB44261E03E23F009A4CC4 /* ViewController.swift */,
 				46EB44281E03E23F009A4CC4 /* Main.storyboard */,
 				46EB442B1E03E23F009A4CC4 /* Assets.xcassets */,
 				46EB442D1E03E23F009A4CC4 /* LaunchScreen.storyboard */,
@@ -233,10 +236,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				469F289D1E0427050087A791 /* PhilipsHueGroup.swift in Sources */,
-				46EB44271E03E23F009A4CC4 /* ViewController.swift in Sources */,
+				465363BA1E08329B00A05AA8 /* BridgeSelectionViewController.swift in Sources */,
 				469F28971E03F1150087A791 /* PhilipsHueBridge.swift in Sources */,
 				469F289F1E044DD20087A791 /* PhilipsHueLight.swift in Sources */,
 				46EB44251E03E23F009A4CC4 /* AppDelegate.swift in Sources */,
+				465363BC1E08336F00A05AA8 /* BridgeViewController.swift in Sources */,
 				469F28991E0405670087A791 /* PhilipsHueDemo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
