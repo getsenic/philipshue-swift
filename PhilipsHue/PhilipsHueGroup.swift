@@ -8,13 +8,23 @@
 
 import Foundation
 
-public class PhilipsHueGroup: PhilipsHueBridgeItem {
+public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
     public private(set) weak var bridge: PhilipsHueBridge?
     public let identifier: String
 
     public private(set) var name:             String
     public private(set) var lightIdentifiers: [String]
     public private(set) var type:             PhilipsHueGroupType
+
+    public var on: Bool {
+        get {
+            //TODO: Implement
+            return false
+        }
+        set {
+            //TODO: Implement
+        }
+    }
 
     required public init?(bridge: PhilipsHueBridge, identifier: String, json: [String : AnyObject]) {
         guard

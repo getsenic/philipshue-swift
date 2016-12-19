@@ -86,8 +86,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="o8m-WY-G8L">
-                                <rect key="frame" x="16" y="72" width="343" height="587"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="o8m-WY-G8L">
+                                <rect key="frame" x="16" y="72" width="343" height="549"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="group" textLabel="IfF-XE-jfM" detailTextLabel="3t8-FG-PfA" style="IBUITableViewCellStyleSubtitle" id="ldV-45-8iY">
@@ -144,12 +144,21 @@
                                     <outlet property="delegate" destination="uZy-pm-fRc" id="8Qo-u2-hub"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z1X-nC-RhB">
+                                <rect key="frame" x="221" y="629" width="138" height="30"/>
+                                <state key="normal" title="Change Attributes &gt;"/>
+                                <connections>
+                                    <action selector="presentSettingsForSelectedLights" destination="uZy-pm-fRc" eventType="touchUpInside" id="Lsh-zU-97p"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Gca-Sq-6m8" firstAttribute="top" secondItem="o8m-WY-G8L" secondAttribute="bottom" constant="8" id="9RK-kz-nb7"/>
                             <constraint firstItem="o8m-WY-G8L" firstAttribute="trailing" secondItem="zfg-Wn-Ig8" secondAttribute="trailingMargin" id="SV7-jJ-eCb"/>
+                            <constraint firstItem="z1X-nC-RhB" firstAttribute="trailing" secondItem="zfg-Wn-Ig8" secondAttribute="trailingMargin" id="Srf-nm-nlX"/>
+                            <constraint firstItem="Gca-Sq-6m8" firstAttribute="top" secondItem="z1X-nC-RhB" secondAttribute="bottom" constant="8" id="TIF-3R-VcH"/>
                             <constraint firstItem="o8m-WY-G8L" firstAttribute="top" secondItem="L7B-uR-2CD" secondAttribute="bottom" constant="8" id="Wqb-qC-Jnd"/>
+                            <constraint firstItem="z1X-nC-RhB" firstAttribute="top" secondItem="o8m-WY-G8L" secondAttribute="bottom" constant="8" id="miC-wI-PdG"/>
                             <constraint firstItem="o8m-WY-G8L" firstAttribute="leading" secondItem="zfg-Wn-Ig8" secondAttribute="leadingMargin" id="qn6-F1-Ing"/>
                         </constraints>
                     </view>
@@ -162,11 +171,53 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="o8m-WY-G8L" id="3mb-GI-va7"/>
+                        <segue destination="rOl-rU-wC0" kind="show" identifier="lights" id="Whz-CX-YMF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nag-E2-iZc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="336.80000000000001" y="19.340329835082461"/>
+        </scene>
+        <!--Light Settings View Controller-->
+        <scene sceneID="5rr-T8-LAJ">
+            <objects>
+                <viewController id="rOl-rU-wC0" customClass="LightSettingsViewController" customModule="PhilipsHueDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="PFJ-vc-yT6"/>
+                        <viewControllerLayoutGuide type="bottom" id="FDb-2D-daW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="IlP-Xr-2hS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TLe-ZL-GRx">
+                                <rect key="frame" x="116" y="72" width="51" height="31"/>
+                                <connections>
+                                    <action selector="didChangeIsOn" destination="rOl-rU-wC0" eventType="valueChanged" id="35C-52-T8k"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="On" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6qv-Gw-WC2">
+                                <rect key="frame" x="16" y="77" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="TLe-ZL-GRx" firstAttribute="leading" secondItem="IlP-Xr-2hS" secondAttribute="leadingMargin" constant="100" id="3Zk-MX-4Pl"/>
+                            <constraint firstItem="6qv-Gw-WC2" firstAttribute="leading" secondItem="IlP-Xr-2hS" secondAttribute="leadingMargin" id="C6J-m5-NBY"/>
+                            <constraint firstItem="TLe-ZL-GRx" firstAttribute="top" secondItem="PFJ-vc-yT6" secondAttribute="bottom" constant="8" id="ZYB-B5-cVd"/>
+                            <constraint firstItem="6qv-Gw-WC2" firstAttribute="centerY" secondItem="TLe-ZL-GRx" secondAttribute="centerY" id="gK4-HN-OPc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="onSwitch" destination="TLe-ZL-GRx" id="DXZ-xH-ehX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xtI-tU-rAF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1156" y="19"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="KPY-AA-Jsh">

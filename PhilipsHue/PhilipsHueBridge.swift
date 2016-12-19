@@ -104,6 +104,10 @@ internal protocol PhilipsHueBridgeItem {
     func update(from: Self)
 }
 
+public protocol PhilipsHueLightItem: class {
+    var on: Bool { get set }
+}
+
 public let PhilipsHueErrorDomain = "PhilipsHueErrorDomain"
 public let PhilipsHueUnexpectedServerResponseErrorCode = 1
 public let PhilipsHueLinkButtonNotPressedErrorCode = 2

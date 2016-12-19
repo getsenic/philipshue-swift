@@ -33,6 +33,18 @@ class BridgeViewController: UIViewController {
             }
         }
     }
+
+    @IBAction func presentSettingsForSelectedLights() {
+        performSegue(withIdentifier: "lights", sender: nil)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        (segue.destination as! LightSettingsViewController).lights = tableView.indexPathsForSelectedRows?.map { (indexPath) -> PhilipsHueLightItem in
+            return indexPath.section == 0
+                ? lights[indexPath.row]
+                : groups[indexPath.row]
+        } ?? []
+    }
 }
 
 extension BridgeViewController: UITableViewDataSource {

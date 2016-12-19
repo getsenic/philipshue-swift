@@ -8,7 +8,7 @@
 
 import Alamofire
 
-public class PhilipsHueLight: PhilipsHueBridgeItem {
+public class PhilipsHueLight: PhilipsHueBridgeItem, PhilipsHueLightItem {
     public private(set) weak var bridge: PhilipsHueBridge?
     public let identifier: String
     public var on: Bool { didSet { signalStateChange(for: .on) } }
