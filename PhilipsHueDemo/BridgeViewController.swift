@@ -41,34 +41,34 @@ extension BridgeViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? bridge.groups.count : bridge.lights.count
+        return section == 0 ? bridge.lights.count : bridge.groups.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let group = groups[indexPath.row]
-            let cell = tableView.dequeueReusableCell(withIdentifier: "group", for: indexPath)
-            cell.textLabel?.text = group.identifier
-            cell.detailTextLabel?.text = String(describing: group.type)
-            return cell
-        }
-        else {
             let light = lights[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "light", for: indexPath)
             cell.textLabel?.text = light.identifier
             cell.detailTextLabel?.text = ""
             return cell
         }
+        else {
+            let group = groups[indexPath.row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: "group", for: indexPath)
+            cell.textLabel?.text = group.identifier
+            cell.detailTextLabel?.text = String(describing: group.type)
+            return cell
+        }
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 0 ? "Groups" : "Lights"
+        return section == 0 ? "Lights" : "Groups"
     }
 }
 
 extension BridgeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
+        if indexPath.section == 0 {
             let light = lights[indexPath.row]
             light.alert = .select
             light.writeChanges()
