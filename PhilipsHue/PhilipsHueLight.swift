@@ -16,6 +16,7 @@ public class PhilipsHueLight: PhilipsHueBridgeItem {
     public var writeChangesImmediately = true
 
     private var pendingStates: Set<PhilipsHueLightState> = []
+    private var isUpdating = false
 
     public required init?(bridge: PhilipsHueBridge, identifier: String, json: [String : AnyObject]) {
         guard
@@ -31,12 +32,15 @@ public class PhilipsHueLight: PhilipsHueBridgeItem {
     }
 
     internal func update(from light: PhilipsHueLight) {
+        isUpdating = true
         on = light.on
+        pendingStates = []
+        isUpdating = false
     }
 
     private func signalStateChange(for state: PhilipsHueLightState) {
         pendingStates.insert(state)
-        if writeChangesImmediately { writeChanges() }
+        if writeChangesImmediately && !isUpdating { writeChanges() }
     }
 
     public func writeChanges() {
