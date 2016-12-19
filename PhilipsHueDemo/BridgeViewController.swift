@@ -67,5 +67,11 @@ extension BridgeViewController: UITableViewDataSource {
 }
 
 extension BridgeViewController: UITableViewDelegate {
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 1 {
+            let light = lights[indexPath.row]
+            light.alert = .select
+            light.writeChanges()
+        }
+    }
 }
