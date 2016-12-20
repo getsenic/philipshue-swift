@@ -90,14 +90,14 @@ extension BridgeViewController: UITableViewDataSource {
         if indexPath.section == 0 {
             let light = lights[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "light", for: indexPath)
-            cell.textLabel?.text = light.identifier
-            cell.detailTextLabel?.text = light.isReachable ? "Reachable" : "Not reachable"
+            cell.textLabel?.text = "[\(light.identifier)] \(light.name)"
+            cell.detailTextLabel?.text = "\(light.manufacturer) \(light.model) (\(light.isReachable ? "Reachable" : "Not reachable"))"
             return cell
         }
         else {
             let group = groups[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "group", for: indexPath)
-            cell.textLabel?.text = group.identifier
+            cell.textLabel?.text = "[\(group.identifier)] \(group.name)"
             cell.detailTextLabel?.text = String(describing: group.type)
             return cell
         }

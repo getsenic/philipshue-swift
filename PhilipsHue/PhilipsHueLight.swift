@@ -10,10 +10,16 @@ import Alamofire
 
 public class PhilipsHueLight: PhilipsHueBridgeItem, PhilipsHueLightItem {
     public private(set) weak var bridge: PhilipsHueBridge?
-    public private(set) var isReachable: Bool
+
+    public private(set) var isReachable:  Bool
+    public private(set) var name:         String
+    public private(set) var manufacturer: String
+    public private(set) var model:        String
+
     public let identifier: String
-    public var isOn: Bool { didSet { signalStateChange(for: .on) } }
-    public var alert: PhilipsHueLightAlert? { didSet { signalStateChange(for: .alert) } }
+    public var isOn:       Bool { didSet { signalStateChange(for: .on) } }
+    public var alert:      PhilipsHueLightAlert? { didSet { signalStateChange(for: .alert) } }
+
     public var writeChangesImmediately = true
 
     private var pendingStates: Set<PhilipsHueLightState> = []
@@ -32,12 +38,18 @@ public class PhilipsHueLight: PhilipsHueBridgeItem, PhilipsHueLightItem {
         self.isReachable    = isReachable
         self.isOn           = isOn
         self.alert          = PhilipsHueLightAlert(fromJsonValue: stateJson["alert"] as? String ?? "")
+        self.name           = json["name"]             as? String ?? ""
+        self.manufacturer   = json["manufacturername"] as? String ?? ""
+        self.model          = json["modelid"]          as? String ?? ""
     }
 
     internal func update(from light: PhilipsHueLight) {
         beginUpdate()
-        isReachable = true
-        isOn = light.isOn
+        isReachable  = light.isReachable
+        isOn         = light.isOn
+        name         = light.name
+        manufacturer = light.manufacturer
+        model        = light.model
         endUpdate()
     }
 
