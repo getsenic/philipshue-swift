@@ -11,9 +11,8 @@ import UIKit
 class BridgeViewController: UIViewController {
     var bridge: PhilipsHueBridge!
 
-    var groups: [PhilipsHueGroup] { return bridge.groups.values.sorted(by: { (lhs, rhs) -> Bool in return lhs.identifier < rhs.identifier }) }
-
-    var lights: [PhilipsHueLight] { return bridge.lights.values.sorted(by: { (lhs, rhs) -> Bool in return lhs.identifier < rhs.identifier }) }
+    var groups: [PhilipsHueGroup] { return bridge.groups.values.sorted(by: { (lhs, rhs) -> Bool in return UInt(lhs.identifier)! < UInt(rhs.identifier)! }) }
+    var lights: [PhilipsHueLight] { return bridge.lights.values.sorted(by: { (lhs, rhs) -> Bool in return UInt(lhs.identifier)! < UInt(rhs.identifier)! }) }
 
     @IBOutlet weak var tableView: UITableView!
 
