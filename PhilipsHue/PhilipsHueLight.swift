@@ -10,6 +10,7 @@ import Alamofire
 
 public class PhilipsHueLight: PhilipsHueBridgeItem, PhilipsHueLightItem {
     public private(set) weak var bridge: PhilipsHueBridge?
+    public private(set) var isReachable: Bool
     public let identifier: String
     public var isOn: Bool { didSet { signalStateChange(for: .on) } }
     public var alert: PhilipsHueLightAlert? { didSet { signalStateChange(for: .alert) } }
@@ -20,25 +21,36 @@ public class PhilipsHueLight: PhilipsHueBridgeItem, PhilipsHueLightItem {
 
     public required init?(bridge: PhilipsHueBridge, identifier: String, json: [String : AnyObject]) {
         guard
-            let stateJson = json["state"]   as? [String : AnyObject],
-            let isOn      = stateJson["on"] as? Bool
+            let stateJson   = json["state"]          as? [String : AnyObject],
+            let isOn        = stateJson["on"]        as? Bool,
+            let isReachable = stateJson["reachable"] as? Bool
         else {
             return nil
         }
         self.bridge         = bridge
         self.identifier     = identifier
+        self.isReachable    = isReachable
         self.isOn           = isOn
         self.alert          = PhilipsHueLightAlert(fromJsonValue: stateJson["alert"] as? String ?? "")
     }
 
     internal func update(from light: PhilipsHueLight) {
-        isUpdating = true
+        beginUpdate()
+        isReachable = true
         isOn = light.isOn
-        pendingStates = []
+        endUpdate()
+    }
+
+    internal func beginUpdate() {
+        isUpdating = true
+    }
+
+    internal func endUpdate() {
         isUpdating = false
     }
 
     private func signalStateChange(for state: PhilipsHueLightState) {
+        guard !isUpdating else { return }
         pendingStates.insert(state)
         if writeChangesImmediately && !isUpdating { writeChanges() }
     }

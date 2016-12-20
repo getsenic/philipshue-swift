@@ -16,13 +16,26 @@ public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
     public private(set) var lightIdentifiers: [String]
     public private(set) var type:             PhilipsHueGroupType
 
+    public var reachableLights: [PhilipsHueLight] { return lightIdentifiers.flatMap{ bridge?.lights[$0] }.filter{ $0.isReachable } }
+
     public var isOn: Bool {
         get {
-            //TODO: Implement
-            return false
+            let reachableLights = self.reachableLights
+            return reachableLights.count > 0 && reachableLights.filter{ $0.isOn }.count == reachableLights.count
         }
         set {
-            //TODO: Implement
+            reachableLights.forEach {
+                $0.beginUpdate()
+                $0.isOn = newValue
+                $0.endUpdate()
+            }
+            bridge?.enqueueStateChangeRequest("groups/\(identifier)/action", parameters: ["on" : newValue as AnyObject]) { result in
+                print(result)
+                switch result {
+                case .failure(let error): print(error)
+                case .success(let jsonObjects): print(jsonObjects)
+                }
+            }
         }
     }
 
