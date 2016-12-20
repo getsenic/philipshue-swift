@@ -25,6 +25,11 @@ class BridgeViewController: UIViewController {
         refresh()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.indexPathsForSelectedRows?.forEach { tableView.deselectRow(at: $0, animated: false) }
+    }
+
     @IBAction func refresh() {
         bridge.refresh { [weak self] (result) in
             switch result {
