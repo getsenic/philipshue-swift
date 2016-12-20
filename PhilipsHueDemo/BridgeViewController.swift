@@ -15,6 +15,8 @@ class BridgeViewController: UIViewController {
     var lights: [PhilipsHueLight] { return bridge.lights.values.sorted(by: { (lhs, rhs) -> Bool in return UInt(lhs.identifier)! < UInt(rhs.identifier)! }) }
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var lightAttributesButton: UIButton!
+    @IBOutlet weak var lightAttributesActivitiyIndicator: UIActivityIndicatorView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,15 +41,39 @@ class BridgeViewController: UIViewController {
     }
 
     @IBAction func presentSettingsForSelectedLights() {
-        performSegue(withIdentifier: "lights", sender: nil)
+        guard let selectedIndexPaths = tableView.indexPathsForSelectedRows, selectedIndexPaths.count > 0 else { return }
+
+        let selectedLights = selectedIndexPaths.flatMap{ ($0.section == 0) ? [lights[$0.row]] : groups[$0.row].lights }
+
+        // If only one light is selected, present settings for this light
+        if selectedLights.count == 1, let selectedLight = selectedLights.first {
+            performSegue(withIdentifier: "light", sender: selectedLight)
+            return
+        }
+
+        // Since more lights are selected, we need to first find a group that consists exactly of these lights or create a new group for them
+        lightAttributesButton.isEnabled = false
+        lightAttributesActivitiyIndicator.startAnimating()
+
+        bridge.getOrCreateGroup(for: selectedLights, name: "PhilipsHueDemo") { [weak self] result in
+            guard let strongSelf = self else { return }
+
+            strongSelf.lightAttributesActivitiyIndicator.stopAnimating()
+            strongSelf.lightAttributesButton.isEnabled = true
+
+            switch result {
+            case .failure(let error):
+                let alertController = UIAlertController(title: "Failed getting or creating group", message: "\(error.localizedDescription)\n\((error as NSError).localizedFailureReason ?? "")", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                strongSelf.present(alertController, animated: true) {}
+            case .success(let group):
+                strongSelf.performSegue(withIdentifier: "light", sender: group)
+            }
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        (segue.destination as! LightSettingsViewController).lights = tableView.indexPathsForSelectedRows?.map { (indexPath) -> PhilipsHueLightItem in
-            return indexPath.section == 0
-                ? lights[indexPath.row]
-                : groups[indexPath.row]
-        } ?? []
+        (segue.destination as! LightSettingsViewController).light = sender as! PhilipsHueLightItem
     }
 }
 

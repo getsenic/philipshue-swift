@@ -16,7 +16,8 @@ public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
     public private(set) var lightIdentifiers: [String]
     public private(set) var type:             PhilipsHueGroupType
 
-    public var reachableLights: [PhilipsHueLight] { return lightIdentifiers.flatMap{ bridge?.lights[$0] }.filter{ $0.isReachable } }
+    public var lights:          [PhilipsHueLight] { return lightIdentifiers.flatMap{ bridge?.lights[$0] } }
+    public var reachableLights: [PhilipsHueLight] { return lights.filter{ $0.isReachable } }
 
     public var isOn: Bool {
         get {
@@ -29,7 +30,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
                 $0.isOn = newValue
                 $0.endUpdate()
             }
-            bridge?.enqueueStateChangeRequest("groups/\(identifier)/action", parameters: ["on" : newValue as AnyObject]) { result in
+            bridge?.enqueueRequest("groups/\(identifier)/action", method: .put, parameters: ["on" : newValue as AnyObject]) { result in
                 print(result)
                 switch result {
                 case .failure(let error): print(error)
@@ -39,7 +40,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
         }
     }
 
-    required public init?(bridge: PhilipsHueBridge, identifier: String, json: [String : AnyObject]) {
+    required convenience public init?(bridge: PhilipsHueBridge, identifier: String, json: [String : AnyObject]) {
         guard
             let name             = json["name"]   as? String,
             let lightIdentifiers = json["lights"] as? [String],
@@ -47,7 +48,11 @@ public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
         else {
             return nil
         }
-            
+
+        self.init(bridge: bridge, identifier: identifier, name: name, lightIdentifiers: lightIdentifiers, type: type)
+    }
+
+    public init(bridge: PhilipsHueBridge, identifier: String, name: String, lightIdentifiers: [String], type: PhilipsHueGroupType) {
         self.bridge           = bridge
         self.identifier       = identifier
         self.name             = name

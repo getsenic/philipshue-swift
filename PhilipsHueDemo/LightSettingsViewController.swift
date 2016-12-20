@@ -10,18 +10,18 @@ import UIKit
 
 class LightSettingsViewController: UIViewController {
 
-    var lights: [PhilipsHueLightItem]!
+    var light: PhilipsHueLightItem!
 
     @IBOutlet weak var onSwitch: UISwitch!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "\(lights.count) Lights/Groups"
-        onSwitch.isOn = lights.filter({ $0.isOn }).count == lights.count
+        title = (light is PhilipsHueLight ? "Light" : "Group").appending(" \(light.identifier)")
+        onSwitch.isOn = light.isOn
     }
 
     @IBAction func didChangeIsOn() {
-        lights.forEach { $0.isOn = onSwitch.isOn }
+        light.isOn = onSwitch.isOn
     }
 }

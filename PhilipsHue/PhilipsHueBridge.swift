@@ -68,6 +68,39 @@ public class PhilipsHueBridge {
             }
     }
 
+    public func getOrCreateGroup(for lights: [PhilipsHueLight], name: String, completion: @escaping (Result<PhilipsHueGroup>) -> Void) {
+        guard lights.count > 0 else {
+            completion(.failure(NSError(domain: PhilipsHueErrorDomain, code: PhilipsHueNoLightIdentifierSpecifiedErrorCode, userInfo: [NSLocalizedDescriptionKey: "Cannot create group", NSLocalizedFailureReasonErrorKey: "No lights specified"])))
+            return
+        }
+        let lightIdentifiers = Array(Set(lights.map{ $0.identifier }))
+        // Return an existing group if we know a group that contains exactly the same lights
+        if let group = groups.values.filter({ group -> Bool in
+            guard group.lightIdentifiers.count == lightIdentifiers.count else { return false }
+            return group.lightIdentifiers.reduce(true) { (result, identifier) in return result && lightIdentifiers.contains(identifier) }
+        }).first {
+            completion(.success(group))
+            return
+        }
+        // Create a new group
+        enqueueRequest("groups", method: .post, parameters: ["lights" : lightIdentifiers as AnyObject, "name" : name as AnyObject, "type" : "LightGroup" as AnyObject]) { [weak self] result in
+            guard let strongSelf = self else { return }
+            switch result {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let jsonObjects):
+                //TODO: Catch error responses and forward via .failure()
+                guard let groupIdentifier = jsonObjects.flatMap({($0["success"] as? [String : AnyObject])?["id"] as? String}).first else {
+                    completion(.failure(NSError(domain: PhilipsHueErrorDomain, code: PhilipsHueUnexpectedServerResponseErrorCode, userInfo: [NSLocalizedDescriptionKey: "Unexpected server response", NSLocalizedFailureReasonErrorKey: "Unexpected server response"])))
+                    return
+                }
+                let group = PhilipsHueGroup(bridge: strongSelf, identifier: groupIdentifier, name: name, lightIdentifiers: lightIdentifiers, type: .group)
+                strongSelf.groups[groupIdentifier] = group
+                completion(.success(group))
+            }
+        }
+    }
+
     private func updateBridgeItems<T: PhilipsHueBridgeItem>(_ items: inout [String : T], from jsonItems: [String : [String : AnyObject]]) {
         items = jsonItems
             .flatMap { (identifier: String, json: [String : AnyObject]) -> T? in
@@ -85,13 +118,13 @@ public class PhilipsHueBridge {
             })
     }
 
-    internal func enqueueStateChangeRequest(_ urlPath: String, parameters: [String : AnyObject], completion: @escaping (Result<[[String : AnyObject]]>) -> ()) {
+    internal func enqueueRequest(_ urlPath: String, method: HTTPMethod, parameters: [String : AnyObject], completion: @escaping (Result<[[String : AnyObject]]>) -> ()) {
         guard let username = username else {
             completion(.failure(NSError(domain: PhilipsHueErrorDomain, code: PhilipsHueUsernameNotAuthorizedErrorCode, userInfo: [NSLocalizedDescriptionKey: "Failed updating state", NSLocalizedFailureReasonErrorKey: "Username not set"])))
             return
         }
         let _ = Alamofire
-            .request("http://\(host)/api/\(username)/\(urlPath)", method: .put, parameters: parameters, encoding: JSONEncoding.default)
+            .request("http://\(host)/api/\(username)/\(urlPath)", method: method, parameters: parameters, encoding: JSONEncoding.default)
             .responseHueJSONArray { result in completion(result) }
     }
 }
@@ -105,6 +138,7 @@ internal protocol PhilipsHueBridgeItem {
 }
 
 public protocol PhilipsHueLightItem: class {
+    var identifier: String { get }
     var isOn: Bool { get set }
 }
 
@@ -112,7 +146,8 @@ public let PhilipsHueErrorDomain = "PhilipsHueErrorDomain"
 public let PhilipsHueUnexpectedServerResponseErrorCode = 1
 public let PhilipsHueLinkButtonNotPressedErrorCode = 2
 public let PhilipsHueUnknownFailureErrorCode = 3
-public let PhilipsHueUsernameNotAuthorizedErrorCode = 3
+public let PhilipsHueUsernameNotAuthorizedErrorCode = 4
+public let PhilipsHueNoLightIdentifierSpecifiedErrorCode = 5
 
 private struct HueErrorResponse {
     let type: Int?

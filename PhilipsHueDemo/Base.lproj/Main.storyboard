@@ -151,12 +151,17 @@
                                     <action selector="presentSettingsForSelectedLights" destination="uZy-pm-fRc" eventType="touchUpInside" id="Lsh-zU-97p"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="R5A-a2-VbX">
+                                <rect key="frame" x="193" y="634" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="z1X-nC-RhB" firstAttribute="leading" secondItem="R5A-a2-VbX" secondAttribute="trailing" constant="8" id="NB2-3P-UQp"/>
                             <constraint firstItem="o8m-WY-G8L" firstAttribute="trailing" secondItem="zfg-Wn-Ig8" secondAttribute="trailingMargin" id="SV7-jJ-eCb"/>
                             <constraint firstItem="z1X-nC-RhB" firstAttribute="trailing" secondItem="zfg-Wn-Ig8" secondAttribute="trailingMargin" id="Srf-nm-nlX"/>
                             <constraint firstItem="Gca-Sq-6m8" firstAttribute="top" secondItem="z1X-nC-RhB" secondAttribute="bottom" constant="8" id="TIF-3R-VcH"/>
+                            <constraint firstItem="R5A-a2-VbX" firstAttribute="centerY" secondItem="z1X-nC-RhB" secondAttribute="centerY" id="Vp6-OB-khc"/>
                             <constraint firstItem="o8m-WY-G8L" firstAttribute="top" secondItem="L7B-uR-2CD" secondAttribute="bottom" constant="8" id="Wqb-qC-Jnd"/>
                             <constraint firstItem="z1X-nC-RhB" firstAttribute="top" secondItem="o8m-WY-G8L" secondAttribute="bottom" constant="8" id="miC-wI-PdG"/>
                             <constraint firstItem="o8m-WY-G8L" firstAttribute="leading" secondItem="zfg-Wn-Ig8" secondAttribute="leadingMargin" id="qn6-F1-Ing"/>
@@ -170,8 +175,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="lightAttributesActivitiyIndicator" destination="R5A-a2-VbX" id="K2g-z1-jYp"/>
+                        <outlet property="lightAttributesButton" destination="z1X-nC-RhB" id="Dau-OQ-FVI"/>
                         <outlet property="tableView" destination="o8m-WY-G8L" id="3mb-GI-va7"/>
-                        <segue destination="rOl-rU-wC0" kind="show" identifier="lights" id="Whz-CX-YMF"/>
+                        <segue destination="rOl-rU-wC0" kind="show" identifier="light" id="Whz-CX-YMF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nag-E2-iZc" userLabel="First Responder" sceneMemberID="firstResponder"/>

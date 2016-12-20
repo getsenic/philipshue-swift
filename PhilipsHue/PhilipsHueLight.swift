@@ -61,7 +61,7 @@ public class PhilipsHueLight: PhilipsHueBridgeItem, PhilipsHueLightItem {
         if pendingStates.contains(.on) { parameters["on"] = isOn as AnyObject }
         if pendingStates.contains(.alert), let alert = alert { parameters["alert"] = alert.jsonValue as AnyObject }
         pendingStates = []
-        bridge?.enqueueStateChangeRequest("lights/\(identifier)/state", parameters: parameters) { result in
+        bridge?.enqueueRequest("lights/\(identifier)/state", method: .put, parameters: parameters) { result in
             print(result)
             switch result {
             case .failure(let error): print(error)
