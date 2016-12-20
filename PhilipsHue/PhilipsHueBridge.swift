@@ -21,7 +21,7 @@ public class PhilipsHueBridge {
         self.username   = username
     }
 
-    public func requestUsername(for appName: String, completion: @escaping (Result<String>) -> Void) {
+    public func requestUsername(for appName: String, completion: @escaping (PhilipsHueResult<String>) -> Void) {
         let _ = Alamofire
             .request("http://\(host)/api", method: .post, parameters: ["devicetype": appName], encoding: JSONEncoding.default)
             .responseHueJSONArray { [weak self] result in
@@ -31,7 +31,7 @@ public class PhilipsHueBridge {
                     completion(.failure(error))
                 case .success(let jsonObjects):
                     guard let username = jsonObjects.flatMap({($0["success"] as? [String : AnyObject])?["username"] as? String}).first else {
-                        completion(.failure(NSError(domain: PhilipsHueErrorDomain, code: PhilipsHueUnexpectedServerResponseErrorCode, userInfo: [NSLocalizedDescriptionKey: "Unexpected server response", NSLocalizedFailureReasonErrorKey: "Unexpected server response"])))
+                        completion(.failure(.unexpectedResponse(jsonObjects)))
                         return
                     }
                     strongSelf.username = username
@@ -40,9 +40,9 @@ public class PhilipsHueBridge {
             }
     }
 
-    public func refresh(completion: @escaping (Result<Void>) -> Void) {
+    public func refresh(completion: @escaping (PhilipsHueResult<Void>) -> Void) {
         guard let username = username else {
-            completion(.failure(NSError(domain: PhilipsHueErrorDomain, code: PhilipsHueUsernameNotAuthorizedErrorCode, userInfo: [NSLocalizedDescriptionKey: "Failed refreshing bridge", NSLocalizedFailureReasonErrorKey: "Username not set"])))
+            completion(.failure(.usernameNotSet))
             return
         }
         let _ = Alamofire
@@ -57,7 +57,7 @@ public class PhilipsHueBridge {
                         let config     = json["config"]     as? [String : AnyObject],
                         let identifier = config["bridgeid"] as? String
                     else {
-                        completion(.failure(NSError(domain: PhilipsHueErrorDomain, code: PhilipsHueUnexpectedServerResponseErrorCode, userInfo: [NSLocalizedDescriptionKey: "Unexpected server response", NSLocalizedFailureReasonErrorKey: "Unexpected server response"])))
+                        completion(.failure(.unexpectedResponse(json)))
                         return
                     }
                     strongSelf.identifier = identifier
@@ -68,11 +68,7 @@ public class PhilipsHueBridge {
             }
     }
 
-    public func getOrCreateGroup(for lights: [PhilipsHueLight], name: String, completion: @escaping (Result<PhilipsHueGroup>) -> Void) {
-        guard lights.count > 0 else {
-            completion(.failure(NSError(domain: PhilipsHueErrorDomain, code: PhilipsHueNoLightIdentifierSpecifiedErrorCode, userInfo: [NSLocalizedDescriptionKey: "Cannot create group", NSLocalizedFailureReasonErrorKey: "No lights specified"])))
-            return
-        }
+    public func getOrCreateGroup(for lights: [PhilipsHueLight], name: String, completion: @escaping (PhilipsHueResult<PhilipsHueGroup>) -> Void) {
         let lightIdentifiers = Array(Set(lights.map{ $0.identifier }))
         // Return an existing group if we know a group that contains exactly the same lights
         if let group = groups.values.filter({ group -> Bool in
@@ -89,9 +85,8 @@ public class PhilipsHueBridge {
             case .failure(let error):
                 completion(.failure(error))
             case .success(let jsonObjects):
-                //TODO: Catch error responses and forward via .failure()
                 guard let groupIdentifier = jsonObjects.flatMap({($0["success"] as? [String : AnyObject])?["id"] as? String}).first else {
-                    completion(.failure(NSError(domain: PhilipsHueErrorDomain, code: PhilipsHueUnexpectedServerResponseErrorCode, userInfo: [NSLocalizedDescriptionKey: "Unexpected server response", NSLocalizedFailureReasonErrorKey: "Unexpected server response"])))
+                    completion(.failure(.unexpectedResponse(jsonObjects)))
                     return
                 }
                 let group = PhilipsHueGroup(bridge: strongSelf, identifier: groupIdentifier, name: name, lightIdentifiers: lightIdentifiers, type: .group)
@@ -118,9 +113,9 @@ public class PhilipsHueBridge {
             })
     }
 
-    internal func enqueueRequest(_ urlPath: String, method: HTTPMethod, parameters: [String : AnyObject], completion: @escaping (Result<[[String : AnyObject]]>) -> ()) {
+    internal func enqueueRequest(_ urlPath: String, method: HTTPMethod, parameters: [String : AnyObject], completion: @escaping (PhilipsHueResult<[[String : AnyObject]]>) -> ()) {
         guard let username = username else {
-            completion(.failure(NSError(domain: PhilipsHueErrorDomain, code: PhilipsHueUsernameNotAuthorizedErrorCode, userInfo: [NSLocalizedDescriptionKey: "Failed updating state", NSLocalizedFailureReasonErrorKey: "Username not set"])))
+            completion(.failure(.usernameNotSet))
             return
         }
         let _ = Alamofire
@@ -142,12 +137,49 @@ public protocol PhilipsHueLightItem: class {
     var isOn: Bool { get set }
 }
 
-public let PhilipsHueErrorDomain = "PhilipsHueErrorDomain"
-public let PhilipsHueUnexpectedServerResponseErrorCode = 1
-public let PhilipsHueLinkButtonNotPressedErrorCode = 2
-public let PhilipsHueUnknownFailureErrorCode = 3
-public let PhilipsHueUsernameNotAuthorizedErrorCode = 4
-public let PhilipsHueNoLightIdentifierSpecifiedErrorCode = 5
+public enum PhilipsHueError: Error {
+    case usernameNotSet
+    case unauthorizedUser
+    case resourceNotAvailable
+    case linkButtonNotPressed
+    case lightIsOff
+    case groupTableFull
+    case unexpectedErrorCode(Int)
+    case unexpectedResponse(Any)
+    case networkError(Error)
+
+    init(code: Int) {
+        switch code {
+        case   1: self = .unauthorizedUser
+        case   3: self = .resourceNotAvailable
+        case 101: self = .linkButtonNotPressed
+        case 201: self = .lightIsOff
+        case 301: self = .groupTableFull
+        default:  self = .unexpectedErrorCode(code)
+        }
+    }
+}
+
+extension PhilipsHueError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .usernameNotSet:                   return "Username not set"
+        case .unauthorizedUser:                 return "User not authorized"
+        case .resourceNotAvailable:             return "Resource not available"
+        case .linkButtonNotPressed:             return "Link Button not pressed"
+        case .lightIsOff:                       return "Light is off"
+        case .groupTableFull:                   return "Cannot create group, group table already full"
+        case .unexpectedErrorCode(let code):    return "Unexpected error code: \(code)"
+        case .unexpectedResponse(let response): return "Unexpected response: \(response)"
+        case .networkError(let error):          return "Network error: \(error)"
+        }
+    }
+}
+
+public enum PhilipsHueResult<Value> {
+    case success(Value)
+    case failure(PhilipsHueError)
+}
 
 private struct HueErrorResponse {
     let type: Int?
@@ -155,36 +187,25 @@ private struct HueErrorResponse {
 }
 
 private extension DataResponse {
-    var hueError: NSError? {
+    var hueError: PhilipsHueError? {
         guard let error = (result.value as? [[String : AnyObject]])?.flatMap({$0["error"] as? [String : AnyObject]}).first else { return nil }
-        let (code, reason) = { () -> (Int, String) in
-            switch (error["type"] as? Int) ?? -1 {
-            case   1:  return (PhilipsHueUsernameNotAuthorizedErrorCode, "Username not authorized")
-            case 101:  return (PhilipsHueLinkButtonNotPressedErrorCode,  "Link button not pressed")
-            default:   return (PhilipsHueUnknownFailureErrorCode,        (error["description"] as? String) ?? "Unknown failure reason")
-            }
-        }()
-        return NSError(domain: PhilipsHueErrorDomain, code: code, userInfo: [NSLocalizedDescriptionKey: "Request failed", NSLocalizedFailureReasonErrorKey: reason])
+        return PhilipsHueError(code: error["type"] as? Int ?? -1)
     }
 }
 
 private extension DataRequest {
-    func responseHueJSONObject(completion: @escaping (Result<[String : AnyObject]>) -> Void) -> Self {
+    func responseHueJSONObject(completion: @escaping (PhilipsHueResult<[String : AnyObject]>) -> Void) -> Self {
         return responseJSON { dataResponse in
-            if let error = dataResponse.result.error {
-                completion(.failure(error))
-                return
-            }
             switch dataResponse.result {
             case .failure(let error):
-                completion(.failure(error))
+                completion(.failure(.networkError(error)))
             case .success(let value):
                 if let error = dataResponse.hueError {
                     completion(.failure(error))
                     return
                 }
                 guard let genericJson = (value as? [String : AnyObject]) else {
-                    completion(.failure(NSError(domain: PhilipsHueErrorDomain, code: PhilipsHueUnexpectedServerResponseErrorCode, userInfo: [NSLocalizedDescriptionKey: "Request failed", NSLocalizedFailureReasonErrorKey: "Unexpected server response"])))
+                    completion(.failure(.unexpectedResponse(value)))
                     return
                 }
                 completion(.success(genericJson))
@@ -192,22 +213,18 @@ private extension DataRequest {
         }
     }
 
-    func responseHueJSONArray(completion: @escaping (Result<[[String : AnyObject]]>) -> Void) -> Self {
+    func responseHueJSONArray(completion: @escaping (PhilipsHueResult<[[String : AnyObject]]>) -> Void) -> Self {
         return responseJSON { dataResponse in
-            if let error = dataResponse.result.error {
-                completion(.failure(error))
-                return
-            }
             switch dataResponse.result {
             case .failure(let error):
-                completion(.failure(error))
+                completion(.failure(.networkError(error)))
             case .success(let value):
                 if let error = dataResponse.hueError {
                     completion(.failure(error))
                     return
                 }
                 guard let jsonsObjects = (value as? [[String : AnyObject]]) else {
-                    completion(.failure(NSError(domain: PhilipsHueErrorDomain, code: PhilipsHueUnexpectedServerResponseErrorCode, userInfo: [NSLocalizedDescriptionKey: "Request failed", NSLocalizedFailureReasonErrorKey: "Unexpected server response"])))
+                    completion(.failure(.unexpectedResponse(value)))
                     return
                 }
                 completion(.success(jsonsObjects))
