@@ -66,7 +66,7 @@ extension BridgeViewController: UITableViewDataSource {
             let light = lights[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "light", for: indexPath)
             cell.textLabel?.text = light.identifier
-            cell.detailTextLabel?.text = ""
+            cell.detailTextLabel?.text = light.isReachable ? "Reachable" : "Not reachable"
             return cell
         }
         else {
