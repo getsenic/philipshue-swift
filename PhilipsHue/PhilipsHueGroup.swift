@@ -60,6 +60,23 @@ public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
         self.type             = type
     }
 
+    public func setLights(_ lights: [PhilipsHueLight], completion: @escaping (PhilipsHueResult<Void>) -> Void) {
+        let lightIdentifiers = Array(Set(lights.map{ $0.identifier }))
+        bridge?.enqueueRequest("groups/\(identifier)", method: .put, parameters: ["lights" : lightIdentifiers as AnyObject]) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let jsonObjects):
+                guard jsonObjects.flatMap({ $0["success"] as? [String : AnyObject] }).count > 0 else {
+                    completion(.failure(.unexpectedResponse(jsonObjects)))
+                    return
+                }
+                self?.lightIdentifiers = lightIdentifiers
+                completion(.success())
+            }
+        }
+    }
+
     internal func update(from group: PhilipsHueGroup) {
         name             = group.name
         lightIdentifiers = group.lightIdentifiers

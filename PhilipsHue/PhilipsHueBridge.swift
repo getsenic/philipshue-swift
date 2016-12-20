@@ -68,7 +68,7 @@ public class PhilipsHueBridge {
             }
     }
 
-    public func getOrCreateGroup(for lights: [PhilipsHueLight], name: String, completion: @escaping (PhilipsHueResult<PhilipsHueGroup>) -> Void) {
+    public func getOrCreateGroup(for lights: [PhilipsHueLight], name: String, overwiteIfGroupTableIsFull: Bool = false, completion: @escaping (PhilipsHueResult<PhilipsHueGroup>) -> Void) {
         let lightIdentifiers = Array(Set(lights.map{ $0.identifier }))
         // Return an existing group if we know a group that contains exactly the same lights
         if let group = groups.values.filter({ group -> Bool in
@@ -78,11 +78,25 @@ public class PhilipsHueBridge {
             completion(.success(group))
             return
         }
-        // Create a new group
+        // Create a new group (or overwrite existing group if group table is full)
         enqueueRequest("groups", method: .post, parameters: ["lights" : lightIdentifiers as AnyObject, "name" : name as AnyObject, "type" : "LightGroup" as AnyObject]) { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
             case .failure(let error):
+                // If group table is already full and `overwiteIfGroupTableIsFull` is `true`, we overwrite an existing group with the same name, if any
+                if case .groupTableFull = error, overwiteIfGroupTableIsFull {
+                    guard let group = strongSelf.groups.values.filter({ $0.name == name }).first else {
+                        completion(.failure(error))
+                        return
+                    }
+                    group.setLights(lights) { result in
+                        switch result {
+                        case .failure(let error): completion(.failure(error))
+                        case .success():          completion(.success(group))
+                        }
+                    }
+                    return
+                }
                 completion(.failure(error))
             case .success(let jsonObjects):
                 guard let groupIdentifier = jsonObjects.flatMap({($0["success"] as? [String : AnyObject])?["id"] as? String}).first else {

@@ -55,7 +55,7 @@ class BridgeViewController: UIViewController {
         lightAttributesButton.isEnabled = false
         lightAttributesActivitiyIndicator.startAnimating()
 
-        bridge.getOrCreateGroup(for: selectedLights, name: "PhilipsHueDemo") { [weak self] result in
+        bridge.getOrCreateGroup(for: selectedLights, name: "PhilipsHueDemo", overwiteIfGroupTableIsFull: true) { [weak self] result in
             guard let strongSelf = self else { return }
 
             strongSelf.lightAttributesActivitiyIndicator.stopAnimating()
