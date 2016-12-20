@@ -17,8 +17,11 @@ public class PhilipsHueLight: PhilipsHueBridgeItem, PhilipsHueLightItem {
     public private(set) var model:        String
 
     public let identifier: String
-    public var isOn:       Bool { didSet { signalStateChange(for: .on) } }
+    public var isOn:       Bool                  { didSet { signalStateChange(for: .on) } }
     public var alert:      PhilipsHueLightAlert? { didSet { signalStateChange(for: .alert) } }
+    public var brightness: Float?                { didSet { signalStateChange(for: .brightness) } }
+    public var hue:        Float?                { didSet { signalStateChange(for: .hue) } }
+    public var saturation: Float?                { didSet { signalStateChange(for: .saturation) } }
 
     public var writeChangesImmediately = true
 
@@ -41,6 +44,9 @@ public class PhilipsHueLight: PhilipsHueBridgeItem, PhilipsHueLightItem {
         self.name           = json["name"]             as? String ?? ""
         self.manufacturer   = json["manufacturername"] as? String ?? ""
         self.model          = json["modelid"]          as? String ?? ""
+        self.brightness     = (stateJson["bri"]        as? Int)?.divided(by: 254.0)
+        self.hue            = (stateJson["hue"]        as? Int)?.divided(by: 65535.0)
+        self.saturation     = (stateJson["sat"]        as? Int)?.divided(by: 254.0)
     }
 
     internal func update(from light: PhilipsHueLight) {
@@ -70,8 +76,11 @@ public class PhilipsHueLight: PhilipsHueBridgeItem, PhilipsHueLightItem {
     public func writeChanges() {
         guard pendingStates.count > 0 else { return }
         var parameters: [String : AnyObject] = [:]
-        if pendingStates.contains(.on) { parameters["on"] = isOn as AnyObject }
-        if pendingStates.contains(.alert), let alert = alert { parameters["alert"] = alert.jsonValue as AnyObject }
+        if pendingStates.contains(.on)                                      { parameters["on"]    = isOn                              as AnyObject }
+        if pendingStates.contains(.alert),      let alert      = alert      { parameters["alert"] = alert.jsonValue                   as AnyObject }
+        if pendingStates.contains(.brightness), let brightness = brightness { parameters["bri"]   = Int(brightness.clamped * 254.0)   as AnyObject }
+        if pendingStates.contains(.hue),        let hue        = hue        { parameters["hue"]   = Int(hue.clamped        * 65535.0) as AnyObject }
+        if pendingStates.contains(.saturation), let saturation = saturation { parameters["sat"]   = Int(saturation.clamped * 254.0)   as AnyObject }
         pendingStates = []
         bridge?.enqueueRequest("lights/\(identifier)/state", method: .put, parameters: parameters) { result in
             switch result {
@@ -85,6 +94,9 @@ public class PhilipsHueLight: PhilipsHueBridgeItem, PhilipsHueLightItem {
 private enum PhilipsHueLightState {
     case on
     case alert
+    case brightness
+    case hue
+    case saturation
 }
 
 public enum PhilipsHueLightAlert {
@@ -106,4 +118,14 @@ public enum PhilipsHueLightAlert {
         else if jsonValue == PhilipsHueLightAlert.longSelect.jsonValue { self = .longSelect }
         else { return nil }
     }
+}
+
+private extension Int {
+    func divided(by divisor: Float) -> Float {
+        return Float(self) / divisor
+    }
+}
+
+private extension Float {
+    var clamped: Float { return max(0.0, min(1.0, self)) }
 }

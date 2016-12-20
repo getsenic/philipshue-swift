@@ -147,8 +147,11 @@ internal protocol PhilipsHueBridgeItem {
 }
 
 public protocol PhilipsHueLightItem: class {
-    var identifier: String { get }
-    var isOn: Bool { get set }
+    var identifier: String  { get }
+    var isOn:       Bool    { get set }
+    var brightness: Float?  { get set }
+    var hue:        Float?  { get set }
+    var saturation: Float?  { get set }
 }
 
 public enum PhilipsHueError: Error {

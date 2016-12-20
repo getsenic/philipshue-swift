@@ -39,6 +39,9 @@ public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
             }
         }
     }
+    public var brightness: Float?
+    public var hue: Float?
+    public var saturation: Float?
 
     required convenience public init?(bridge: PhilipsHueBridge, identifier: String, json: [String : AnyObject]) {
         guard
