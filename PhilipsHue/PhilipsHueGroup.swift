@@ -38,9 +38,36 @@ public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
             requestParameterUpdate(name: "bri", value: Int(newValue.clamped() * 254.0) as AnyObject, lightFilter: { $0.brightness != nil }, lightUpdate: { $0.brightness = newValue })
         }
     }
-    public var hue: Float?
-    public var saturation: Float?
-    public var colorTemperature: UInt?
+    public var hue: Float? {
+        get {
+            let hues = self.reachableLights.flatMap { $0.hue }
+            return hues.count > 0 ? hues.reduce(0.0) { $0.0 + $0.1 } / Float(hues.count) : nil
+        }
+        set {
+            guard let newValue = newValue else { return }
+            requestParameterUpdate(name: "hue", value: Int(newValue.clamped() * 254.0) as AnyObject, lightFilter: { $0.hue != nil }, lightUpdate: { $0.hue = newValue })
+        }
+    }
+    public var saturation: Float? {
+        get {
+            let saturations = self.reachableLights.flatMap { $0.saturation }
+            return saturations.count > 0 ? saturations.reduce(0.0) { $0.0 + $0.1 } / Float(saturations.count) : nil
+        }
+        set {
+            guard let newValue = newValue else { return }
+            requestParameterUpdate(name: "sat", value: Int(newValue.clamped() * 254.0) as AnyObject, lightFilter: { $0.saturation != nil }, lightUpdate: { $0.saturation = newValue })
+        }
+    }
+    public var colorTemperature: UInt? {
+        get {
+            let colorTemperatures = self.reachableLights.flatMap { $0.colorTemperature }
+            return colorTemperatures.count > 0 ? UInt(Float(colorTemperatures.reduce(0) { $0.0 + $0.1 }) / Float(colorTemperatures.count)) : nil
+        }
+        set {
+            guard let newValue = newValue else { return }
+            requestParameterUpdate(name: "ct", value: UInt(1_000_000 / newValue) as AnyObject, lightFilter: { $0.colorTemperature != nil }, lightUpdate: { $0.colorTemperature = newValue })
+        }
+    }
 
     required convenience public init?(bridge: PhilipsHueBridge, identifier: String, json: [String : AnyObject]) {
         guard
