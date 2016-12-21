@@ -6,6 +6,7 @@
 //  Copyright © 2016 senic. All rights reserved.
 //
 
+import PhilipsHue
 import UIKit
 
 class BridgeSelectionViewController: UIViewController {

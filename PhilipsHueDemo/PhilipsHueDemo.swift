@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PhilipsHue
 
 public class PhilipsHueDemo {
     public static let shared = PhilipsHueDemo()
