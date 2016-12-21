@@ -16,13 +16,14 @@ public class PhilipsHueBridge {
     public private(set) var lights: [String : PhilipsHueLight] = [:]
     public private(set) var groups: [String : PhilipsHueGroup] = [:]
 
+    private let alamofire = Alamofire.SessionManager(configuration: URLSessionConfiguration.default)
     public init(host: String, username: String? = nil) {
         self.host       = host
         self.username   = username
     }
 
     public func requestUsername(for appName: String, completion: @escaping (PhilipsHueResult<String>) -> Void) {
-        let _ = Alamofire
+        let _ = alamofire
             .request("http://\(host)/api", method: .post, parameters: ["devicetype": appName], encoding: JSONEncoding.default)
             .responseHueJSONArray { [weak self] result in
                 guard let strongSelf = self else { return }
@@ -45,7 +46,7 @@ public class PhilipsHueBridge {
             completion(.failure(.usernameNotSet))
             return
         }
-        let _ = Alamofire
+        let _ = alamofire
             .request("http://\(host)/api/\(username)")
             .responseHueJSONObject { [weak self] result in
                 guard let strongSelf = self else { return }
@@ -132,7 +133,7 @@ public class PhilipsHueBridge {
             completion(.failure(.usernameNotSet))
             return
         }
-        let _ = Alamofire
+        let _ = alamofire
             .request("http://\(host)/api/\(username)/\(urlPath)", method: method, parameters: parameters, encoding: JSONEncoding.default)
             .responseHueJSONArray { result in completion(result) }
     }
