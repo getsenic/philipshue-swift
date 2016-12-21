@@ -86,10 +86,19 @@ public class PhilipsHueLight: PhilipsHueBridgeItem, PhilipsHueLightItem {
         if pendingParameters.contains(.saturation),       let saturation = saturation       { parameters["sat"]   = Int(saturation.clamped() * 254.0)   as AnyObject }
         if pendingParameters.contains(.colorTemperature), let colorTemp  = colorTemperature { parameters["ct"]    = 1_000_000 / colorTemp               as AnyObject }
         pendingParameters = []
-        bridge?.enqueueRequest("lights/\(identifier)/state", method: .put, parameters: parameters) { result in
+        bridge?.enqueueRequest("lights/\(identifier)/state", method: .put, parameters: parameters) { [weak self] result in
+            guard let strongSelf = self else { return }
             switch result {
-            case .failure(let error): print(error)
-            case .success(let jsonObjects): print(jsonObjects)
+            case .failure(let error):
+                print(error)
+                if case .lightIsOff = error {
+                    // Bridge tells us that the light is off, we update our `isOn` property as it might have the wrong state by now
+                    strongSelf.beginInternalUpdate()
+                    strongSelf.isOn = false
+                    strongSelf.endInternalUpdate()
+                }
+            case .success(let jsonObjects):
+                print(jsonObjects)
             }
         }
     }
