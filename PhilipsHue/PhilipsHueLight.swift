@@ -28,7 +28,7 @@ public class PhilipsHueLight: PhilipsHueBridgeItem, PhilipsHueLightItem {
     public var writeChangesImmediately = true
 
     private var pendingParameters: Set<PhilipsHueLightParameter> = []
-    private var isUpdating = false
+    private var isUpdatingInternally = false
 
     public required init?(bridge: PhilipsHueBridge, identifier: String, json: [String : AnyObject]) {
         guard
@@ -52,28 +52,28 @@ public class PhilipsHueLight: PhilipsHueBridgeItem, PhilipsHueLightItem {
         self.colorTemperature = (stateJson["ct"]         as? Int)?.toFloat().divided(by: 1_000_000.0).inversed().toUInt()
     }
 
-    internal func update(from light: PhilipsHueLight) {
-        beginUpdate()
+    internal func updateInternally(from light: PhilipsHueLight) {
+        beginInternalUpdate()
         isReachable  = light.isReachable
         isOn         = light.isOn
         name         = light.name
         manufacturer = light.manufacturer
         model        = light.model
-        endUpdate()
+        endInternalUpdate()
     }
 
-    internal func beginUpdate() {
-        isUpdating = true
+    internal func beginInternalUpdate() {
+        isUpdatingInternally = true
     }
 
-    internal func endUpdate() {
-        isUpdating = false
+    internal func endInternalUpdate() {
+        isUpdatingInternally = false
     }
 
     private func signalParameterChange(for parameter: PhilipsHueLightParameter) {
-        guard !isUpdating else { return }
+        guard !isUpdatingInternally else { return }
         pendingParameters.insert(parameter)
-        if writeChangesImmediately && !isUpdating { writeChanges() }
+        if writeChangesImmediately { writeChanges() }
     }
 
     public func writeChanges() {

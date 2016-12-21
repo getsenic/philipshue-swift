@@ -115,7 +115,7 @@ public class PhilipsHueBridge {
             .flatMap { (identifier: String, json: [String : AnyObject]) -> T? in
                 guard var item = T(bridge: self, identifier: identifier, json: json) else { return nil }
                 if let existingItem = items[identifier] {
-                    existingItem.update(from: item)
+                    existingItem.updateInternally(from: item)
                     item = existingItem
                 }
                 return item
@@ -143,7 +143,7 @@ internal protocol PhilipsHueBridgeItem {
 
     init?(bridge: PhilipsHueBridge, identifier: String, json: [String : AnyObject])
 
-    func update(from: Self)
+    func updateInternally(from: Self)
 }
 
 public protocol PhilipsHueLightItem: class {

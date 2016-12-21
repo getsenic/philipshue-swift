@@ -26,9 +26,9 @@ public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
         }
         set {
             reachableLights.forEach {
-                $0.beginUpdate()
+                $0.beginInternalUpdate()
                 $0.isOn = newValue
-                $0.endUpdate()
+                $0.endInternalUpdate()
             }
             bridge?.enqueueRequest("groups/\(identifier)/action", method: .put, parameters: ["on" : newValue as AnyObject]) { result in
                 print(result)
@@ -81,7 +81,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
         }
     }
 
-    internal func update(from group: PhilipsHueGroup) {
+    internal func updateInternally(from group: PhilipsHueGroup) {
         name             = group.name
         lightIdentifiers = group.lightIdentifiers
         type             = group.type
