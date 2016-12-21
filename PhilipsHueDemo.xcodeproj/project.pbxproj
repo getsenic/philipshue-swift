@@ -10,7 +10,6 @@
 		465363BA1E08329B00A05AA8 /* BridgeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465363B91E08329B00A05AA8 /* BridgeSelectionViewController.swift */; };
 		465363BC1E08336F00A05AA8 /* BridgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465363BB1E08336F00A05AA8 /* BridgeViewController.swift */; };
 		465363BE1E08465700A05AA8 /* LightSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465363BD1E08465700A05AA8 /* LightSettingsViewController.swift */; };
-		469F28991E0405670087A791 /* PhilipsHueDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469F28981E0405670087A791 /* PhilipsHueDemo.swift */; };
 		46EB44251E03E23F009A4CC4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EB44241E03E23F009A4CC4 /* AppDelegate.swift */; };
 		46EB442A1E03E23F009A4CC4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46EB44281E03E23F009A4CC4 /* Main.storyboard */; };
 		46EB442C1E03E23F009A4CC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46EB442B1E03E23F009A4CC4 /* Assets.xcassets */; };
@@ -25,8 +24,8 @@
 		465363BD1E08465700A05AA8 /* LightSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightSettingsViewController.swift; sourceTree = "<group>"; };
 		467511D11E0A917B0083E7C9 /* PhilipsHueResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhilipsHueResult.swift; sourceTree = "<group>"; };
 		467511D31E0AB6500083E7C9 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
+		467511D71E0B07600083E7C9 /* AsynchronousOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
 		469F28961E03F1150087A791 /* PhilipsHueBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhilipsHueBridge.swift; sourceTree = "<group>"; };
-		469F28981E0405670087A791 /* PhilipsHueDemo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhilipsHueDemo.swift; sourceTree = "<group>"; };
 		469F289C1E0427050087A791 /* PhilipsHueGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhilipsHueGroup.swift; sourceTree = "<group>"; };
 		469F289E1E044DD20087A791 /* PhilipsHueLight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhilipsHueLight.swift; sourceTree = "<group>"; };
 		46EB44211E03E23F009A4CC4 /* PhilipsHueDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhilipsHueDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,6 +53,7 @@
 		469F28951E03EA190087A791 /* PhilipsHue */ = {
 			isa = PBXGroup;
 			children = (
+				467511D71E0B07600083E7C9 /* AsynchronousOperation.swift */,
 				467511D31E0AB6500083E7C9 /* Math.swift */,
 				469F28961E03F1150087A791 /* PhilipsHueBridge.swift */,
 				469F289C1E0427050087A791 /* PhilipsHueGroup.swift */,
@@ -89,7 +89,6 @@
 				465363B91E08329B00A05AA8 /* BridgeSelectionViewController.swift */,
 				465363BB1E08336F00A05AA8 /* BridgeViewController.swift */,
 				465363BD1E08465700A05AA8 /* LightSettingsViewController.swift */,
-				469F28981E0405670087A791 /* PhilipsHueDemo.swift */,
 				46EB44281E03E23F009A4CC4 /* Main.storyboard */,
 				46EB442B1E03E23F009A4CC4 /* Assets.xcassets */,
 				46EB442D1E03E23F009A4CC4 /* LaunchScreen.storyboard */,
@@ -243,7 +242,6 @@
 				465363BE1E08465700A05AA8 /* LightSettingsViewController.swift in Sources */,
 				46EB44251E03E23F009A4CC4 /* AppDelegate.swift in Sources */,
 				465363BC1E08336F00A05AA8 /* BridgeViewController.swift in Sources */,
-				469F28991E0405670087A791 /* PhilipsHueDemo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

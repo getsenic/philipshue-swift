@@ -12,6 +12,10 @@ internal extension Int {
     func toFloat() -> Float { return Float(self) }
 }
 
+internal extension UInt {
+    func divided(by divisor: Float) -> Float { return Float(self) / divisor }
+}
+
 internal extension Float {
     func clamped() -> Float { return max(0.0, min(1.0, self)) }
     func inversed() -> Float { return 1.0 / self }

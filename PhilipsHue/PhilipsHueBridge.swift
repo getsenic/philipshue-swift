@@ -17,6 +17,9 @@ public class PhilipsHueBridge {
     public private(set) var groups: [String : PhilipsHueGroup] = [:]
 
     private let alamofire = Alamofire.SessionManager(configuration: URLSessionConfiguration.default)
+
+    private let lightUpdateOperationQueue: OperationQueue = { let q = OperationQueue(); q.maxConcurrentOperationCount = 1; return q }()
+
     public init(host: String, username: String? = nil) {
         self.host       = host
         self.username   = username
@@ -80,7 +83,7 @@ public class PhilipsHueBridge {
             return
         }
         // Create a new group (or overwrite existing group if group table is full)
-        enqueueRequest("groups", method: .post, parameters: ["lights" : lightIdentifiers as AnyObject, "name" : name as AnyObject, "type" : "LightGroup" as AnyObject]) { [weak self] result in
+        request("groups", method: .post, parameters: ["lights" : lightIdentifiers as AnyObject, "name" : name as AnyObject, "type" : "LightGroup" as AnyObject]) { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
             case .failure(let error):
@@ -128,23 +131,38 @@ public class PhilipsHueBridge {
             })
     }
 
-    internal func enqueueRequest(_ urlPath: String, method: HTTPMethod, parameters: [String : AnyObject], completion: @escaping (PhilipsHueResult<[[String : AnyObject]]>) -> ()) {
+    internal func request(_ url: String, method: HTTPMethod, parameters: [String : AnyObject], completion: @escaping (PhilipsHueResult<[[String : AnyObject]]>) -> ()) {
         guard let username = username else {
             completion(.failure(.usernameNotSet))
             return
         }
         let _ = alamofire
-            .request("http://\(host)/api/\(username)/\(urlPath)", method: method, parameters: parameters, encoding: JSONEncoding.default)
+            .request("http://\(host)/api/\(username)/\(url)", method: method, parameters: parameters, encoding: JSONEncoding.default)
             .responseHueJSONArray { result in completion(result) }
+    }
+
+    internal func enqueueLightUpdate<T: PhilipsHueBridgeLightItem>(for light: T) {
+        lightUpdateOperationQueue.addOperation(PhilipsHueLightUpdateOperation(light: light))
     }
 }
 
-internal protocol PhilipsHueBridgeItem {
+internal protocol PhilipsHueBridgeItem: class {
+    weak var bridge: PhilipsHueBridge? { get }
     var identifier: String { get }
+
+    var stateUpdateParameters: [String : AnyObject] { get set }
+    var stateUpdateUrl: String { get }
 
     init?(bridge: PhilipsHueBridge, identifier: String, json: [String : AnyObject])
 
     func updateInternally(from: Self)
+    func beginInternalUpdate()
+    func endInternalUpdate()
+}
+
+internal extension PhilipsHueBridgeItem {
+    func beginInternalUpdate() {}
+    func endInternalUpdate() {}
 }
 
 public protocol PhilipsHueLightItem: class {
@@ -154,6 +172,51 @@ public protocol PhilipsHueLightItem: class {
     var hue:              Float? { get set }
     var saturation:       Float? { get set }
     var colorTemperature: UInt?  { get set }
+}
+
+internal typealias PhilipsHueBridgeLightItem = PhilipsHueBridgeItem & PhilipsHueLightItem
+
+private class PhilipsHueLightUpdateOperation<T: PhilipsHueBridgeLightItem>: AsynchronousOperation {
+    private weak var light: T?
+
+    init(light: T) {
+        self.light = light
+        super.init()
+    }
+
+    fileprivate override func main() {
+        guard
+            let stateUpdateParameters = self.light?.stateUpdateParameters,
+            let light = light,
+            let bridge = light.bridge,
+            stateUpdateParameters.count > 0
+        else {
+            complete()
+            return
+        }
+        light.stateUpdateParameters = [:]
+        print("write", light.stateUpdateUrl, stateUpdateParameters)
+        bridge.request(light.stateUpdateUrl, method: .put, parameters: stateUpdateParameters) { [weak self] result in
+            guard let strongSelf = self else { return }
+            defer {
+                //TODO: Sleep a little before completing if Hue command requires it
+                strongSelf.complete()
+            }
+            guard let light = strongSelf.light else { return }
+            switch result {
+            case .failure(let error):
+                print(error)
+                if case .lightIsOff = error {
+                    // Bridge tells us that the light is off, we update our `isOn` property as it might have the wrong state by now
+                    light.beginInternalUpdate()
+                    light.isOn = false
+                    light.endInternalUpdate()
+                }
+            case .success(let jsonObjects):
+                print(jsonObjects)
+            }
+        }
+    }
 }
 
 private extension DataResponse {

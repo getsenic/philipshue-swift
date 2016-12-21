@@ -114,7 +114,6 @@ extension BridgeViewController: UITableViewDelegate {
         if indexPath.section == 0 {
             let light = lights[indexPath.row]
             light.alert = .select
-            light.writeChanges()
         }
     }
 }
