@@ -133,13 +133,3 @@ public enum PhilipsHueLightAlert {
         else { return nil }
     }
 }
-
-private extension Int {
-    func toFloat() -> Float { return Float(self) }
-}
-
-private extension Float {
-    func clamped() -> Float { return max(0.0, min(1.0, self)) }
-    func inversed() -> Float { return 1.0 / self }
-    func toUInt() -> UInt { return UInt(self) }
-}

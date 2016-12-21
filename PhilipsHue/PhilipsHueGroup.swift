@@ -25,6 +25,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
             return reachableLights.count > 0 && reachableLights.filter{ $0.isOn }.count == reachableLights.count
         }
         set {
+            //TODO: Optionally update individual lights
             reachableLights.forEach {
                 $0.beginInternalUpdate()
                 $0.isOn = newValue
@@ -39,7 +40,27 @@ public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
             }
         }
     }
-    public var brightness: Float?
+    public var brightness: Float? {
+        get {
+            let brightnesses = self.reachableLights.flatMap { $0.brightness }
+            return brightnesses.count > 0 ? brightnesses.reduce(0.0) { $0.0 + $0.1 } / Float(brightnesses.count) : nil
+        }
+        set {
+            guard let newValue = newValue else { return }
+            //TODO: Optionally update individual lights
+            reachableLights.filter{ $0.brightness != nil }.forEach {
+                $0.beginInternalUpdate()
+                $0.brightness = newValue
+                $0.endInternalUpdate()
+            }
+            bridge?.enqueueRequest("groups/\(identifier)/action", method: .put, parameters: ["bri" : Int(newValue.clamped() * 254.0) as AnyObject]) { result in
+                switch result {
+                case .failure(let error): print(error)
+                case .success(let jsonObjects): print(jsonObjects)
+                }
+            }
+        }
+    }
     public var hue: Float?
     public var saturation: Float?
     public var colorTemperature: UInt?
