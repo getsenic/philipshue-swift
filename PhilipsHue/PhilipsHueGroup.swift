@@ -25,19 +25,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
             return reachableLights.count > 0 && reachableLights.filter{ $0.isOn }.count == reachableLights.count
         }
         set {
-            //TODO: Optionally update individual lights
-            reachableLights.forEach {
-                $0.beginInternalUpdate()
-                $0.isOn = newValue
-                $0.endInternalUpdate()
-            }
-            bridge?.enqueueRequest("groups/\(identifier)/action", method: .put, parameters: ["on" : newValue as AnyObject]) { result in
-                print(result)
-                switch result {
-                case .failure(let error): print(error)
-                case .success(let jsonObjects): print(jsonObjects)
-                }
-            }
+            requestParameterUpdate(name: "on", value: newValue as AnyObject, lightUpdate: { $0.isOn = newValue })
         }
     }
     public var brightness: Float? {
@@ -47,18 +35,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
         }
         set {
             guard let newValue = newValue else { return }
-            //TODO: Optionally update individual lights
-            reachableLights.filter{ $0.brightness != nil }.forEach {
-                $0.beginInternalUpdate()
-                $0.brightness = newValue
-                $0.endInternalUpdate()
-            }
-            bridge?.enqueueRequest("groups/\(identifier)/action", method: .put, parameters: ["bri" : Int(newValue.clamped() * 254.0) as AnyObject]) { result in
-                switch result {
-                case .failure(let error): print(error)
-                case .success(let jsonObjects): print(jsonObjects)
-                }
-            }
+            requestParameterUpdate(name: "bri", value: Int(newValue.clamped() * 254.0) as AnyObject, lightFilter: { $0.brightness != nil }, lightUpdate: { $0.brightness = newValue })
         }
     }
     public var hue: Float?
@@ -106,6 +83,21 @@ public class PhilipsHueGroup: PhilipsHueBridgeItem, PhilipsHueLightItem {
         name             = group.name
         lightIdentifiers = group.lightIdentifiers
         type             = group.type
+    }
+
+    private func requestParameterUpdate(name: String, value: AnyObject, lightFilter: (PhilipsHueLight) -> Bool = {_ in return true}, lightUpdate: (PhilipsHueLight) -> Void) {
+        //TODO: Optionally update individual lights
+        reachableLights.filter(lightFilter).forEach {
+            $0.beginInternalUpdate()
+            lightUpdate($0)
+            $0.endInternalUpdate()
+        }
+        bridge?.enqueueRequest("groups/\(identifier)/action", method: .put, parameters: [name : value]) { result in
+            switch result {
+            case .failure(let error): print(error)
+            case .success(let jsonObjects): print(jsonObjects)
+            }
+        }
     }
 }
 
