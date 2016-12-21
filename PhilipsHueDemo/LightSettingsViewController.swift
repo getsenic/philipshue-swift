@@ -12,10 +12,11 @@ class LightSettingsViewController: UIViewController {
 
     var light: PhilipsHueLightItem!
 
-    @IBOutlet weak var onSwitch:         UISwitch!
-    @IBOutlet weak var brightnessSlider: UISlider!
-    @IBOutlet weak var hueSlider:        UISlider!
-    @IBOutlet weak var saturationSlider: UISlider!
+    @IBOutlet weak var onSwitch:               UISwitch!
+    @IBOutlet weak var brightnessSlider:       UISlider!
+    @IBOutlet weak var hueSlider:              UISlider!
+    @IBOutlet weak var saturationSlider:       UISlider!
+    @IBOutlet weak var colorTemperatureSlider: UISlider!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,9 @@ class LightSettingsViewController: UIViewController {
 
         saturationSlider.isEnabled = light.saturation != nil
         if let saturation = light.saturation { saturationSlider.value = saturation }
+
+        colorTemperatureSlider.isEnabled = light.colorTemperature != nil
+        if let colorTemperature = light.colorTemperature { colorTemperatureSlider.value = Float(colorTemperature) }
     }
 
     @IBAction func didChangeIsOn() {
@@ -48,5 +52,9 @@ class LightSettingsViewController: UIViewController {
 
     @IBAction func didChangeSaturation() {
         light.saturation = saturationSlider.value
+    }
+
+    @IBAction func didChangeColorTemperature() {
+        light.colorTemperature = UInt(colorTemperatureSlider.value)
     }
 }

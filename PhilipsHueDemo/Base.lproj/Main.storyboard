@@ -198,7 +198,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="jMA-B9-4cw">
-                                <rect key="frame" x="16" y="72" width="343" height="145"/>
+                                <rect key="frame" x="16" y="72" width="343" height="183"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="150-Qj-sED">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="31"/>
@@ -280,10 +280,31 @@
                                             </slider>
                                         </subviews>
                                     </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="UN6-cF-GvQ">
+                                        <rect key="frame" x="0.0" y="153" width="343" height="30"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Color temp." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1J7-9T-Oq2">
+                                                <rect key="frame" x="0.0" y="5" width="100" height="20.5"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="100" id="Vdb-dr-vje"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2000" minValue="2000" maxValue="6500" translatesAutoresizingMaskIntoConstraints="NO" id="iHE-5j-3SH">
+                                                <rect key="frame" x="98" y="0.0" width="247" height="31"/>
+                                                <connections>
+                                                    <action selector="didChangeColorTemperature" destination="rOl-rU-wC0" eventType="valueChanged" id="RRA-Xm-WVQ"/>
+                                                </connections>
+                                            </slider>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="nh4-gv-wiN" firstAttribute="width" secondItem="jMA-B9-4cw" secondAttribute="width" id="EO6-WQ-21o"/>
                                     <constraint firstItem="Hdc-aN-swC" firstAttribute="width" secondItem="jMA-B9-4cw" secondAttribute="width" id="Jxp-Ih-U1d"/>
+                                    <constraint firstItem="UN6-cF-GvQ" firstAttribute="width" secondItem="jMA-B9-4cw" secondAttribute="width" id="N9E-WL-iaY"/>
                                     <constraint firstItem="2rq-rM-bwb" firstAttribute="width" secondItem="jMA-B9-4cw" secondAttribute="width" id="XKa-7I-oVn"/>
                                     <constraint firstItem="150-Qj-sED" firstAttribute="width" secondItem="jMA-B9-4cw" secondAttribute="width" id="x9l-ql-mYJ"/>
                                 </constraints>
@@ -299,6 +320,7 @@
                     <navigationItem key="navigationItem" title="Light" id="GH2-Zf-tQT"/>
                     <connections>
                         <outlet property="brightnessSlider" destination="iOk-PE-Qbd" id="1of-5v-1AN"/>
+                        <outlet property="colorTemperatureSlider" destination="iHE-5j-3SH" id="Wbn-Fe-Xp0"/>
                         <outlet property="hueSlider" destination="64I-W4-2cF" id="Nvn-Y0-ecb"/>
                         <outlet property="onSwitch" destination="TLe-ZL-GRx" id="DXZ-xH-ehX"/>
                         <outlet property="saturationSlider" destination="D46-ef-yu2" id="fW6-J8-2Tj"/>
