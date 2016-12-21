@@ -16,6 +16,7 @@ public enum PhilipsHueError: Error {
     case linkButtonNotPressed
     case lightIsOff
     case groupTableFull
+    case internalBridgeError
     case unexpectedErrorCode(Int)
     case unexpectedResponse(Any)
     case networkError(Error)
@@ -28,6 +29,7 @@ public enum PhilipsHueError: Error {
         case 101: self = .linkButtonNotPressed
         case 201: self = .lightIsOff
         case 301: self = .groupTableFull
+        case 901: self = .internalBridgeError
         default:  self = .unexpectedErrorCode(code)
         }
     }
@@ -43,6 +45,7 @@ extension PhilipsHueError: LocalizedError {
         case .linkButtonNotPressed:             return "Link Button not pressed"
         case .lightIsOff:                       return "Light is off"
         case .groupTableFull:                   return "Cannot create group, group table already full"
+        case .internalBridgeError:              return "Internal bridge error"
         case .unexpectedErrorCode(let code):    return "Unexpected error code: \(code)"
         case .unexpectedResponse(let response): return "Unexpected response: \(response)"
         case .networkError(let error):          return "Network error: \(error)"
