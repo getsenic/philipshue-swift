@@ -17,16 +17,16 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
     public private(set) var model:        String
 
     public let identifier:       String
-    public var isOn:             Bool                  { didSet { addParameterUpdate(name: "on",    value: self.isOn                        as AnyObject) } }
-    public var alert:            PhilipsHueLightAlert? { didSet { addParameterUpdate(name: "alert", value: self.alert?.jsonValue            as AnyObject) } }
+    public var isOn:             Bool                  { didSet { addParameterUpdate(name: "on",    value: self.isOn) } }
+    public var alert:            PhilipsHueLightAlert? { didSet { addParameterUpdate(name: "alert", value: self.alert?.jsonValue) } }
     /// 0.0 (black) ... 1.0 (full brightness)
-    public var brightness:       Float?                { didSet { addParameterUpdate(name: "bri",   value: self.brightness?.toBrightness()  as AnyObject) } }
+    public var brightness:       Float?                { didSet { addParameterUpdate(name: "bri",   value: self.brightness?.toBrightness()) } }
     /// 0.0 (red) ... 1.0 (red)
-    public var hue:              Float?                { didSet { addParameterUpdate(name: "hue",   value: self.hue?.toHue()                as AnyObject) } }
+    public var hue:              Float?                { didSet { addParameterUpdate(name: "hue",   value: self.hue?.toHue()) } }
     /// 0.0 (white) ... 1.0 (full saturation)
-    public var saturation:       Float?                { didSet { addParameterUpdate(name: "sat",   value: self.saturation?.toSaturation()  as AnyObject) } }
+    public var saturation:       Float?                { didSet { addParameterUpdate(name: "sat",   value: self.saturation?.toSaturation()) } }
     /// 0.0 (coldest) ... 1.0 (warmest)
-    public var colorTemperature: Float?                { didSet { addParameterUpdate(name: "ct",    value: self.colorTemperature?.toMired() as AnyObject) } }
+    public var colorTemperature: Float?                { didSet { addParameterUpdate(name: "ct",    value: self.colorTemperature?.toMired()) } }
 
     internal var stateUpdateUrl: String { return "lights/\(self.identifier)/state" }
     internal var stateUpdateDuration: TimeInterval { return 0.1 }
@@ -74,9 +74,9 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
         isUpdatingInternally = false
     }
 
-    private func addParameterUpdate(name: String, value: AnyObject?) {
+    private func addParameterUpdate<Value>(name: String, value: Value?) {
         guard !isUpdatingInternally, let value = value else { return }
-        stateUpdateParameters[name] = value
+        stateUpdateParameters[name] = value as AnyObject
         bridge?.enqueueLightUpdate(for: self)
     }
 }
