@@ -17,16 +17,16 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
     public private(set) var model:        String
 
     public let identifier:       String
-    public var isOn:             Bool                  { didSet { addParameterUpdate(name: "on",    value: self.isOn                                                           as AnyObject) } }
-    public var alert:            PhilipsHueLightAlert? { didSet { addParameterUpdate(name: "alert", value: self.alert?.jsonValue                                               as AnyObject) } }
+    public var isOn:             Bool                  { didSet { addParameterUpdate(name: "on",    value: self.isOn                        as AnyObject) } }
+    public var alert:            PhilipsHueLightAlert? { didSet { addParameterUpdate(name: "alert", value: self.alert?.jsonValue            as AnyObject) } }
     /// 0.0 (black) ... 1.0 (full brightness)
-    public var brightness:       Float?                { didSet { addParameterUpdate(name: "bri",   value: self.brightness?.clamped().multiplied(by: 254.0).toUInt()           as AnyObject) } }
+    public var brightness:       Float?                { didSet { addParameterUpdate(name: "bri",   value: self.brightness?.toBrightness()  as AnyObject) } }
     /// 0.0 (red) ... 1.0 (red)
-    public var hue:              Float?                { didSet { addParameterUpdate(name: "hue",   value: self.hue?.clamped().multiplied(by: 65535.0).toUInt()                as AnyObject) } }
+    public var hue:              Float?                { didSet { addParameterUpdate(name: "hue",   value: self.hue?.toHue()                as AnyObject) } }
     /// 0.0 (white) ... 1.0 (full saturation)
-    public var saturation:       Float?                { didSet { addParameterUpdate(name: "sat",   value: self.saturation?.clamped().multiplied(by: 254.0).toUInt()           as AnyObject) } }
+    public var saturation:       Float?                { didSet { addParameterUpdate(name: "sat",   value: self.saturation?.toSaturation()  as AnyObject) } }
     /// 0.0 (coldest) ... 1.0 (warmest)
-    public var colorTemperature: Float?                { didSet { addParameterUpdate(name: "ct",    value: self.colorTemperature?.toMired()                                    as AnyObject) } }
+    public var colorTemperature: Float?                { didSet { addParameterUpdate(name: "ct",    value: self.colorTemperature?.toMired() as AnyObject) } }
 
     internal var stateUpdateUrl: String { return "lights/\(self.identifier)/state" }
     internal var stateUpdateDuration: TimeInterval { return 0.1 }
@@ -50,10 +50,10 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
         self.name             = json["name"]             as? String ?? ""
         self.manufacturer     = json["manufacturername"] as? String ?? ""
         self.model            = json["modelid"]          as? String ?? ""
-        self.brightness       = (stateJson["bri"]        as? Int)?.toFloat().divided(by: 254.0)
-        self.hue              = (stateJson["hue"]        as? Int)?.toFloat().divided(by: 65535.0)
-        self.saturation       = (stateJson["sat"]        as? Int)?.toFloat().divided(by: 254.0)
-        self.colorTemperature = (stateJson["ct"]         as? UInt)?.toNormalizedMired()
+        self.brightness       = (stateJson["bri"]        as? Int)?.toNormalizedBrightness()
+        self.hue              = (stateJson["hue"]        as? Int)?.toNormalizedHue()
+        self.saturation       = (stateJson["sat"]        as? Int)?.toNormalizedSaturation()
+        self.colorTemperature = (stateJson["ct"]         as? Int)?.toNormalizedMired()
     }
 
     internal func updateInternally(from light: PhilipsHueLight) {

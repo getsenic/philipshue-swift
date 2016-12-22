@@ -38,7 +38,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
             return brightnesses.count > 0 ? brightnesses.reduce(0.0) { $0.0 + $0.1 } / Float(brightnesses.count) : nil
         }
         set {
-            addParameterUpdate(name: "bri", value: newValue?.clamped().multiplied(by: 254.0).toUInt() as AnyObject, lightFilter: { $0.brightness != nil }, lightUpdate: { $0.brightness = newValue })
+            addParameterUpdate(name: "bri", value: newValue?.toBrightness() as AnyObject, lightFilter: { $0.brightness != nil }, lightUpdate: { $0.brightness = newValue })
         }
     }
     public var hue: Float? {
@@ -47,7 +47,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
             return hues.count > 0 ? hues.reduce(0.0) { $0.0 + $0.1 } / Float(hues.count) : nil
         }
         set {
-            addParameterUpdate(name: "hue", value: newValue?.clamped().multiplied(by: 65535.0).toUInt() as AnyObject, lightFilter: { $0.hue != nil }, lightUpdate: { $0.hue = newValue })
+            addParameterUpdate(name: "hue", value: newValue?.toHue() as AnyObject, lightFilter: { $0.hue != nil }, lightUpdate: { $0.hue = newValue })
         }
     }
     public var saturation: Float? {
@@ -56,7 +56,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
             return saturations.count > 0 ? saturations.reduce(0.0) { $0.0 + $0.1 } / Float(saturations.count) : nil
         }
         set {
-            addParameterUpdate(name: "sat", value: newValue?.clamped().multiplied(by: 254.0).toUInt() as AnyObject, lightFilter: { $0.saturation != nil }, lightUpdate: { $0.saturation = newValue })
+            addParameterUpdate(name: "sat", value: newValue?.toSaturation() as AnyObject, lightFilter: { $0.saturation != nil }, lightUpdate: { $0.saturation = newValue })
         }
     }
     public var colorTemperature: Float? {

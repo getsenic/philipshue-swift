@@ -9,19 +9,20 @@
 import Foundation
 
 internal extension Int {
-    func toFloat() -> Float { return Float(self) }
-}
+    static let minMired = 153 // ~6500K (coldest color temperatur)
+    static let maxMired = 500 // =2000K (warmest color temperature)
 
-internal extension UInt {
-    static let minMired: UInt = 153 // ~6500K (coldest color temperatur)
-    static let maxMired: UInt = 500 // =2000K (warmest color temperature)
-
-    func divided(by divisor: Float) -> Float { return Float(self) / divisor }
-    func toNormalizedMired() -> Float { return ((Float(self - UInt.minMired)) / Float(UInt.maxMired - UInt.minMired)).clamped() }
+    func toNormalizedBrightness() -> Float { return (Float(self) / 254.0).clamped() }
+    func toNormalizedHue()        -> Float { return (Float(self) / 65535.0).clamped() }
+    func toNormalizedSaturation() -> Float { return (Float(self) / 254.0).clamped() }
+    func toNormalizedMired()      -> Float { return ((Float(self - Int.minMired)) / Float(Int.maxMired - Int.minMired)).clamped() }
 }
 
 internal extension Float {
-    func clamped(_ minimum: Float = 0.0, _ maximum: Float = 1.0) -> Float { return max(minimum, min(maximum, self)) }
-    func toUInt() -> UInt { return UInt(self) }
-    func toMired() -> UInt { return UInt.minMired + UInt(clamped() * Float(UInt.maxMired - UInt.minMired)) }
+    func toBrightness() -> Int { return Int(self.clamped() * 254.0) }
+    func toHue()        -> Int { return Int(self.clamped() * 65535.0) }
+    func toSaturation() -> Int { return Int(self.clamped() * 254.0) }
+    func toMired()      -> Int { return Int(self.clamped() * Float(Int.maxMired - Int.minMired)) + Int.minMired }
+
+    fileprivate func clamped(_ minimum: Float = 0.0, _ maximum: Float = 1.0) -> Float { return max(minimum, min(maximum, self)) }
 }
