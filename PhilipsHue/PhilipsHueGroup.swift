@@ -37,8 +37,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
             return brightnesses.count > 0 ? brightnesses.reduce(0.0) { $0.0 + $0.1 } / Float(brightnesses.count) : nil
         }
         set {
-            guard let newValue = newValue else { return }
-            addParameterUpdate(name: "bri", value: Int(newValue.clamped() * 254.0) as AnyObject, lightFilter: { $0.brightness != nil }, lightUpdate: { $0.brightness = newValue })
+            addParameterUpdate(name: "bri", value: newValue?.clamped().multiplied(by: 254.0).toUInt() as AnyObject, lightFilter: { $0.brightness != nil }, lightUpdate: { $0.brightness = newValue })
         }
     }
     public var hue: Float? {
@@ -47,8 +46,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
             return hues.count > 0 ? hues.reduce(0.0) { $0.0 + $0.1 } / Float(hues.count) : nil
         }
         set {
-            guard let newValue = newValue else { return }
-            addParameterUpdate(name: "hue", value: Int(newValue.clamped() * 254.0) as AnyObject, lightFilter: { $0.hue != nil }, lightUpdate: { $0.hue = newValue })
+            addParameterUpdate(name: "hue", value: newValue?.clamped().multiplied(by: 65535.0).toUInt() as AnyObject, lightFilter: { $0.hue != nil }, lightUpdate: { $0.hue = newValue })
         }
     }
     public var saturation: Float? {
@@ -57,8 +55,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
             return saturations.count > 0 ? saturations.reduce(0.0) { $0.0 + $0.1 } / Float(saturations.count) : nil
         }
         set {
-            guard let newValue = newValue else { return }
-            addParameterUpdate(name: "sat", value: Int(newValue.clamped() * 254.0) as AnyObject, lightFilter: { $0.saturation != nil }, lightUpdate: { $0.saturation = newValue })
+            addParameterUpdate(name: "sat", value: newValue?.clamped().multiplied(by: 254.0).toUInt() as AnyObject, lightFilter: { $0.saturation != nil }, lightUpdate: { $0.saturation = newValue })
         }
     }
     public var colorTemperature: UInt? {
@@ -67,8 +64,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
             return colorTemperatures.count > 0 ? UInt(Float(colorTemperatures.reduce(0) { $0.0 + $0.1 }) / Float(colorTemperatures.count)) : nil
         }
         set {
-            guard let newValue = newValue else { return }
-            addParameterUpdate(name: "ct", value: UInt(1_000_000 / newValue) as AnyObject, lightFilter: { $0.colorTemperature != nil }, lightUpdate: { $0.colorTemperature = newValue })
+            addParameterUpdate(name: "ct", value: newValue?.divided(by: 1_000_000.0).inversed().toUInt() as AnyObject, lightFilter: { $0.colorTemperature != nil }, lightUpdate: { $0.colorTemperature = newValue })
         }
     }
 
@@ -115,7 +111,8 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
         type             = group.type
     }
 
-    private func addParameterUpdate(name: String, value: AnyObject, lightFilter: (PhilipsHueLight) -> Bool = {_ in return true}, lightUpdate: (PhilipsHueLight) -> Void) {
+    private func addParameterUpdate(name: String, value: AnyObject?, lightFilter: (PhilipsHueLight) -> Bool = {_ in return true}, lightUpdate: (PhilipsHueLight) -> Void) {
+        guard let value = value else { return }
         //TODO: Optionally update individual lights
         reachableLights.filter(lightFilter).forEach {
             $0.beginInternalUpdate()
