@@ -17,16 +17,16 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
     public private(set) var model:        String
 
     public let identifier:       String
-    public var isOn:             Bool                  { didSet { addParameterUpdate(name: "on",    value: self.isOn) } }
-    public var alert:            PhilipsHueLightAlert? { didSet { addParameterUpdate(name: "alert", value: self.alert?.jsonValue) } }
+    public var isOn:             Bool   { didSet { addParameterUpdate(name: "on",    value: self.isOn) } }
+    public var alert:            Alert? { didSet { addParameterUpdate(name: "alert", value: self.alert?.jsonValue) } }
     /// 0.0 (black) ... 1.0 (full brightness)
-    public var brightness:       Float?                { didSet { addParameterUpdate(name: "bri",   value: self.brightness?.toBrightness()) } }
+    public var brightness:       Float? { didSet { addParameterUpdate(name: "bri",   value: self.brightness?.toBrightness()) } }
     /// 0.0 (red) ... 1.0 (red)
-    public var hue:              Float?                { didSet { addParameterUpdate(name: "hue",   value: self.hue?.toHue()) } }
+    public var hue:              Float? { didSet { addParameterUpdate(name: "hue",   value: self.hue?.toHue()) } }
     /// 0.0 (white) ... 1.0 (full saturation)
-    public var saturation:       Float?                { didSet { addParameterUpdate(name: "sat",   value: self.saturation?.toSaturation()) } }
+    public var saturation:       Float? { didSet { addParameterUpdate(name: "sat",   value: self.saturation?.toSaturation()) } }
     /// 0.0 (coldest) ... 1.0 (warmest)
-    public var colorTemperature: Float?                { didSet { addParameterUpdate(name: "ct",    value: self.colorTemperature?.toMired()) } }
+    public var colorTemperature: Float? { didSet { addParameterUpdate(name: "ct",    value: self.colorTemperature?.toMired()) } }
 
     internal var stateUpdateUrl: String { return "lights/\(self.identifier)/state" }
     internal var stateUpdateDuration: TimeInterval { return 0.1 }
@@ -46,7 +46,7 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
         self.identifier       = identifier
         self.isReachable      = isReachable
         self.isOn             = isOn
-        self.alert            = PhilipsHueLightAlert(fromJsonValue: stateJson["alert"] as? String ?? "")
+        self.alert            = Alert(fromJsonValue: stateJson["alert"] as? String ?? "")
         self.name             = json["name"]             as? String ?? ""
         self.manufacturer     = json["manufacturername"] as? String ?? ""
         self.model            = json["modelid"]          as? String ?? ""
@@ -79,25 +79,25 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
         stateUpdateParameters[name] = value as AnyObject
         bridge?.enqueueLightUpdate(for: self)
     }
-}
 
-public enum PhilipsHueLightAlert {
-    case none
-    case select
-    case longSelect
+    public enum Alert {
+        case none
+        case select
+        case longSelect
 
-    fileprivate var jsonValue: String {
-        switch self {
-        case .none:       return "none"
-        case .select:     return "select"
-        case .longSelect: return "lselect"
+        fileprivate var jsonValue: String {
+            switch self {
+            case .none:       return "none"
+            case .select:     return "select"
+            case .longSelect: return "lselect"
+            }
         }
-    }
 
-    fileprivate init?(fromJsonValue jsonValue: String) {
-        if      jsonValue == PhilipsHueLightAlert.none.jsonValue       { self = .none }
-        else if jsonValue == PhilipsHueLightAlert.select.jsonValue     { self = .select }
-        else if jsonValue == PhilipsHueLightAlert.longSelect.jsonValue { self = .longSelect }
-        else { return nil }
+        fileprivate init?(fromJsonValue jsonValue: String) {
+            if      jsonValue == Alert.none.jsonValue       { self = .none }
+            else if jsonValue == Alert.select.jsonValue     { self = .select }
+            else if jsonValue == Alert.longSelect.jsonValue { self = .longSelect }
+            else { return nil }
+        }
     }
 }
