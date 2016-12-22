@@ -60,12 +60,16 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
 
     internal func updateInternally(from light: PhilipsHueLight) {
         beginInternalUpdate()
-        isReachable  = light.isReachable
-        isOn         = light.isOn
-        name         = light.name
-        manufacturer = light.manufacturer
-        model        = light.model
-        type         = light.type
+        name             = light.name
+        manufacturer     = light.manufacturer
+        model            = light.model
+        type             = light.type
+        isReachable      = light.isReachable
+        isOn             = light.isOn
+        brightness       = light.brightness
+        hue              = light.hue
+        saturation       = light.saturation
+        colorTemperature = light.colorTemperature
         endInternalUpdate()
     }
 
