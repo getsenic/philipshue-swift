@@ -82,7 +82,7 @@ public class PhilipsHueBridge {
                 // If group table is already full and `overwiteIfGroupTableIsFull` is `true`, we overwrite an existing group with the same name, if any
                 if case .groupTableFull = error, overwiteIfGroupTableIsFull {
                     guard let group = strongSelf.groups.values.filter({ $0.name == name }).first else {
-                        completion(.failure(error))
+                        completion(.failure(.groupTableFull))
                         return
                     }
                     group.setLights(lights) { result in
