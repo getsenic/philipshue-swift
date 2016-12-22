@@ -19,6 +19,9 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
     public var lights:          [PhilipsHueLight] { return lightIdentifiers.flatMap{ bridge?.lights[$0] } }
     public var reachableLights: [PhilipsHueLight] { return lights.filter{ $0.isReachable } }
 
+    /// If `false` (default) parameter changes are sent to the group. If `true` light parameter changes are instead sent as inidividual requests to each reachable light of the group.
+    public var updateLightsIndividually = false
+
     internal var stateUpdateUrl: String { return "groups/\(identifier)/action" }
     internal var stateUpdateDuration: TimeInterval { return 1.0 }
     internal var stateUpdateParameters: [String : AnyObject] = [:]
@@ -99,14 +102,20 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
 
     private func addParameterUpdate<Value>(name: String, value: Value?, lightFilter: (PhilipsHueLight) -> Bool = {_ in return true}, lightUpdate: (PhilipsHueLight) -> Void) {
         guard let value = value else { return }
-        //TODO: Optionally update individual lights
-        reachableLights.filter(lightFilter).forEach {
-            $0.beginInternalUpdate()
-            lightUpdate($0)
-            $0.endInternalUpdate()
+        if updateLightsIndividually {
+            reachableLights.filter(lightFilter).forEach {
+                lightUpdate($0)
+            }
         }
-        stateUpdateParameters[name] = value as AnyObject
-        bridge?.enqueueLightUpdate(for: self)
+        else {
+            reachableLights.filter(lightFilter).forEach {
+                $0.beginInternalUpdate()
+                lightUpdate($0)
+                $0.endInternalUpdate()
+            }
+            stateUpdateParameters[name] = value as AnyObject
+            bridge?.enqueueLightUpdate(for: self)
+        }
     }
 }
 

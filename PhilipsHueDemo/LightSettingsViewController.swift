@@ -40,22 +40,32 @@ class LightSettingsViewController: UIViewController {
     }
 
     @IBAction func didChangeIsOn() {
+        prepareLight(forceGroupUpdate: true)
         light.isOn = onSwitch.isOn
     }
 
     @IBAction func didChangeBrightness() {
+        prepareLight()
         light.brightness = brightnessSlider.value
     }
 
     @IBAction func didChangeHue() {
+        prepareLight()
         light.hue = hueSlider.value
     }
 
     @IBAction func didChangeSaturation() {
+        prepareLight()
         light.saturation = saturationSlider.value
     }
 
     @IBAction func didChangeColorTemperature() {
+        prepareLight()
         light.colorTemperature = colorTemperatureSlider.value
+    }
+
+    func prepareLight(forceGroupUpdate: Bool = false) {
+        guard let group = light as? PhilipsHueGroup else { return }
+        group.updateLightsIndividually = !forceGroupUpdate && group.reachableLights.count < 10
     }
 }
