@@ -9,7 +9,6 @@
 import Foundation
 
 internal class AsynchronousOperation: Operation {
-
     override public var isAsynchronous: Bool { return true }
 
     private let stateLock = NSLock()
@@ -40,11 +39,6 @@ internal class AsynchronousOperation: Operation {
         }
     }
 
-    public func complete() {
-        isExecuting = false
-        isFinished = true
-    }
-
     override public func start() {
         guard !isCancelled else {
             isFinished = true
@@ -56,6 +50,11 @@ internal class AsynchronousOperation: Operation {
 
     override public func main() {
         fatalError("subclasses must override `main`")
+    }
+
+    public func complete() {
+        isExecuting = false
+        isFinished = true
     }
 }
 
