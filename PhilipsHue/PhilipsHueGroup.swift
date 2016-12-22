@@ -33,40 +33,20 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
         }
     }
     public var brightness: Float? {
-        get {
-            let brightnesses = self.reachableLights.flatMap { $0.brightness }
-            return brightnesses.count > 0 ? brightnesses.reduce(0.0) { $0.0 + $0.1 } / Float(brightnesses.count) : nil
-        }
-        set {
-            addParameterUpdate(name: "bri", value: newValue?.toBrightness() as AnyObject, lightFilter: { $0.brightness != nil }, lightUpdate: { $0.brightness = newValue })
-        }
+        get { return getLightValuesAverage { $0.brightness } }
+        set { addParameterUpdate(name: "bri", value: newValue?.toBrightness() as AnyObject, lightFilter: { $0.brightness != nil }, lightUpdate: { $0.brightness = newValue }) }
     }
     public var hue: Float? {
-        get {
-            let hues = self.reachableLights.flatMap { $0.hue }
-            return hues.count > 0 ? hues.reduce(0.0) { $0.0 + $0.1 } / Float(hues.count) : nil
-        }
-        set {
-            addParameterUpdate(name: "hue", value: newValue?.toHue() as AnyObject, lightFilter: { $0.hue != nil }, lightUpdate: { $0.hue = newValue })
-        }
+        get { return getLightValuesAverage { $0.hue } }
+        set { addParameterUpdate(name: "hue", value: newValue?.toHue() as AnyObject, lightFilter: { $0.hue != nil }, lightUpdate: { $0.hue = newValue }) }
     }
     public var saturation: Float? {
-        get {
-            let saturations = self.reachableLights.flatMap { $0.saturation }
-            return saturations.count > 0 ? saturations.reduce(0.0) { $0.0 + $0.1 } / Float(saturations.count) : nil
-        }
-        set {
-            addParameterUpdate(name: "sat", value: newValue?.toSaturation() as AnyObject, lightFilter: { $0.saturation != nil }, lightUpdate: { $0.saturation = newValue })
-        }
+        get { return getLightValuesAverage { $0.saturation } }
+        set { addParameterUpdate(name: "sat", value: newValue?.toSaturation() as AnyObject, lightFilter: { $0.saturation != nil }, lightUpdate: { $0.saturation = newValue }) }
     }
     public var colorTemperature: Float? {
-        get {
-            let colorTemperatures = self.reachableLights.flatMap { $0.colorTemperature }
-            return colorTemperatures.count > 0 ? colorTemperatures.reduce(0) { $0.0 + $0.1 } / Float(colorTemperatures.count) : nil
-        }
-        set {
-            addParameterUpdate(name: "ct", value: newValue?.toMired() as AnyObject, lightFilter: { $0.colorTemperature != nil }, lightUpdate: { $0.colorTemperature = newValue })
-        }
+        get { return getLightValuesAverage { $0.colorTemperature } }
+        set { addParameterUpdate(name: "ct", value: newValue?.toMired() as AnyObject, lightFilter: { $0.colorTemperature != nil }, lightUpdate: { $0.colorTemperature = newValue }) }
     }
 
     required convenience public init?(bridge: PhilipsHueBridge, identifier: String, json: [String : AnyObject]) {
@@ -110,6 +90,11 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
         name             = group.name
         lightIdentifiers = group.lightIdentifiers
         type             = group.type
+    }
+
+    private func getLightValuesAverage(_ value: (PhilipsHueLight) -> Float?) -> Float? {
+        let values = self.reachableLights.flatMap(value)
+        return values.count > 0 ? Float(values.reduce(0) { $0.0 + $0.1 }) / Float(values.count) : nil
     }
 
     private func addParameterUpdate(name: String, value: AnyObject?, lightFilter: (PhilipsHueLight) -> Bool = {_ in return true}, lightUpdate: (PhilipsHueLight) -> Void) {
