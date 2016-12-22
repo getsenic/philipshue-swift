@@ -90,8 +90,8 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
 
     public func setLights(_ lights: [PhilipsHueLight], completion: @escaping (PhilipsHueResult<Void>) -> Void) {
         let lightIdentifiers = Array(Set(lights.map{ $0.identifier }))
-        bridge?.request("groups/\(identifier)", method: .put, parameters: ["lights" : lightIdentifiers as AnyObject]) { [weak self] result in
-            switch result {
+        bridge?.requestJSONArray("groups/\(identifier)", method: .put, parameters: ["lights" : lightIdentifiers as AnyObject]) { [weak self] response in
+            switch response.result {
             case .failure(let error):
                 completion(.failure(error))
             case .success(let jsonObjects):

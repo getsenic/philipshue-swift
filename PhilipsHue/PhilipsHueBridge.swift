@@ -21,55 +21,47 @@ public class PhilipsHueBridge {
     private let lightUpdateOperationQueue: OperationQueue = { let q = OperationQueue(); q.maxConcurrentOperationCount = 1; return q }()
 
     public init(host: String, username: String? = nil) {
-        self.host       = host
-        self.username   = username
+        self.host     = host
+        self.username = username
     }
 
     public func requestUsername(for appName: String, completion: @escaping (PhilipsHueResult<String>) -> Void) {
-        let _ = alamofire
-            .request("http://\(host)/api", method: .post, parameters: ["devicetype": appName], encoding: JSONEncoding.default)
-            .responseHueJSONArray { [weak self] result in
-                guard let strongSelf = self else { return }
-                switch result {
-                case .failure(let error):
-                    completion(.failure(error))
-                case .success(let jsonObjects):
-                    guard let username = jsonObjects.flatMap({($0["success"] as? [String : AnyObject])?["username"] as? String}).first else {
-                        completion(.failure(.unexpectedResponse(jsonObjects)))
-                        return
-                    }
-                    strongSelf.username = username
-                    completion(.success(username))
+        requestJSONArray("/", needsAuthorization: false) { [weak self] response in
+            guard let strongSelf = self else { return }
+            switch response.result {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let jsonObjects):
+                guard let username = jsonObjects.flatMap({($0["success"] as? [String : AnyObject])?["username"] as? String}).first else {
+                    completion(.failure(.unexpectedResponse(jsonObjects)))
+                    return
                 }
+                strongSelf.username = username
+                completion(.success(username))
             }
+        }
     }
 
     public func refresh(completion: @escaping (PhilipsHueResult<Void>) -> Void) {
-        guard let username = username else {
-            completion(.failure(.usernameNotSet))
-            return
-        }
-        let _ = alamofire
-            .request("http://\(host)/api/\(username)")
-            .responseHueJSONObject { [weak self] result in
-                guard let strongSelf = self else { return }
-                switch result {
-                case .failure(let error):
-                    completion(.failure(error))
-                case .success(let json):
-                    guard
-                        let config     = json["config"]     as? [String : AnyObject],
-                        let identifier = config["bridgeid"] as? String
-                    else {
-                        completion(.failure(.unexpectedResponse(json)))
-                        return
-                    }
-                    strongSelf.identifier = identifier
-                    if let jsonLights = (json["lights"] as? [String : [String : AnyObject]]) { self?.updateBridgeItems(&strongSelf.lights, from: jsonLights) }
-                    if let jsonGroups = (json["groups"] as? [String : [String : AnyObject]]) { self?.updateBridgeItems(&strongSelf.groups, from: jsonGroups) }
-                    completion(.success())
+        requestJSONObject("/") { [weak self] response in
+            guard let strongSelf = self else { return }
+            switch response.result {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let json):
+                guard
+                    let config     = json["config"]     as? [String : AnyObject],
+                    let identifier = config["bridgeid"] as? String
+                else {
+                    completion(.failure(.unexpectedResponse(json)))
+                    return
                 }
+                strongSelf.identifier = identifier
+                if let jsonLights = (json["lights"] as? [String : [String : AnyObject]]) { self?.updateBridgeItems(&strongSelf.lights, from: jsonLights) }
+                if let jsonGroups = (json["groups"] as? [String : [String : AnyObject]]) { self?.updateBridgeItems(&strongSelf.groups, from: jsonGroups) }
+                completion(.success())
             }
+        }
     }
 
     public func getOrCreateGroup(for lights: [PhilipsHueLight], name: String, overwiteIfGroupTableIsFull: Bool = false, completion: @escaping (PhilipsHueResult<PhilipsHueGroup>) -> Void) {
@@ -83,9 +75,9 @@ public class PhilipsHueBridge {
             return
         }
         // Create a new group (or overwrite existing group if group table is full)
-        request("groups", method: .post, parameters: ["lights" : lightIdentifiers as AnyObject, "name" : name as AnyObject, "type" : "LightGroup" as AnyObject]) { [weak self] result in
+        requestJSONArray("groups", method: .post, parameters: ["lights" : lightIdentifiers as AnyObject, "name" : name as AnyObject, "type" : "LightGroup" as AnyObject]) { [weak self] response in
             guard let strongSelf = self else { return }
-            switch result {
+            switch response.result {
             case .failure(let error):
                 // If group table is already full and `overwiteIfGroupTableIsFull` is `true`, we overwrite an existing group with the same name, if any
                 if case .groupTableFull = error, overwiteIfGroupTableIsFull {
@@ -131,14 +123,27 @@ public class PhilipsHueBridge {
             })
     }
 
-    internal func request(_ url: String, method: HTTPMethod, parameters: [String : AnyObject], completion: @escaping (PhilipsHueResult<[[String : AnyObject]]>) -> ()) {
-        guard let username = username else {
-            completion(.failure(.usernameNotSet))
-            return
+    internal func requestJSONObject(_ url: String, needsAuthorization: Bool = true, method: HTTPMethod = .get, parameters: [String : AnyObject]? = nil, completion: @escaping (PhilipsHueBridgeResponse<[String : AnyObject]>) -> ()) {
+        return request(url, needsAuthorization: needsAuthorization, method: method, parameters: parameters, completion: completion)
+    }
+
+    internal func requestJSONArray(_ url: String, needsAuthorization: Bool = true, method: HTTPMethod = .get, parameters: [String : AnyObject]? = nil, completion: @escaping (PhilipsHueBridgeResponse<[[String : AnyObject]]>) -> ()) {
+        return request(url, needsAuthorization: needsAuthorization, method: method, parameters: parameters, completion: completion)
+    }
+
+    private func request<Value>(_ url: String, needsAuthorization: Bool, method: HTTPMethod, parameters: [String : AnyObject]?, completion: @escaping (PhilipsHueBridgeResponse<Value>) -> ()) {
+        var requestUrl = URL(string: "http://\(host)/api")!
+        if needsAuthorization {
+            guard let username = username else {
+                completion(PhilipsHueBridgeResponse(result: .failure(.usernameNotSet)))
+                return
+            }
+            requestUrl = requestUrl.appendingPathComponent(username)
         }
+        requestUrl = requestUrl.appendingPathComponent(url)
         let _ = alamofire
-            .request("http://\(host)/api/\(username)/\(url)", method: method, parameters: parameters, encoding: JSONEncoding.default)
-            .responseHueJSONArray { result in completion(result) }
+            .request(requestUrl, method: method, parameters: parameters, encoding: JSONEncoding.default)
+            .responseHueJSON { response in completion(response) }
     }
 
     internal func enqueueLightUpdate<T: PhilipsHueBridgeLightItem>(for light: T) {
@@ -150,8 +155,8 @@ internal protocol PhilipsHueBridgeItem: class {
     weak var bridge: PhilipsHueBridge? { get }
     var identifier: String { get }
 
-    var stateUpdateParameters: [String : AnyObject] { get set }
     var stateUpdateUrl: String { get }
+    var stateUpdateParameters: [String : AnyObject] { get set }
 
     init?(bridge: PhilipsHueBridge, identifier: String, json: [String : AnyObject])
 
@@ -196,14 +201,14 @@ private class PhilipsHueLightUpdateOperation<T: PhilipsHueBridgeLightItem>: Asyn
         }
         light.stateUpdateParameters = [:]
         print("write", light.stateUpdateUrl, stateUpdateParameters)
-        bridge.request(light.stateUpdateUrl, method: .put, parameters: stateUpdateParameters) { [weak self] result in
+        bridge.requestJSONArray(light.stateUpdateUrl, method: .put, parameters: stateUpdateParameters) { [weak self] response in
             guard let strongSelf = self else { return }
             defer {
                 //TODO: Sleep a little before completing if Hue command requires it
                 strongSelf.complete()
             }
             guard let light = strongSelf.light else { return }
-            switch result {
+            switch response.result {
             case .failure(let error):
                 print(error)
                 if case .lightIsOff = error {
@@ -219,6 +224,27 @@ private class PhilipsHueLightUpdateOperation<T: PhilipsHueBridgeLightItem>: Asyn
     }
 }
 
+private extension DataRequest {
+    func responseHueJSON<Value>(completion: @escaping (PhilipsHueBridgeResponse<Value>) -> Void) -> Self {
+        return responseJSON { dataResponse in
+            switch dataResponse.result {
+            case .failure(let error):
+                completion(PhilipsHueBridgeResponse(result: .failure(.networkError(error))))
+            case .success(let value):
+                if let error = dataResponse.hueError {
+                    completion(PhilipsHueBridgeResponse(result: .failure(error)))
+                    return
+                }
+                guard let json = value as? Value else {
+                    completion(PhilipsHueBridgeResponse(result: .failure(.unexpectedResponse(value))))
+                    return
+                }
+                completion(PhilipsHueBridgeResponse(result: .success(json)))
+            }
+        }
+    }
+}
+
 private extension DataResponse {
     var hueError: PhilipsHueError? {
         guard let error = (result.value as? [[String : AnyObject]])?.flatMap({$0["error"] as? [String : AnyObject]}).first else { return nil }
@@ -226,42 +252,6 @@ private extension DataResponse {
     }
 }
 
-private extension DataRequest {
-    func responseHueJSONObject(completion: @escaping (PhilipsHueResult<[String : AnyObject]>) -> Void) -> Self {
-        return responseJSON { dataResponse in
-            switch dataResponse.result {
-            case .failure(let error):
-                completion(.failure(.networkError(error)))
-            case .success(let value):
-                if let error = dataResponse.hueError {
-                    completion(.failure(error))
-                    return
-                }
-                guard let genericJson = (value as? [String : AnyObject]) else {
-                    completion(.failure(.unexpectedResponse(value)))
-                    return
-                }
-                completion(.success(genericJson))
-            }
-        }
-    }
-
-    func responseHueJSONArray(completion: @escaping (PhilipsHueResult<[[String : AnyObject]]>) -> Void) -> Self {
-        return responseJSON { dataResponse in
-            switch dataResponse.result {
-            case .failure(let error):
-                completion(.failure(.networkError(error)))
-            case .success(let value):
-                if let error = dataResponse.hueError {
-                    completion(.failure(error))
-                    return
-                }
-                guard let jsonsObjects = (value as? [[String : AnyObject]]) else {
-                    completion(.failure(.unexpectedResponse(value)))
-                    return
-                }
-                completion(.success(jsonsObjects))
-            }
-        }
-    }
+internal struct PhilipsHueBridgeResponse<Value> {
+    let result: PhilipsHueResult<Value>
 }
