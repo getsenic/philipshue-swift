@@ -15,6 +15,7 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
     public private(set) var name:         String
     public private(set) var manufacturer: String
     public private(set) var model:        String
+    public private(set) var type:         LightType?
 
     public let identifier:       String
     public var isOn:             Bool   { didSet { addParameterUpdate(name: "on",    value: self.isOn) } }
@@ -47,6 +48,7 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
         self.isReachable      = isReachable
         self.isOn             = isOn
         self.alert            = Alert(fromJsonValue: stateJson["alert"] as? String ?? "")
+        self.type             = LightType(fromJsonValue: json["type"] as? String ?? "")
         self.name             = json["name"]             as? String ?? ""
         self.manufacturer     = json["manufacturername"] as? String ?? ""
         self.model            = json["modelid"]          as? String ?? ""
@@ -63,6 +65,7 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
         name         = light.name
         manufacturer = light.manufacturer
         model        = light.model
+        type         = light.type
         endInternalUpdate()
     }
 
@@ -80,10 +83,12 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
         bridge?.enqueueLightUpdate(for: self)
     }
 
-    public enum Alert {
+    public enum Alert: CustomStringConvertible {
         case none
         case select
         case longSelect
+
+        public var description: String { return String(describing: self) }
 
         fileprivate var jsonValue: String {
             switch self {
@@ -97,6 +102,35 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
             if      jsonValue == Alert.none.jsonValue       { self = .none }
             else if jsonValue == Alert.select.jsonValue     { self = .select }
             else if jsonValue == Alert.longSelect.jsonValue { self = .longSelect }
+            else { return nil }
+        }
+    }
+
+    public enum LightType: CustomStringConvertible {
+        case onOff
+        case dimmable
+        case colorTemperature
+        case color
+        case extendedColor
+
+        public var description: String { return jsonValue }
+
+        fileprivate var jsonValue: String {
+            switch self {
+            case .onOff:            return "On/off light"
+            case .dimmable:         return "Dimmable light"
+            case .colorTemperature: return "Color temperature light"
+            case .color:            return "Color light"
+            case .extendedColor:    return "Extended color light"
+            }
+        }
+
+        fileprivate init?(fromJsonValue jsonValue: String) {
+            if      jsonValue.caseInsensitiveCompare(LightType.onOff.jsonValue)            == .orderedSame { self = .onOff }
+            else if jsonValue.caseInsensitiveCompare(LightType.dimmable.jsonValue)         == .orderedSame { self = .dimmable }
+            else if jsonValue.caseInsensitiveCompare(LightType.colorTemperature.jsonValue) == .orderedSame { self = .colorTemperature}
+            else if jsonValue.caseInsensitiveCompare(LightType.color.jsonValue)            == .orderedSame { self = .color }
+            else if jsonValue.caseInsensitiveCompare(LightType.extendedColor.jsonValue)    == .orderedSame { self = .extendedColor }
             else { return nil }
         }
     }
