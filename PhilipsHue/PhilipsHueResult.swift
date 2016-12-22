@@ -8,6 +8,11 @@
 
 import Foundation
 
+public enum PhilipsHueResult<Value> {
+    case success(Value)
+    case failure(PhilipsHueError)
+}
+
 public enum PhilipsHueError: Error {
     case usernameNotSet
     case unauthorizedUser
@@ -51,9 +56,4 @@ extension PhilipsHueError: LocalizedError {
         case .networkError(let error):          return "Network error: \(error)"
         }
     }
-}
-
-public enum PhilipsHueResult<Value> {
-    case success(Value)
-    case failure(PhilipsHueError)
 }
