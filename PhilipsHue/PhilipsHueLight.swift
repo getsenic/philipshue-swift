@@ -19,11 +19,14 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
     public let identifier:       String
     public var isOn:             Bool                  { didSet { addParameterUpdate(name: "on",    value: self.isOn                                                           as AnyObject) } }
     public var alert:            PhilipsHueLightAlert? { didSet { addParameterUpdate(name: "alert", value: self.alert?.jsonValue                                               as AnyObject) } }
+    /// 0.0 (black) ... 1.0 (full brightness)
     public var brightness:       Float?                { didSet { addParameterUpdate(name: "bri",   value: self.brightness?.clamped().multiplied(by: 254.0).toUInt()           as AnyObject) } }
+    /// 0.0 (red) ... 1.0 (red)
     public var hue:              Float?                { didSet { addParameterUpdate(name: "hue",   value: self.hue?.clamped().multiplied(by: 65535.0).toUInt()                as AnyObject) } }
+    /// 0.0 (white) ... 1.0 (full saturation)
     public var saturation:       Float?                { didSet { addParameterUpdate(name: "sat",   value: self.saturation?.clamped().multiplied(by: 254.0).toUInt()           as AnyObject) } }
-    /// Color temperature in Kelvin: 2000..6500
-    public var colorTemperature: UInt?                 { didSet { addParameterUpdate(name: "ct",    value: self.colorTemperature?.divided(by: 1_000_000.0).inversed().toUInt() as AnyObject) } }
+    /// 0.0 (coldest) ... 1.0 (warmest)
+    public var colorTemperature: Float?                { didSet { addParameterUpdate(name: "ct",    value: self.colorTemperature?.toMired()                                    as AnyObject) } }
 
     internal var stateUpdateUrl: String { return "lights/\(self.identifier)/state" }
     internal var stateUpdateDuration: TimeInterval { return 0.1 }
@@ -50,7 +53,7 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
         self.brightness       = (stateJson["bri"]        as? Int)?.toFloat().divided(by: 254.0)
         self.hue              = (stateJson["hue"]        as? Int)?.toFloat().divided(by: 65535.0)
         self.saturation       = (stateJson["sat"]        as? Int)?.toFloat().divided(by: 254.0)
-        self.colorTemperature = (stateJson["ct"]         as? Int)?.toFloat().divided(by: 1_000_000.0).inversed().toUInt()
+        self.colorTemperature = (stateJson["ct"]         as? UInt)?.toNormalizedMired()
     }
 
     internal func updateInternally(from light: PhilipsHueLight) {

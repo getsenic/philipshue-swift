@@ -178,7 +178,7 @@ public protocol PhilipsHueLightItem: class {
     var brightness:       Float? { get set }
     var hue:              Float? { get set }
     var saturation:       Float? { get set }
-    var colorTemperature: UInt?  { get set }
+    var colorTemperature: Float? { get set }
 }
 
 internal typealias PhilipsHueBridgeLightItem = PhilipsHueBridgeItem & PhilipsHueLightItem

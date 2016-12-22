@@ -56,6 +56,6 @@ class LightSettingsViewController: UIViewController {
     }
 
     @IBAction func didChangeColorTemperature() {
-        light.colorTemperature = UInt(colorTemperatureSlider.value)
+        light.colorTemperature = colorTemperatureSlider.value
     }
 }

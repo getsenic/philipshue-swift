@@ -13,11 +13,15 @@ internal extension Int {
 }
 
 internal extension UInt {
+    static let minMired: UInt = 153 // ~6500K (coldest color temperatur)
+    static let maxMired: UInt = 500 // =2000K (warmest color temperature)
+
     func divided(by divisor: Float) -> Float { return Float(self) / divisor }
+    func toNormalizedMired() -> Float { return ((Float(self - UInt.minMired)) / Float(UInt.maxMired - UInt.minMired)).clamped() }
 }
 
 internal extension Float {
-    func clamped() -> Float { return max(0.0, min(1.0, self)) }
-    func inversed() -> Float { return 1.0 / self }
+    func clamped(_ minimum: Float = 0.0, _ maximum: Float = 1.0) -> Float { return max(minimum, min(maximum, self)) }
     func toUInt() -> UInt { return UInt(self) }
+    func toMired() -> UInt { return UInt.minMired + UInt(clamped() * Float(UInt.maxMired - UInt.minMired)) }
 }

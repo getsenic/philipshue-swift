@@ -59,13 +59,13 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
             addParameterUpdate(name: "sat", value: newValue?.clamped().multiplied(by: 254.0).toUInt() as AnyObject, lightFilter: { $0.saturation != nil }, lightUpdate: { $0.saturation = newValue })
         }
     }
-    public var colorTemperature: UInt? {
+    public var colorTemperature: Float? {
         get {
             let colorTemperatures = self.reachableLights.flatMap { $0.colorTemperature }
-            return colorTemperatures.count > 0 ? UInt(Float(colorTemperatures.reduce(0) { $0.0 + $0.1 }) / Float(colorTemperatures.count)) : nil
+            return colorTemperatures.count > 0 ? colorTemperatures.reduce(0) { $0.0 + $0.1 } / Float(colorTemperatures.count) : nil
         }
         set {
-            addParameterUpdate(name: "ct", value: newValue?.divided(by: 1_000_000.0).inversed().toUInt() as AnyObject, lightFilter: { $0.colorTemperature != nil }, lightUpdate: { $0.colorTemperature = newValue })
+            addParameterUpdate(name: "ct", value: newValue?.toMired() as AnyObject, lightFilter: { $0.colorTemperature != nil }, lightUpdate: { $0.colorTemperature = newValue })
         }
     }
 
