@@ -20,6 +20,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
     public var reachableLights: [PhilipsHueLight] { return lights.filter{ $0.isReachable } }
 
     internal var stateUpdateUrl: String { return "groups/\(identifier)/action" }
+    internal var stateUpdateDuration: TimeInterval { return 1.0 }
     internal var stateUpdateParameters: [String : AnyObject] = [:]
 
     public var isOn: Bool {

@@ -26,6 +26,7 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
     public var colorTemperature: UInt?                 { didSet { addParameterUpdate(name: "ct",    value: self.colorTemperature?.divided(by: 1_000_000.0).inversed().toUInt() as AnyObject) } }
 
     internal var stateUpdateUrl: String { return "lights/\(self.identifier)/state" }
+    internal var stateUpdateDuration: TimeInterval { return 0.1 }
     internal var stateUpdateParameters: [String : AnyObject] = [:]
 
     private var isUpdatingInternally = false

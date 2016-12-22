@@ -135,7 +135,7 @@ public class PhilipsHueBridge {
         var requestUrl = URL(string: "http://\(host)/api")!
         if needsAuthorization {
             guard let username = username else {
-                completion(PhilipsHueBridgeResponse(result: .failure(.usernameNotSet)))
+                completion(PhilipsHueBridgeResponse(result: .failure(.usernameNotSet), duration: 0))
                 return
             }
             requestUrl = requestUrl.appendingPathComponent(username)
@@ -156,6 +156,8 @@ internal protocol PhilipsHueBridgeItem: class {
     var identifier: String { get }
 
     var stateUpdateUrl: String { get }
+    /// Time interval needed by the bridge to properly apply the requested changes
+    var stateUpdateDuration: TimeInterval { get }
     var stateUpdateParameters: [String : AnyObject] { get set }
 
     init?(bridge: PhilipsHueBridge, identifier: String, json: [String : AnyObject])
@@ -203,11 +205,10 @@ private class PhilipsHueLightUpdateOperation<T: PhilipsHueBridgeLightItem>: Asyn
         print("write", light.stateUpdateUrl, stateUpdateParameters)
         bridge.requestJSONArray(light.stateUpdateUrl, method: .put, parameters: stateUpdateParameters) { [weak self] response in
             guard let strongSelf = self else { return }
-            defer {
-                //TODO: Sleep a little before completing if Hue command requires it
+            guard let light = strongSelf.light else {
                 strongSelf.complete()
+                return
             }
-            guard let light = strongSelf.light else { return }
             switch response.result {
             case .failure(let error):
                 print(error)
@@ -217,8 +218,17 @@ private class PhilipsHueLightUpdateOperation<T: PhilipsHueBridgeLightItem>: Asyn
                     light.isOn = false
                     light.endInternalUpdate()
                 }
+                strongSelf.complete()
             case .success(let jsonObjects):
                 print(jsonObjects)
+                // To avoid light udates being queued on the Hue bridge, we delay subsequent light updates as specified by Philips Hue, i.e. 100msec per light and 1000msec per group
+                let remainingUpdateTime = light.stateUpdateDuration - response.duration
+                if remainingUpdateTime > 0.01 {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + remainingUpdateTime) { strongSelf.complete() }
+                }
+                else {
+                    strongSelf.complete()
+                }
             }
         }
     }
@@ -229,17 +239,17 @@ private extension DataRequest {
         return responseJSON { dataResponse in
             switch dataResponse.result {
             case .failure(let error):
-                completion(PhilipsHueBridgeResponse(result: .failure(.networkError(error))))
+                completion(PhilipsHueBridgeResponse(result: .failure(.networkError(error)), duration: dataResponse.timeline.totalDuration))
             case .success(let value):
                 if let error = dataResponse.hueError {
-                    completion(PhilipsHueBridgeResponse(result: .failure(error)))
+                    completion(PhilipsHueBridgeResponse(result: .failure(error), duration: dataResponse.timeline.totalDuration))
                     return
                 }
                 guard let json = value as? Value else {
-                    completion(PhilipsHueBridgeResponse(result: .failure(.unexpectedResponse(value))))
+                    completion(PhilipsHueBridgeResponse(result: .failure(.unexpectedResponse(value)), duration: dataResponse.timeline.totalDuration))
                     return
                 }
-                completion(PhilipsHueBridgeResponse(result: .success(json)))
+                completion(PhilipsHueBridgeResponse(result: .success(json), duration: dataResponse.timeline.totalDuration))
             }
         }
     }
@@ -254,4 +264,6 @@ private extension DataResponse {
 
 internal struct PhilipsHueBridgeResponse<Value> {
     let result: PhilipsHueResult<Value>
+    /// The time interval in seconds from the time the request started to the time response serialization completed.
+    let duration: TimeInterval
 }
