@@ -16,7 +16,11 @@ public class PhilipsHueBridge {
     public private(set) var lights: [String : PhilipsHueLight] = [:]
     public private(set) var groups: [String : PhilipsHueGroup] = [:]
 
-    private let alamofire = Alamofire.SessionManager(configuration: URLSessionConfiguration.default)
+    private let alamofire: SessionManager = {
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 5.0
+        return Alamofire.SessionManager(configuration: configuration)
+    }()
 
     private let lightUpdateOperationQueue: OperationQueue = { let q = OperationQueue(); q.maxConcurrentOperationCount = 1; return q }()
 
