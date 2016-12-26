@@ -22,7 +22,11 @@ public class PhilipsHueBridge {
         return Alamofire.SessionManager(configuration: configuration)
     }()
 
-    private let lightUpdateOperationQueue: OperationQueue = { let q = OperationQueue(); q.maxConcurrentOperationCount = 1; return q }()
+    private let lightUpdateOperationQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+        return queue
+    }()
 
     public init(host: String, username: String? = nil) {
         self.host     = host
