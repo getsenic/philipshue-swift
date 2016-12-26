@@ -89,10 +89,20 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
         }
     }
 
-    internal func updateInternally(from group: PhilipsHueGroup) {
+    internal func refresh(from group: PhilipsHueGroup) {
+        beginRefreshing()
         name             = group.name
         lightIdentifiers = group.lightIdentifiers
         type             = group.type
+        endRefreshing()
+    }
+
+    func beginRefreshing() {
+        // NOP – groups don't have states that affect light parameters
+    }
+
+    func endRefreshing() {
+        // NOP – groups don't have states that affect light parameters
     }
 
     private func getLightValuesAverage(_ value: (PhilipsHueLight) -> Float?) -> Float? {
@@ -109,9 +119,9 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
         }
         else {
             reachableLights.filter(lightFilter).forEach {
-                $0.beginInternalUpdate()
+                $0.beginRefreshing()
                 lightUpdate($0)
-                $0.endInternalUpdate()
+                $0.endRefreshing()
             }
             stateUpdateParameters[name] = value as AnyObject
             bridge?.enqueueLightUpdate(for: self)

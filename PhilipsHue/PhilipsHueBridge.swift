@@ -65,8 +65,8 @@ public class PhilipsHueBridge {
                     return
                 }
                 strongSelf.identifier = identifier
-                if let jsonLights = (json["lights"] as? [String : [String : AnyObject]]) { self?.updateBridgeItems(&strongSelf.lights, from: jsonLights) }
-                if let jsonGroups = (json["groups"] as? [String : [String : AnyObject]]) { self?.updateBridgeItems(&strongSelf.groups, from: jsonGroups) }
+                if let jsonLights = (json["lights"] as? [String : [String : AnyObject]]) { self?.refreshBridgeItems(&strongSelf.lights, from: jsonLights) }
+                if let jsonGroups = (json["groups"] as? [String : [String : AnyObject]]) { self?.refreshBridgeItems(&strongSelf.groups, from: jsonGroups) }
                 completion(.success())
             }
         }
@@ -114,12 +114,12 @@ public class PhilipsHueBridge {
         }
     }
 
-    private func updateBridgeItems<T: PhilipsHueBridgeItem>(_ items: inout [String : T], from jsonItems: [String : [String : AnyObject]]) {
+    private func refreshBridgeItems<T: PhilipsHueBridgeItem>(_ items: inout [String : T], from jsonItems: [String : [String : AnyObject]]) {
         items = jsonItems
             .flatMap { (identifier: String, json: [String : AnyObject]) -> T? in
                 guard var item = T(bridge: self, identifier: identifier, json: json) else { return nil }
                 if let existingItem = items[identifier] {
-                    existingItem.updateInternally(from: item)
+                    existingItem.refresh(from: item)
                     item = existingItem
                 }
                 return item
@@ -170,14 +170,9 @@ internal protocol PhilipsHueBridgeItem: class {
 
     init?(bridge: PhilipsHueBridge, identifier: String, json: [String : AnyObject])
 
-    func updateInternally(from: Self)
-    func beginInternalUpdate()
-    func endInternalUpdate()
-}
-
-internal extension PhilipsHueBridgeItem {
-    func beginInternalUpdate() {}
-    func endInternalUpdate() {}
+    func refresh(from: Self)
+    func beginRefreshing()
+    func endRefreshing()
 }
 
 public protocol PhilipsHueLightItem: class {
@@ -222,9 +217,9 @@ private class PhilipsHueLightUpdateOperation<T: PhilipsHueBridgeLightItem>: Asyn
                 print(error)
                 if case .lightIsOff = error {
                     // Bridge tells us that the light is off, we update our `isOn` property as it might have the wrong state by now
-                    light.beginInternalUpdate()
+                    light.beginRefreshing()
                     light.isOn = false
-                    light.endInternalUpdate()
+                    light.endRefreshing()
                 }
                 strongSelf.complete()
             case .success(let jsonObjects):

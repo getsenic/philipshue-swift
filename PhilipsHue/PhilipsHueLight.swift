@@ -33,7 +33,7 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
     internal var stateUpdateDuration: TimeInterval { return 0.1 }
     internal var stateUpdateParameters: [String : AnyObject] = [:]
 
-    private var isUpdatingInternally = false
+    private var isRefreshing = false
 
     public required init?(bridge: PhilipsHueBridge, identifier: String, json: [String : AnyObject]) {
         guard
@@ -58,8 +58,8 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
         self.colorTemperature = (stateJson["ct"]         as? Int)?.toNormalizedMired()
     }
 
-    internal func updateInternally(from light: PhilipsHueLight) {
-        beginInternalUpdate()
+    internal func refresh(from light: PhilipsHueLight) {
+        beginRefreshing()
         name             = light.name
         manufacturer     = light.manufacturer
         model            = light.model
@@ -70,19 +70,19 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
         hue              = light.hue
         saturation       = light.saturation
         colorTemperature = light.colorTemperature
-        endInternalUpdate()
+        endRefreshing()
     }
 
-    internal func beginInternalUpdate() {
-        isUpdatingInternally = true
+    internal func beginRefreshing() {
+        isRefreshing = true
     }
 
-    internal func endInternalUpdate() {
-        isUpdatingInternally = false
+    internal func endRefreshing() {
+        isRefreshing = false
     }
 
     private func addParameterUpdate<Value>(name: String, value: Value?) {
-        guard !isUpdatingInternally, let value = value else { return }
+        guard !isRefreshing, let value = value else { return }
         stateUpdateParameters[name] = value as AnyObject
         bridge?.enqueueLightUpdate(for: self)
     }
