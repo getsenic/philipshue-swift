@@ -73,7 +73,9 @@ class LightViewController: UIViewController {
 
     func prepareLight(forceGroupUpdate: Bool = false) {
         guard let group = light as? PhilipsHueGroup else { return }
-        group.updateLightsIndividually = !forceGroupUpdate && group.reachableLights.count < 10
+        group.updateRequestMode = forceGroupUpdate || group.reachableLights.count >= 10
+            ? .singleGroupRequest
+            : .multipleLightRequests
     }
 
     @IBAction func startBatchUpdates() {

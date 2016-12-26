@@ -19,8 +19,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
     public var lights:          [PhilipsHueLight] { return lightIdentifiers.flatMap{ bridge?.lights[$0] } }
     public var reachableLights: [PhilipsHueLight] { return lights.filter{ $0.isReachable } }
 
-    /// If `false` (default) parameter changes are sent to the group. If `true` light parameter changes are instead sent as inidividual requests to each reachable light of the group.
-    public var updateLightsIndividually = false
+    public var updateRequestMode = UpdateRequestMode.singleGroupRequest
 
     internal var stateUpdateUrl: String { return "groups/\(identifier)/action" }
     internal var stateUpdateDuration: TimeInterval { return 1.0 }
@@ -125,12 +124,8 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
 
     private func addParameterUpdate<Value>(name: String, value: Value?, lightFilter: (PhilipsHueLight) -> Bool = {_ in return true}, lightUpdate: (PhilipsHueLight) -> Void) {
         guard let value = value else { return }
-        if updateLightsIndividually {
-            reachableLights.filter(lightFilter).forEach {
-                lightUpdate($0)
-            }
-        }
-        else {
+        switch updateRequestMode {
+        case .singleGroupRequest:
             reachableLights.filter(lightFilter).forEach {
                 $0.beginRefreshing()
                 lightUpdate($0)
@@ -139,7 +134,18 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
             stateUpdateParameters[name] = value as AnyObject
             guard !defersUpdates else { return }
             bridge?.enqueueLightUpdate(for: self)
+        case .multipleLightRequests:
+            reachableLights.filter(lightFilter).forEach {
+                lightUpdate($0)
+            }
         }
+    }
+
+    public enum UpdateRequestMode {
+        /// A single update request is sent to the group. Hue bridges can only process one group update request per second
+        case singleGroupRequest
+        /// Multiple updates requests are sent to each light. Hue bridges can process up to 10 light update requests per second
+        case multipleLightRequests
     }
 }
 
