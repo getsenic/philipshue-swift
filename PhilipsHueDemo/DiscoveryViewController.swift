@@ -1,5 +1,5 @@
 //
-//  BridgeSelectionViewController.swift
+//  DiscoveryViewController.swift
 //  PhilipsHueDemo
 //
 //  Created by Lars Blumberg on 12/19/16.
@@ -9,7 +9,7 @@
 import PhilipsHue
 import UIKit
 
-class BridgeSelectionViewController: UIViewController {
+class DiscoveryViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -22,7 +22,7 @@ class BridgeSelectionViewController: UIViewController {
 
     @IBAction func discoverBridges() {
         //TODO: Implement discovery
-        bridges = [PhilipsHueBridge(host: "192.168.1.83", username: "WuXoBjbkWhR4rxpmrLgkdEvAZ0JKPb7f6Rl0wV-D")]
+        bridges = [PhilipsHueBridge(host: "192.168.178.73", username: "WuXoBjbkWhR4rxpmrLgkdEvAZ0JKPb7f6Rl0wV-D")]
         tableView.reloadData()
     }
 
@@ -31,7 +31,7 @@ class BridgeSelectionViewController: UIViewController {
     }
 }
 
-extension BridgeSelectionViewController: UITableViewDataSource {
+extension DiscoveryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return bridges.count
     }
@@ -43,7 +43,7 @@ extension BridgeSelectionViewController: UITableViewDataSource {
     }
 }
 
-extension BridgeSelectionViewController: UITableViewDelegate {
+extension DiscoveryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "bridge", sender: bridges[indexPath.row])
     }

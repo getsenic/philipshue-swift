@@ -1,5 +1,5 @@
 //
-//  LightSettingsViewController.swift
+//  LightViewController.swift
 //  PhilipsHueDemo
 //
 //  Created by Lars Blumberg on 12/19/16.
@@ -9,7 +9,7 @@
 import PhilipsHue
 import UIKit
 
-class LightSettingsViewController: UIViewController {
+class LightViewController: UIViewController {
 
     var light: PhilipsHueLightItem!
 

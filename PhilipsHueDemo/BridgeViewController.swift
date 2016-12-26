@@ -74,7 +74,7 @@ class BridgeViewController: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        (segue.destination as! LightSettingsViewController).light = sender as! PhilipsHueLightItem
+        (segue.destination as! LightViewController).light = sender as! PhilipsHueLightItem
     }
 }
 

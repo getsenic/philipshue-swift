@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		465363BA1E08329B00A05AA8 /* BridgeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465363B91E08329B00A05AA8 /* BridgeSelectionViewController.swift */; };
+		465363BA1E08329B00A05AA8 /* DiscoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465363B91E08329B00A05AA8 /* DiscoveryViewController.swift */; };
 		465363BC1E08336F00A05AA8 /* BridgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465363BB1E08336F00A05AA8 /* BridgeViewController.swift */; };
-		465363BE1E08465700A05AA8 /* LightSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465363BD1E08465700A05AA8 /* LightSettingsViewController.swift */; };
+		465363BE1E08465700A05AA8 /* LightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465363BD1E08465700A05AA8 /* LightViewController.swift */; };
 		46EB44251E03E23F009A4CC4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EB44241E03E23F009A4CC4 /* AppDelegate.swift */; };
 		46EB442A1E03E23F009A4CC4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46EB44281E03E23F009A4CC4 /* Main.storyboard */; };
 		46EB442C1E03E23F009A4CC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46EB442B1E03E23F009A4CC4 /* Assets.xcassets */; };
@@ -19,9 +19,9 @@
 
 /* Begin PBXFileReference section */
 		443E4D3881F0E1FBC8282629 /* Pods-PhilipsHueDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhilipsHueDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PhilipsHueDemo/Pods-PhilipsHueDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		465363B91E08329B00A05AA8 /* BridgeSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BridgeSelectionViewController.swift; sourceTree = "<group>"; };
+		465363B91E08329B00A05AA8 /* DiscoveryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoveryViewController.swift; sourceTree = "<group>"; };
 		465363BB1E08336F00A05AA8 /* BridgeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BridgeViewController.swift; sourceTree = "<group>"; };
-		465363BD1E08465700A05AA8 /* LightSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightSettingsViewController.swift; sourceTree = "<group>"; };
+		465363BD1E08465700A05AA8 /* LightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightViewController.swift; sourceTree = "<group>"; };
 		467511D11E0A917B0083E7C9 /* PhilipsHueResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhilipsHueResult.swift; sourceTree = "<group>"; };
 		467511D31E0AB6500083E7C9 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
 		467511D71E0B07600083E7C9 /* AsynchronousOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
@@ -86,9 +86,9 @@
 			isa = PBXGroup;
 			children = (
 				46EB44241E03E23F009A4CC4 /* AppDelegate.swift */,
-				465363B91E08329B00A05AA8 /* BridgeSelectionViewController.swift */,
 				465363BB1E08336F00A05AA8 /* BridgeViewController.swift */,
-				465363BD1E08465700A05AA8 /* LightSettingsViewController.swift */,
+				465363B91E08329B00A05AA8 /* DiscoveryViewController.swift */,
+				465363BD1E08465700A05AA8 /* LightViewController.swift */,
 				46EB44281E03E23F009A4CC4 /* Main.storyboard */,
 				46EB442B1E03E23F009A4CC4 /* Assets.xcassets */,
 				46EB442D1E03E23F009A4CC4 /* LaunchScreen.storyboard */,
@@ -238,8 +238,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				465363BA1E08329B00A05AA8 /* BridgeSelectionViewController.swift in Sources */,
-				465363BE1E08465700A05AA8 /* LightSettingsViewController.swift in Sources */,
+				465363BA1E08329B00A05AA8 /* DiscoveryViewController.swift in Sources */,
+				465363BE1E08465700A05AA8 /* LightViewController.swift in Sources */,
 				46EB44251E03E23F009A4CC4 /* AppDelegate.swift in Sources */,
 				465363BC1E08336F00A05AA8 /* BridgeViewController.swift in Sources */,
 			);
