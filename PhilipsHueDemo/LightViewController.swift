@@ -18,6 +18,8 @@ class LightViewController: UIViewController {
     @IBOutlet weak var hueSlider:              UISlider!
     @IBOutlet weak var saturationSlider:       UISlider!
     @IBOutlet weak var colorTemperatureSlider: UISlider!
+    @IBOutlet weak var startBatchUpdateButton: UIButton!
+    @IBOutlet weak var sendBatchUpdateButton:  UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +39,11 @@ class LightViewController: UIViewController {
 
         colorTemperatureSlider.isEnabled = light.colorTemperature != nil
         if let colorTemperature = light.colorTemperature { colorTemperatureSlider.value = Float(colorTemperature) }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        light.endUpdates()
+        super.viewWillDisappear(animated)
     }
 
     @IBAction func didChangeIsOn() {
@@ -67,5 +74,17 @@ class LightViewController: UIViewController {
     func prepareLight(forceGroupUpdate: Bool = false) {
         guard let group = light as? PhilipsHueGroup else { return }
         group.updateLightsIndividually = !forceGroupUpdate && group.reachableLights.count < 10
+    }
+
+    @IBAction func startBatchUpdates() {
+        light.beginUpdates()
+        startBatchUpdateButton.isEnabled = false
+        sendBatchUpdateButton.isEnabled  = true
+    }
+
+    @IBAction func sendBatchUpdates() {
+        light.endUpdates()
+        startBatchUpdateButton.isEnabled = true
+        sendBatchUpdateButton.isEnabled  = false
     }
 }

@@ -26,6 +26,8 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
     internal var stateUpdateDuration: TimeInterval { return 1.0 }
     internal var stateUpdateParameters: [String : AnyObject] = [:]
 
+    private var defersUpdates = false
+
     public var isOn: Bool {
         get {
             let reachableLights = self.reachableLights
@@ -89,6 +91,17 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
         }
     }
 
+    public func beginUpdates() {
+        defersUpdates = true
+    }
+
+    public func endUpdates() {
+        guard defersUpdates else { return }
+        defersUpdates = false
+        guard stateUpdateParameters.count > 0 else { return }
+        bridge?.enqueueLightUpdate(for: self)
+    }
+
     internal func refresh(from group: PhilipsHueGroup) {
         beginRefreshing()
         name             = group.name
@@ -124,6 +137,7 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
                 $0.endRefreshing()
             }
             stateUpdateParameters[name] = value as AnyObject
+            guard !defersUpdates else { return }
             bridge?.enqueueLightUpdate(for: self)
         }
     }

@@ -182,6 +182,11 @@ public protocol PhilipsHueLightItem: class {
     var hue:              Float? { get set }
     var saturation:       Float? { get set }
     var colorTemperature: Float? { get set }
+
+    /// Any changes to light parameters won't be sent to the light until `endUpdates()` is called
+    func beginUpdates()
+    /// Sends all batched light parameter changes since the previous call to `beginUpdates()`
+    func endUpdates()
 }
 
 internal typealias PhilipsHueBridgeLightItem = PhilipsHueBridgeItem & PhilipsHueLightItem
