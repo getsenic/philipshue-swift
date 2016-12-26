@@ -34,7 +34,13 @@ public class PhilipsHueBridge {
     }
 
     public func requestUsername(for appName: String, completion: @escaping (PhilipsHueResult<String>) -> Void) {
-        requestJSONArray("/", needsAuthorization: false) { [weak self] response in
+        #if os(iOS) || os(tvOS)
+        let deviceName = UIDevice.current.name
+        #else
+        //TODO: Implement device name for other platforms
+        let deviceName = "unspecified"
+        #endif
+        requestJSONArray("/", needsAuthorization: false, method: .post, parameters: ["devicetype" : "\(appName)#\(deviceName)" as AnyObject]) { [weak self] response in
             guard let strongSelf = self else { return }
             switch response.result {
             case .failure(let error):
@@ -143,7 +149,7 @@ public class PhilipsHueBridge {
         var requestUrl = URL(string: "http://\(host)/api")!
         if needsAuthorization {
             guard let username = username else {
-                completion(PhilipsHueBridgeResponse(result: .failure(.usernameNotSet), duration: 0))
+                completion(PhilipsHueBridgeResponse(result: .failure(.unauthorizedUser), duration: 0))
                 return
             }
             requestUrl = requestUrl.appendingPathComponent(username)
@@ -229,7 +235,7 @@ private class PhilipsHueLightUpdateOperation<T: PhilipsHueBridgeLightItem>: Asyn
                 strongSelf.complete()
             case .success(let jsonObjects):
                 print(jsonObjects)
-                // To avoid light udates being queued on the Hue bridge, we delay subsequent light updates as specified by Philips Hue, i.e. 100msec per light and 1000msec per group
+                // To avoid light udates being queued on the Hue bridge, we delay subsequent light updates as specified by Philips Hue, i.e. 100msec per light and 1,000msec per group
                 let remainingUpdateTime = light.stateUpdateDuration - response.duration
                 if remainingUpdateTime > 0.01 {
                     DispatchQueue.main.asyncAfter(deadline: .now() + remainingUpdateTime) { strongSelf.complete() }

@@ -14,7 +14,6 @@ public enum PhilipsHueResult<Value> {
 }
 
 public enum PhilipsHueError: Error {
-    case usernameNotSet
     case unauthorizedUser
     case resourceNotAvailable
     case parameterNotAvailable
@@ -43,7 +42,6 @@ public enum PhilipsHueError: Error {
 extension PhilipsHueError: LocalizedError {
     public var errorDescription: String? {
         switch self {
-        case .usernameNotSet:                   return "Username not set"
         case .unauthorizedUser:                 return "User not authorized"
         case .resourceNotAvailable:             return "Resource not available"
         case .parameterNotAvailable:            return "Parameter not available"
