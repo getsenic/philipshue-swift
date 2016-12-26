@@ -35,8 +35,34 @@ class BridgeViewController: UIViewController {
     @IBAction func refresh() {
         bridge.refresh { [weak self] (result) in
             switch result {
-            case .failure(let error): print(error)
-            case .success(): self?.tableView.reloadData()
+            case .failure(let error):
+                print(error)
+                if case .unauthorizedUser = error {
+                    let alertController = UIAlertController(title: "User not authorized", message: "Do you want to request authorization?", preferredStyle: .alert)
+                    alertController.addAction(UIAlertAction(title: "Yes", style: .default) { [weak self] _ in
+                        self?.authorizeUser()
+                    })
+                    alertController.addAction(UIAlertAction(title: "No", style: .default) { _ in })
+                    self?.present(alertController, animated: true) {}
+                }
+            case .success():
+                self?.tableView.reloadData()
+            }
+        }
+    }
+
+    private func authorizeUser() {
+        bridge.requestUsername(for: "Philips Hue Demo") { [weak self] result in
+            switch result {
+            case .failure(let error):
+                let alertController = UIAlertController(title: "Failed authorizing user", message: "\(error.localizedDescription)\n\((error as NSError).localizedFailureReason ?? "")", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                self?.present(alertController, animated: true) {}
+            case .success(_):
+                self?.refresh()
+                let alertController = UIAlertController(title: "User authorization successfull", message: "Bridge is now being refreshed.", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                self?.present(alertController, animated: true) {}
             }
         }
     }
