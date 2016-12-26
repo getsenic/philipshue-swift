@@ -29,8 +29,8 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
     /// 0.0 (coldest) ... 1.0 (warmest)
     public var colorTemperature: Float? { didSet { addParameterUpdate(name: "ct",    value: self.colorTemperature?.toMired()) } }
 
-    internal var stateUpdateUrl: String { return "lights/\(self.identifier)/state" }
-    internal var stateUpdateDuration: TimeInterval { return 0.1 }
+    internal var stateUpdateUrl:        String { return "lights/\(self.identifier)/state" }
+    internal var stateUpdateDuration:   TimeInterval { return 0.1 }
     internal var stateUpdateParameters: [String : AnyObject] = [:]
 
     private var isRefreshing  = false
