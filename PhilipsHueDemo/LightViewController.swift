@@ -10,21 +10,30 @@ import PhilipsHue
 import UIKit
 
 class LightViewController: UIViewController {
-
     var light: PhilipsHueLightItem!
 
-    @IBOutlet weak var onSwitch:               UISwitch!
-    @IBOutlet weak var brightnessSlider:       UISlider!
-    @IBOutlet weak var hueSlider:              UISlider!
-    @IBOutlet weak var saturationSlider:       UISlider!
-    @IBOutlet weak var colorTemperatureSlider: UISlider!
-    @IBOutlet weak var startBatchUpdateButton: UIButton!
-    @IBOutlet weak var sendBatchUpdateButton:  UIButton!
+    @IBOutlet weak var updateModeStackView:        UIStackView!
+    @IBOutlet weak var updateModeSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var onSwitch:                   UISwitch!
+    @IBOutlet weak var brightnessSlider:           UISlider!
+    @IBOutlet weak var hueSlider:                  UISlider!
+    @IBOutlet weak var saturationSlider:           UISlider!
+    @IBOutlet weak var colorTemperatureSlider:     UISlider!
+    @IBOutlet weak var startBatchUpdateButton:     UIButton!
+    @IBOutlet weak var sendBatchUpdateButton:      UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = (light is PhilipsHueLight ? "Light" : "Group").appending(" \(light.identifier)")
+
+        if let group = light as? PhilipsHueGroup {
+            updateModeStackView.isHidden = false
+            updateModeSegmentedControl.selectedSegmentIndex = group.updateRequestMode == .singleGroupRequest ? 0 : 1
+        }
+        else {
+            updateModeStackView.isHidden = true
+        }
 
         onSwitch.isOn = light.isOn
 
@@ -46,36 +55,29 @@ class LightViewController: UIViewController {
         super.viewWillDisappear(animated)
     }
 
+    @IBAction func didChangeUpdateMode() {
+        guard let group = light as? PhilipsHueGroup else { return }
+        group.updateRequestMode = [.singleGroupRequest, .multipleLightRequests][updateModeSegmentedControl.selectedSegmentIndex]
+    }
+
     @IBAction func didChangeIsOn() {
-        prepareLight(forceGroupUpdate: true)
         light.isOn = onSwitch.isOn
     }
 
     @IBAction func didChangeBrightness() {
-        prepareLight()
         light.brightness = brightnessSlider.value
     }
 
     @IBAction func didChangeHue() {
-        prepareLight()
         light.hue = hueSlider.value
     }
 
     @IBAction func didChangeSaturation() {
-        prepareLight()
         light.saturation = saturationSlider.value
     }
 
     @IBAction func didChangeColorTemperature() {
-        prepareLight()
         light.colorTemperature = colorTemperatureSlider.value
-    }
-
-    func prepareLight(forceGroupUpdate: Bool = false) {
-        guard let group = light as? PhilipsHueGroup else { return }
-        group.updateRequestMode = forceGroupUpdate || group.reachableLights.count >= 10
-            ? .singleGroupRequest
-            : .multipleLightRequests
     }
 
     @IBAction func startBatchUpdates() {
