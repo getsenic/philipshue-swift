@@ -37,6 +37,10 @@ extension DiscoveryViewController: PhilipsHueDiscoveryManagerDelegate {
         bridges[bridge.host] = bridge
         tableView.reloadData()
     }
+
+    public func philipsHueDiscoveryManager(_ manager: PhilipsHueDiscoveryManager, didEncounterError error: PhilipsHueDiscoveryManagerError) {
+        print("Error during discovery: \(error)")
+    }
 }
 
 extension DiscoveryViewController: UITableViewDataSource {

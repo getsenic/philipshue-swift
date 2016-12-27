@@ -37,9 +37,10 @@ public class PhilipsHueDiscoveryManager {
                 guard let strongSelf = self else { return }
                 switch response.result {
                 case .failure(let error):
-                    print(error)
+                    strongSelf.delegate?.philipsHueDiscoveryManager(strongSelf, didEncounterError: .networkError(error))
                 case .success(let jsonResponse):
                     guard let hosts = (jsonResponse as? [[String : String]]) else {
+                        strongSelf.delegate?.philipsHueDiscoveryManager(strongSelf, didEncounterError: .unexpectedResponse(jsonResponse))
                         return
                     }
                     hosts.flatMap { $0["internalipaddress"] }.forEach { strongSelf.didFindHost($0) }
@@ -63,10 +64,19 @@ public class PhilipsHueDiscoveryManager {
         ssdpServiceBrowser.stopBrowsingForServices()
         ssdpDiscoveryTimeoutTimer?.invalidate()
     }
+}
 
-    public enum DiscoveryError: Error {
-        case networkError(Error)
-        case unexpectedServerResponse(Any)
+public enum PhilipsHueDiscoveryManagerError: Error {
+    case networkError(Error)
+    case unexpectedResponse(Any)
+}
+
+extension PhilipsHueDiscoveryManagerError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .networkError(let error):          return "Network error: \(error.localizedDescription)"
+        case .unexpectedResponse(let response): return "Unexpected response: \(response)"
+        }
     }
 }
 
@@ -86,10 +96,11 @@ extension PhilipsHueDiscoveryManager: SSDPServiceBrowserDelegate {
     }
 
     @objc public func ssdpBrowser(_ browser: SSDPServiceBrowser!, didNotStartBrowsingForServices error: Error!) {
-        
+        delegate?.philipsHueDiscoveryManager(self, didEncounterError: .networkError(error))
     }
 }
 
 public protocol PhilipsHueDiscoveryManagerDelegate: class {
     func philipsHueDiscoveryManager(_ manager: PhilipsHueDiscoveryManager, didDiscoveryBridge bridge: PhilipsHueBridge)
+    func philipsHueDiscoveryManager(_ manager: PhilipsHueDiscoveryManager, didEncounterError error: PhilipsHueDiscoveryManagerError)
 }
