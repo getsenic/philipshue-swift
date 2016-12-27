@@ -13,7 +13,10 @@ class DiscoveryViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
-    var bridges: [PhilipsHueBridge] = []
+    lazy var discoveryManager: PhilipsHueDiscoveryManager = PhilipsHueDiscoveryManager(delegate: self)
+
+    var bridges: [String : PhilipsHueBridge] = [:]
+    var sortedBridges: [PhilipsHueBridge] { return bridges.values.sorted { $0.0.host < $0.1.host } }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,13 +24,18 @@ class DiscoveryViewController: UIViewController {
     }
 
     @IBAction func discoverBridges() {
-        //TODO: Implement discovery
-        bridges = [PhilipsHueBridge(host: "192.168.178.73", username: "WuXoBjbkWhR4rxpmrLgkdEvAZ0JKPb7f6Rl0wV-D")]
-        tableView.reloadData()
+        discoveryManager.startDiscovery()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         (segue.destination as! BridgeViewController).bridge = sender as! PhilipsHueBridge
+    }
+}
+
+extension DiscoveryViewController: PhilipsHueDiscoveryManagerDelegate {
+    func philipsHueDiscoveryManager(_ manager: PhilipsHueDiscoveryManager, didDiscoveryBridge bridge: PhilipsHueBridge) {
+        bridges[bridge.host] = bridge
+        tableView.reloadData()
     }
 }
 
@@ -38,13 +46,13 @@ extension DiscoveryViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "bridge", for: indexPath)
-        cell.textLabel?.text = bridges[indexPath.row].host
+        cell.textLabel?.text = sortedBridges[indexPath.row].host
         return cell
     }
 }
 
 extension DiscoveryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "bridge", sender: bridges[indexPath.row])
+        performSegue(withIdentifier: "bridge", sender: sortedBridges[indexPath.row])
     }
 }

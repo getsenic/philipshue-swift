@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "772A2F4C203412F140BF570F976BF9739BAC994A",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "8B662B2513934A32397BB3D65EE8C6B570F63FA6" : 9223372036854775807,
+    "772A2F4C203412F140BF570F976BF9739BAC994A" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "C062F514-2A18-423B-8A7A-1F3672D0BB26",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "8B662B2513934A32397BB3D65EE8C6B570F63FA6" : "ssdp-discovery-objc\/",
+    "772A2F4C203412F140BF570F976BF9739BAC994A" : "philipshue-swift\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "PhilipsHueDemo",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "PhilipsHueDemo.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:getsenic\/philipshue-swift.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "772A2F4C203412F140BF570F976BF9739BAC994A"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:getsenic\/ssdp-discovery-objc.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8B662B2513934A32397BB3D65EE8C6B570F63FA6"
+    }
+  ]
+}

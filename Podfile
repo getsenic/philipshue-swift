@@ -4,6 +4,7 @@ target 'PhilipsHueDemo' do
   use_frameworks!
 
   pod 'Alamofire'
+  pod 'CocoaSSDP',  :git => 'https://github.com/getsenic/ssdp-discovery-objc.git', :branch => 'master'
   pod 'PhilipsHue', :path => './PhilipsHue'
 end
 

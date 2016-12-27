@@ -61,7 +61,7 @@
                     <navigationItem key="navigationItem" title="Select Philips Hue Bridge" id="ucC-cp-CCa">
                         <barButtonItem key="rightBarButtonItem" title="Discover" id="qeg-td-TnR">
                             <connections>
-                                <action selector="discoverBridges" destination="EJJ-MX-XQh" id="atd-s4-lZd"/>
+                                <action selector="discoverBridges" destination="EJJ-MX-XQh" id="QZw-7u-7ax"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
