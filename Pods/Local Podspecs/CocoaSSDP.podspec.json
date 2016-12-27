@@ -1,6 +1,6 @@
 {
   "name": "CocoaSSDP",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "summary": "Simple Service Discovery Protocol client library for Mac and iOS.",
   "homepage": "https://github.com/sboisson/CocoaSSDP",
   "description": "Simple Service Discovery Protocol client library for Mac and iOS.\nSSDP allow client app to discover devices on local network (ex: UPnP, DLNA..)",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/sboisson/CocoaSSDP.git",
-    "tag": "0.1.0"
+    "tag": "1.0.0"
   },
   "platforms": {
     "ios": "5.0",

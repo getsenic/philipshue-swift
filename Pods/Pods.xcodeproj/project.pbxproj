@@ -8,53 +8,55 @@
 
 /* Begin PBXBuildFile section */
 		07584ED7D6820619D849D2272EFDA5A0 /* SSDPServiceTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C7ED52CCAE6AD8C9347CCC94342D135 /* SSDPServiceTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0B2994CA0C4D30FB95355C10EFA2138A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8A7152E9C08ABF1B7DBF9A78FF5CB6 /* Security.framework */; };
+		0B2994CA0C4D30FB95355C10EFA2138A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4A41B2FE50131F1E388797993228C6 /* Security.framework */; };
 		10EB23E9ECC4B33E16933BB1EA560B6A /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAAFE9B3BB882B24AB1055DA31EFE77 /* Timeline.swift */; };
-		1602003964774E382E3CD39CEAACDE5F /* PhilipsHueDiscoveryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8EB7D8CAA2A130080AA37B3165A108 /* PhilipsHueDiscoveryManager.swift */; };
 		1B9EDEDC964E6B08F78920B4F4B9DB84 /* Alamofire-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 374D5D90B0B710D5F5EBA283D83F33A0 /* Alamofire-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BC1543B0BADF0D4CE2A0DA755CC34C8 /* SSDPService.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CAB309B5DA598282FFFB070D1C61FF3 /* SSDPService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		20B72F2C70804F952581485E8CF54157 /* CocoaSSDP-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FFDB39D1F87C97B89D8E1DF974BCFA5 /* CocoaSSDP-dummy.m */; };
-		21DB4BDC7211E1DBF089ACAFFDF4DF82 /* AsynchronousOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262209098C5C1B69526B8E26B2A4D638 /* AsynchronousOperation.swift */; };
-		24E4935A15893D2A18C9A29A2E499F65 /* PhilipsHue-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 49CC69A646B5848905A07EFAFF2F8AF6 /* PhilipsHue-dummy.m */; };
+		22A7017DBAD13F12FCCF343EBDE9022B /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD08636E277AE6601244B0A9404E8FC /* CocoaAsyncSocket.framework */; };
+		23492B9BA689E198E9EDDEB234C0EE81 /* PhilipsHueLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA28645552231BD0A5AECD2CCA04896 /* PhilipsHueLight.swift */; };
+		2964BA5C339286024520AEC178F286FC /* PhilipsHue-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 68F25CD34BEFF7719DA02CADF48FD183 /* PhilipsHue-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2E285106C68C30339EB95387D1F48100 /* Pods-PhilipsHueDemo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 74CC54514E228DAFBD3CF0F2E3EE013B /* Pods-PhilipsHueDemo-dummy.m */; };
-		350A07B7A89CFC33CFA3C2C17E90CE61 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF73A897A0B9BA615D7264D209B46A9C /* Foundation.framework */; };
+		350A07B7A89CFC33CFA3C2C17E90CE61 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0AAE05558CE251B1D640994BCB3045 /* Foundation.framework */; };
 		3626B94094672CB1C9DEA32B9F9502E1 /* TaskDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008847B7187DBD14471B7715FBF6E5B4 /* TaskDelegate.swift */; };
-		45576DFBB611119A8EEF06CC6EE3C5AB /* PhilipsHue-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C517B0ED9DEAF2CF67AF49D0A3D3DF2 /* PhilipsHue-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4C447887B293BE40401DF62FC5609BCC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF73A897A0B9BA615D7264D209B46A9C /* Foundation.framework */; };
+		4C447887B293BE40401DF62FC5609BCC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0AAE05558CE251B1D640994BCB3045 /* Foundation.framework */; };
+		4FB59D0BCF0781144C45830DE84FEE5A /* PhilipsHueDiscoveryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD36ACC4B284A7A0F9CC0CD589F9E8CF /* PhilipsHueDiscoveryManager.swift */; };
 		5387216E723A3C68E851CA15573CDD71 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAB849425DF05ED979B35E08880478F /* Request.swift */; };
 		57AC0006088BCF8A992B2906065CC92D /* CocoaSSDP-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CA32894D6D865E14A4E5117BD8EC17C8 /* CocoaSSDP-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5A09F80809CB19FD94E3F158537F7106 /* PhilipsHueGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78514A183A679888DB8E802A848A9B9E /* PhilipsHueGroup.swift */; };
 		5B17E9BBF23B52898D320490EABAC9F1 /* SSDPService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5067BDE7619D5598B4333F606E65820D /* SSDPService.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		61200D01A1855D7920CEF835C8BE00B0 /* DispatchQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB1852BADC4166819F35A9DB403DB08 /* DispatchQueue+Alamofire.swift */; };
 		6238395972F99B03E99E76BBD08745EE /* SSDPServiceBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FB168390B8D99121DCEF020A684F062 /* SSDPServiceBrowser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62F65AD8DC4F0F9610F4B8B4738EC094 /* ServerTrustPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AC8E52163C9A5F1C924F3E7DEAC5C3 /* ServerTrustPolicy.swift */; };
 		62FA2DC20DDC173233EE0F9092C188DE /* Pods-PhilipsHueDemo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = D33DFFE084F15A3CB6F9F5770161595F /* Pods-PhilipsHueDemo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		71E171E8D6CE9A760F8E8079F4914B69 /* PhilipsHueResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021593C10FF8A1F521E40BF0B4F3D9C4 /* PhilipsHueResult.swift */; };
-		78673E0A090CAA106F510D94186B39A1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A763A726754F9BB3C89DA73489285B5E /* CFNetwork.framework */; };
+		6B3DE4D655A15CAF985B3A6AA79E3DF0 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAEF7DE715C49B62B007BB9D3ED7DFA6 /* Alamofire.framework */; };
+		6E857FAE8DCE114063A71C86E3E75D81 /* PhilipsHueResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8804113C5C1754C7D19BD367BE493046 /* PhilipsHueResult.swift */; };
+		78673E0A090CAA106F510D94186B39A1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AA26DE9D1755ACB94361C3FB623AFDC /* CFNetwork.framework */; };
 		7B5FE28C7EA4122B0598738E54DBEBD8 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4AD75B309E895281C3E3895C0BF40A1 /* SessionDelegate.swift */; };
 		7D8CC01E8C9EFFF9F4D65406CDE0AB66 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 451E7FC62C8367FA2552C4ADE50A68C8 /* Result.swift */; };
 		7E33224835C0F7627E8F181DC73ACCF7 /* SSDPServiceTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = F30FB5A620899A7BBED2FD3CF5CEA37C /* SSDPServiceTypes.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		7E4F0161B4D135DA3A0763619A56C2F5 /* CocoaAsyncSocket-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1E60C747D15AF50C96C3CEC64065B1 /* CocoaAsyncSocket-dummy.m */; };
-		7F1684B6BBFAA8349BA783AFD6DE4907 /* PhilipsHueLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B906332E09C8194EC4D081501A6256C /* PhilipsHueLight.swift */; };
+		83B2C47403845745768D743020FA0D28 /* PhilipsHueGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4954F558AF15363B7A6F7330504726AA /* PhilipsHueGroup.swift */; };
 		8480493AEC1C7AF1B5C0E0BF2F70FB44 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 725262EE9423B4F7B9533408D7D90D1A /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
-		8554B52F3FFB1E2933D69D4C094CCEAE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF73A897A0B9BA615D7264D209B46A9C /* Foundation.framework */; };
-		8594D775F9E0B1E627AA81809C02BF87 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AF589EA1642662DB0A9C65C71D4759 /* Math.swift */; };
+		93E1C051EC61568A45C60052331FDFEF /* CocoaSSDP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6C7EAE2DC45EE64BCD701F73C5C6D /* CocoaSSDP.framework */; };
+		98CCCF96EED66D3EBE33ABABB6075B27 /* PhilipsHue-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B4678C456110526E7D92E0A7E1B7C90 /* PhilipsHue-dummy.m */; };
+		99BFED49876D39E8910D8A362EEF75EE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0AAE05558CE251B1D640994BCB3045 /* Foundation.framework */; };
 		9ED2BB2981896E0A39EFA365503F58CE /* AFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F5C934E49AD5B1D3B1A8FF5216AA23 /* AFError.swift */; };
-		A04BFC558D69E7DBB68023C80A9CFE4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF73A897A0B9BA615D7264D209B46A9C /* Foundation.framework */; };
+		9EDDABE6321C7BB196F5B1DC2FBCDA4A /* AsynchronousOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06B61F44428A3FA5E4EEDA3C7EF4615 /* AsynchronousOperation.swift */; };
+		A04BFC558D69E7DBB68023C80A9CFE4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0AAE05558CE251B1D640994BCB3045 /* Foundation.framework */; };
 		A2A6F71B727312BD45CC7A4AAD7B0AB7 /* NetworkReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FEB91F7D9F58F26701048E37EFA4D4 /* NetworkReachabilityManager.swift */; };
 		A882891E5A89CADF96C2CA79606409CA /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 46057F54D0F62E9834BE62161738B9D9 /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A9EEEA7477981DEEBC72432DE9990A4B /* Alamofire-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CB209026E3B80925ED5DE66D5969D51E /* Alamofire-dummy.m */; };
 		AC7DC2A21843CD99040DCD79FF3BE91B /* GCDAsyncUdpSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = A5D058378F4333AC38DB6148B75EB0AC /* GCDAsyncUdpSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AD604ACF145D191D86F807C835806EEA /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49D9AD2DBE973B382E3388B94A0A4773 /* Alamofire.framework */; };
 		AE1EF48399533730D0066E04B22CA2D6 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9571C239F5F4B2BC6FF4164CC2187C /* SessionManager.swift */; };
 		AEE9644DA0EFCF945438E125BA4F0724 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 56F351C0DBBFB87594DEF88E22B7DFEC /* GCDAsyncUdpSocket.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		B65FCF589DA398C3EFE0128064E510EC /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097200A82DAE28AF1A9B90B3E9B503A0 /* MultipartFormData.swift */; };
 		BBEFE2F9CEB73DC7BD97FFA66A0D9D4F /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0B6BDF7422AFB79124466C87E1E024 /* Validation.swift */; };
 		BE5C67A07E289FE1F9BE27335B159997 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3391690175630F699700D46FC08B550C /* ParameterEncoding.swift */; };
-		CA12F972016AB6144B98D8B00022B92E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF73A897A0B9BA615D7264D209B46A9C /* Foundation.framework */; };
-		CACA7D2DB1D8C5577091D5728C69F18C /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E71ED4043458C820FF962F8190637E5 /* CocoaAsyncSocket.framework */; };
+		C298DAA5DE3BFD27C2AC37B15CEC9EB4 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F5D1C005B56CCA6A58449B281A7E8 /* Math.swift */; };
+		CA12F972016AB6144B98D8B00022B92E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0AAE05558CE251B1D640994BCB3045 /* Foundation.framework */; };
+		CACA7D2DB1D8C5577091D5728C69F18C /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD08636E277AE6601244B0A9404E8FC /* CocoaAsyncSocket.framework */; };
 		CB6D60925223897FFA2662667DF83E8A /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917A18EF4730A6D76B6B279512C7CB85 /* Response.swift */; };
-		DFE96547AD0A89DDFB306064032524DB /* PhilipsHueBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A81D2766521622B7C67F95B0D30E0316 /* PhilipsHueBridge.swift */; };
+		CEFA3066F859B259D7EFDEFDEBC4FEA7 /* PhilipsHueBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6F9B6D0804FA6ADD42AD37F498014 /* PhilipsHueBridge.swift */; };
 		E4230DB0D114C94B081018C1AC1E9972 /* CocoaAsyncSocket-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E3E8DE0ABA45E479267D2A2AB4B7C06 /* CocoaAsyncSocket-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EFD264FC408EBF3BA2528E70B08DDD94 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD95A1441CA33D7225DE1E52A87BB58A /* Notifications.swift */; };
 		F6BECD98B97CBFEBE2C96F0E9E72A6C0 /* ResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF2C1FB30A75AD4D6F5D314DAA36F76 /* ResponseSerialization.swift */; };
@@ -63,11 +65,25 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		20F6B5E1310ED4BAC611FC443F2D2D87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AC0D2D2B4EE7C873431AB3502859CA60;
+			remoteInfo = CocoaAsyncSocket;
+		};
+		27EA0475D0982A1B143BEA93803C6E4F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 88E9EC28B8B46C3631E6B242B50F4442;
+			remoteInfo = Alamofire;
+		};
 		2FE0344B7013665EA1334DDEC6A3C3CD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 0031AAB93280D0C05F6BA82ACE4D4F86;
+			remoteGlobalIDString = A63EA83143AA5D6CC9421BD040562F82;
 			remoteInfo = PhilipsHue;
 		};
 		3E39454D384D52CFBC4063A5AD94A107 /* PBXContainerItemProxy */ = {
@@ -84,19 +100,19 @@
 			remoteGlobalIDString = AC0D2D2B4EE7C873431AB3502859CA60;
 			remoteInfo = CocoaAsyncSocket;
 		};
-		74ECD4B4795E256C4BD482ADC48CF55E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 88E9EC28B8B46C3631E6B242B50F4442;
-			remoteInfo = Alamofire;
-		};
 		7E5C510F6A13C73630B988931B2EB7BF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 88E9EC28B8B46C3631E6B242B50F4442;
 			remoteInfo = Alamofire;
+		};
+		BD7AEA050BE7E33F630AFC3FAE98D405 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 17C0B2940F655127C620E0AD7B2BB27E;
+			remoteInfo = CocoaSSDP;
 		};
 		BFBEE1E0861BEE4D5518F155EEF3AB50 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -109,65 +125,67 @@
 
 /* Begin PBXFileReference section */
 		008847B7187DBD14471B7715FBF6E5B4 /* TaskDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TaskDelegate.swift; path = Source/TaskDelegate.swift; sourceTree = "<group>"; };
-		021593C10FF8A1F521E40BF0B4F3D9C4 /* PhilipsHueResult.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PhilipsHueResult.swift; sourceTree = "<group>"; };
 		023B649B1AB14918F57872F1924EF7E8 /* PhilipsHue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PhilipsHue.framework; path = PhilipsHue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		03016737FB21D83AEFAA64E53889B143 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		052869CD9F848123C922264D08B2B5D4 /* CocoaSSDP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = CocoaSSDP.framework; path = CocoaSSDP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		097200A82DAE28AF1A9B90B3E9B503A0 /* MultipartFormData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultipartFormData.swift; path = Source/MultipartFormData.swift; sourceTree = "<group>"; };
-		0C517B0ED9DEAF2CF67AF49D0A3D3DF2 /* PhilipsHue-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PhilipsHue-umbrella.h"; sourceTree = "<group>"; };
 		0E80D7A54776F5C7A038DF2829369162 /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = CocoaAsyncSocket.framework; path = CocoaAsyncSocket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C7ED52CCAE6AD8C9347CCC94342D135 /* SSDPServiceTypes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SSDPServiceTypes.h; path = Classes/SSDPServiceTypes.h; sourceTree = "<group>"; };
-		1E71ED4043458C820FF962F8190637E5 /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CocoaAsyncSocket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		262209098C5C1B69526B8E26B2A4D638 /* AsynchronousOperation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
 		27823EE2E63D4501DC02776A5142FF29 /* Pods_PhilipsHueDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PhilipsHueDemo.framework; path = "Pods-PhilipsHueDemo.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		29F5C934E49AD5B1D3B1A8FF5216AA23 /* AFError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AFError.swift; path = Source/AFError.swift; sourceTree = "<group>"; };
 		2CAB309B5DA598282FFFB070D1C61FF3 /* SSDPService.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SSDPService.h; path = Classes/SSDPService.h; sourceTree = "<group>"; };
+		3312987F8F07B2D2CAD15C4AD2571AA4 /* PhilipsHue.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = PhilipsHue.modulemap; sourceTree = "<group>"; };
 		3391690175630F699700D46FC08B550C /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoding.swift; path = Source/ParameterEncoding.swift; sourceTree = "<group>"; };
 		355E6AA00D4469EA53E1AB672090B9DF /* Pods-PhilipsHueDemo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-PhilipsHueDemo.modulemap"; sourceTree = "<group>"; };
 		374D5D90B0B710D5F5EBA283D83F33A0 /* Alamofire-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-umbrella.h"; sourceTree = "<group>"; };
 		39FFC8B427F1DD8EC3D68B73FF6EC56D /* SSDPServiceBrowser.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SSDPServiceBrowser.m; path = Classes/SSDPServiceBrowser.m; sourceTree = "<group>"; };
-		3E8A7152E9C08ABF1B7DBF9A78FF5CB6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
+		3BB6C7EAE2DC45EE64BCD701F73C5C6D /* CocoaSSDP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CocoaSSDP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3FA28645552231BD0A5AECD2CCA04896 /* PhilipsHueLight.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PhilipsHueLight.swift; sourceTree = "<group>"; };
+		44F6F9B6D0804FA6ADD42AD37F498014 /* PhilipsHueBridge.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PhilipsHueBridge.swift; sourceTree = "<group>"; };
 		451E7FC62C8367FA2552C4ADE50A68C8 /* Result.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Result.swift; path = Source/Result.swift; sourceTree = "<group>"; };
-		454FF589BA5DF0E181A68E78B9E6ED78 /* PhilipsHue.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = PhilipsHue.modulemap; sourceTree = "<group>"; };
 		46057F54D0F62E9834BE62161738B9D9 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = Source/GCD/GCDAsyncSocket.h; sourceTree = "<group>"; };
 		4821292EFC787C6C71DD0A961091CB40 /* CocoaSSDP-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "CocoaSSDP-prefix.pch"; sourceTree = "<group>"; };
-		49CC69A646B5848905A07EFAFF2F8AF6 /* PhilipsHue-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "PhilipsHue-dummy.m"; sourceTree = "<group>"; };
-		49D9AD2DBE973B382E3388B94A0A4773 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4954F558AF15363B7A6F7330504726AA /* PhilipsHueGroup.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PhilipsHueGroup.swift; sourceTree = "<group>"; };
 		4A00B638EC783DBF552D2860B0EF9A9D /* Alamofire-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-prefix.pch"; sourceTree = "<group>"; };
 		4CB1852BADC4166819F35A9DB403DB08 /* DispatchQueue+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DispatchQueue+Alamofire.swift"; path = "Source/DispatchQueue+Alamofire.swift"; sourceTree = "<group>"; };
 		4DF2C1FB30A75AD4D6F5D314DAA36F76 /* ResponseSerialization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ResponseSerialization.swift; path = Source/ResponseSerialization.swift; sourceTree = "<group>"; };
+		4F0AAE05558CE251B1D640994BCB3045 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		4FFDB39D1F87C97B89D8E1DF974BCFA5 /* CocoaSSDP-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "CocoaSSDP-dummy.m"; sourceTree = "<group>"; };
 		5067BDE7619D5598B4333F606E65820D /* SSDPService.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SSDPService.m; path = Classes/SSDPService.m; sourceTree = "<group>"; };
 		5365D59D3E21721258A1FACACD0C5DA7 /* Alamofire.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Alamofire.modulemap; sourceTree = "<group>"; };
 		56F351C0DBBFB87594DEF88E22B7DFEC /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncUdpSocket.m; path = Source/GCD/GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
+		5BD08636E277AE6601244B0A9404E8FC /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CocoaAsyncSocket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C0B6BDF7422AFB79124466C87E1E024 /* Validation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validation.swift; path = Source/Validation.swift; sourceTree = "<group>"; };
 		650F1A6D2F3FD8DA9401F0C6D6A65FA4 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		672E089C812B00714E76714A60E849B1 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		68F25CD34BEFF7719DA02CADF48FD183 /* PhilipsHue-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PhilipsHue-umbrella.h"; sourceTree = "<group>"; };
 		6AA512DF835A418E0C0E19FE1838E754 /* CocoaAsyncSocket.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = CocoaAsyncSocket.xcconfig; sourceTree = "<group>"; };
 		6CBBA298CC035419B6910B7184150E73 /* CocoaAsyncSocket-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "CocoaAsyncSocket-prefix.pch"; sourceTree = "<group>"; };
 		725262EE9423B4F7B9533408D7D90D1A /* GCDAsyncSocket.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = Source/GCD/GCDAsyncSocket.m; sourceTree = "<group>"; };
 		74CC54514E228DAFBD3CF0F2E3EE013B /* Pods-PhilipsHueDemo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PhilipsHueDemo-dummy.m"; sourceTree = "<group>"; };
-		78514A183A679888DB8E802A848A9B9E /* PhilipsHueGroup.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PhilipsHueGroup.swift; sourceTree = "<group>"; };
+		7735DC34802E6D6D9AD13BB0BD1CB135 /* PhilipsHue.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PhilipsHue.xcconfig; sourceTree = "<group>"; };
+		7AA26DE9D1755ACB94361C3FB623AFDC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
 		7B1E60C747D15AF50C96C3CEC64065B1 /* CocoaAsyncSocket-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "CocoaAsyncSocket-dummy.m"; sourceTree = "<group>"; };
-		7B906332E09C8194EC4D081501A6256C /* PhilipsHueLight.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PhilipsHueLight.swift; sourceTree = "<group>"; };
 		7ED5797BE12D88BCDFF38A7DBA507C4C /* CocoaAsyncSocket.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = CocoaAsyncSocket.modulemap; sourceTree = "<group>"; };
+		851F5D1C005B56CCA6A58449B281A7E8 /* Math.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
+		8804113C5C1754C7D19BD367BE493046 /* PhilipsHueResult.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PhilipsHueResult.swift; sourceTree = "<group>"; };
 		88F1FC9204767BEEBA39A0ED91FFAFAA /* Pods-PhilipsHueDemo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PhilipsHueDemo-acknowledgements.plist"; sourceTree = "<group>"; };
 		893F6A7B726AAB87C6B35F5AAE7CE84C /* CocoaSSDP.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = CocoaSSDP.modulemap; sourceTree = "<group>"; };
+		8B4678C456110526E7D92E0A7E1B7C90 /* PhilipsHue-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "PhilipsHue-dummy.m"; sourceTree = "<group>"; };
 		8FD281F74554436CCD0468B2507C80BE /* Pods-PhilipsHueDemo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PhilipsHueDemo-frameworks.sh"; sourceTree = "<group>"; };
 		917A18EF4730A6D76B6B279512C7CB85 /* Response.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Response.swift; path = Source/Response.swift; sourceTree = "<group>"; };
 		92C4F67818727B98C2050C59D2B56767 /* Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Source/Alamofire.swift; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9643B83F00661454E62EB4E815BB232C /* Pods-PhilipsHueDemo-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PhilipsHueDemo-resources.sh"; sourceTree = "<group>"; };
-		9B95CE7C01D947780CF8FBCBC84D133A /* PhilipsHue-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PhilipsHue-prefix.pch"; sourceTree = "<group>"; };
+		98AC54FBCA61205E6D964B11DC65B61C /* PhilipsHue-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PhilipsHue-prefix.pch"; sourceTree = "<group>"; };
 		9E3E8DE0ABA45E479267D2A2AB4B7C06 /* CocoaAsyncSocket-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "CocoaAsyncSocket-umbrella.h"; sourceTree = "<group>"; };
 		9FB168390B8D99121DCEF020A684F062 /* SSDPServiceBrowser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SSDPServiceBrowser.h; path = Classes/SSDPServiceBrowser.h; sourceTree = "<group>"; };
 		A4AD75B309E895281C3E3895C0BF40A1 /* SessionDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionDelegate.swift; path = Source/SessionDelegate.swift; sourceTree = "<group>"; };
 		A5D058378F4333AC38DB6148B75EB0AC /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GCDAsyncUdpSocket.h; path = Source/GCD/GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
-		A763A726754F9BB3C89DA73489285B5E /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
-		A81D2766521622B7C67F95B0D30E0316 /* PhilipsHueBridge.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PhilipsHueBridge.swift; sourceTree = "<group>"; };
 		AD8B84EFC801A3D4F231DF749AA2FFAC /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B06B61F44428A3FA5E4EEDA3C7EF4615 /* AsynchronousOperation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
 		B4AC8E52163C9A5F1C924F3E7DEAC5C3 /* ServerTrustPolicy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ServerTrustPolicy.swift; path = Source/ServerTrustPolicy.swift; sourceTree = "<group>"; };
 		BAAB849425DF05ED979B35E08880478F /* Request.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Source/Request.swift; sourceTree = "<group>"; };
+		BAEF7DE715C49B62B007BB9D3ED7DFA6 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7FEB91F7D9F58F26701048E37EFA4D4 /* NetworkReachabilityManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkReachabilityManager.swift; path = Source/NetworkReachabilityManager.swift; sourceTree = "<group>"; };
 		C914CA6D3CF36FB8A4B03D4AB63E290F /* Pods-PhilipsHueDemo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PhilipsHueDemo-acknowledgements.markdown"; sourceTree = "<group>"; };
 		CA32894D6D865E14A4E5117BD8EC17C8 /* CocoaSSDP-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "CocoaSSDP-umbrella.h"; sourceTree = "<group>"; };
@@ -175,18 +193,17 @@
 		CBBC9A14F05ED0A4A8443419FE56D81B /* Pods-PhilipsHueDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PhilipsHueDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		CC963509B8397BA3E938D124AF09016A /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Alamofire.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD95A1441CA33D7225DE1E52A87BB58A /* Notifications.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Notifications.swift; path = Source/Notifications.swift; sourceTree = "<group>"; };
-		CDEFC26E4B1E9E0FA50A6BCAF0FBCEFF /* PhilipsHue.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PhilipsHue.xcconfig; sourceTree = "<group>"; };
+		CD9EC786D5528FCB23407A753729F502 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CF1B054DC138DB7BF44BA468F78F98A7 /* Pods-PhilipsHueDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PhilipsHueDemo.release.xcconfig"; sourceTree = "<group>"; };
 		D33DFFE084F15A3CB6F9F5770161595F /* Pods-PhilipsHueDemo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PhilipsHueDemo-umbrella.h"; sourceTree = "<group>"; };
-		D8AF589EA1642662DB0A9C65C71D4759 /* Math.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
+		DB4A41B2FE50131F1E388797993228C6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		DD1959A437ED5267F3EF8895A5536157 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD36ACC4B284A7A0F9CC0CD589F9E8CF /* PhilipsHueDiscoveryManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PhilipsHueDiscoveryManager.swift; sourceTree = "<group>"; };
 		DD9571C239F5F4B2BC6FF4164CC2187C /* SessionManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionManager.swift; path = Source/SessionManager.swift; sourceTree = "<group>"; };
-		DF73A897A0B9BA615D7264D209B46A9C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		ECAAFE9B3BB882B24AB1055DA31EFE77 /* Timeline.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Timeline.swift; path = Source/Timeline.swift; sourceTree = "<group>"; };
 		F30FB5A620899A7BBED2FD3CF5CEA37C /* SSDPServiceTypes.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SSDPServiceTypes.m; path = Classes/SSDPServiceTypes.m; sourceTree = "<group>"; };
 		F5EF9D8FF24C228B3AF21F3A5A067DF3 /* CocoaSSDP.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = CocoaSSDP.xcconfig; sourceTree = "<group>"; };
 		F603670BF42A3371D2F4E971F22BC99B /* Alamofire.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Alamofire.xcconfig; sourceTree = "<group>"; };
-		FC8EB7D8CAA2A130080AA37B3165A108 /* PhilipsHueDiscoveryManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PhilipsHueDiscoveryManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,20 +215,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		90B3781C81696481CEAD548708626D99 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B3DE4D655A15CAF985B3A6AA79E3DF0 /* Alamofire.framework in Frameworks */,
+				22A7017DBAD13F12FCCF343EBDE9022B /* CocoaAsyncSocket.framework in Frameworks */,
+				93E1C051EC61568A45C60052331FDFEF /* CocoaSSDP.framework in Frameworks */,
+				99BFED49876D39E8910D8A362EEF75EE /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		99195E4207764744AEC07ECCBCD550EB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				A04BFC558D69E7DBB68023C80A9CFE4E /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A02DA794F5225762CDE117EB398479C6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AD604ACF145D191D86F807C835806EEA /* Alamofire.framework in Frameworks */,
-				8554B52F3FFB1E2933D69D4C094CCEAE /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +314,16 @@
 			path = "Target Support Files/Pods-PhilipsHueDemo";
 			sourceTree = "<group>";
 		};
+		1C1FC3495AAA262F0741E74EAFAA2748 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				7AA26DE9D1755ACB94361C3FB623AFDC /* CFNetwork.framework */,
+				4F0AAE05558CE251B1D640994BCB3045 /* Foundation.framework */,
+				DB4A41B2FE50131F1E388797993228C6 /* Security.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
 		1CA9A0627873154EAD353B6F352135B6 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -309,28 +338,39 @@
 			path = "../Target Support Files/Alamofire";
 			sourceTree = "<group>";
 		};
-		225087F052A513CE82B8A296061A26C0 /* Frameworks */ = {
+		1CBC69C77A3DB5AD2D7055225D8B5707 /* PhilipsHue */ = {
 			isa = PBXGroup;
 			children = (
-				49D9AD2DBE973B382E3388B94A0A4773 /* Alamofire.framework */,
-				1E71ED4043458C820FF962F8190637E5 /* CocoaAsyncSocket.framework */,
-				6731389A40A93E034AB163CF3A3752C1 /* iOS */,
+				EE68AAA3CEA279A5998D32AD2B6B85EF /* PhilipsHue */,
+				3F5B420C2B991EF3C2B265681741349A /* Support Files */,
+			);
+			name = PhilipsHue;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		2A533A6CEE92DB73521C3CDE0E660F6B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BAEF7DE715C49B62B007BB9D3ED7DFA6 /* Alamofire.framework */,
+				5BD08636E277AE6601244B0A9404E8FC /* CocoaAsyncSocket.framework */,
+				3BB6C7EAE2DC45EE64BCD701F73C5C6D /* CocoaSSDP.framework */,
+				1C1FC3495AAA262F0741E74EAFAA2748 /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		49791FD882C7F2C18B7A16384F8AFD14 /* Support Files */ = {
+		3F5B420C2B991EF3C2B265681741349A /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				03016737FB21D83AEFAA64E53889B143 /* Info.plist */,
-				454FF589BA5DF0E181A68E78B9E6ED78 /* PhilipsHue.modulemap */,
-				CDEFC26E4B1E9E0FA50A6BCAF0FBCEFF /* PhilipsHue.xcconfig */,
-				49CC69A646B5848905A07EFAFF2F8AF6 /* PhilipsHue-dummy.m */,
-				9B95CE7C01D947780CF8FBCBC84D133A /* PhilipsHue-prefix.pch */,
-				0C517B0ED9DEAF2CF67AF49D0A3D3DF2 /* PhilipsHue-umbrella.h */,
+				CD9EC786D5528FCB23407A753729F502 /* Info.plist */,
+				3312987F8F07B2D2CAD15C4AD2571AA4 /* PhilipsHue.modulemap */,
+				7735DC34802E6D6D9AD13BB0BD1CB135 /* PhilipsHue.xcconfig */,
+				8B4678C456110526E7D92E0A7E1B7C90 /* PhilipsHue-dummy.m */,
+				98AC54FBCA61205E6D964B11DC65B61C /* PhilipsHue-prefix.pch */,
+				68F25CD34BEFF7719DA02CADF48FD183 /* PhilipsHue-umbrella.h */,
 			);
 			name = "Support Files";
-			path = "../Pods/Target Support Files/PhilipsHue";
+			path = "Pods/Target Support Files/PhilipsHue";
 			sourceTree = "<group>";
 		};
 		4DECFB621BDA641349BB60B91ECCB8A6 /* Support Files */ = {
@@ -355,38 +395,12 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		60B675E128C7886356CF5B7899E16EF8 /* PhilipsHue */ = {
-			isa = PBXGroup;
-			children = (
-				262209098C5C1B69526B8E26B2A4D638 /* AsynchronousOperation.swift */,
-				D8AF589EA1642662DB0A9C65C71D4759 /* Math.swift */,
-				A81D2766521622B7C67F95B0D30E0316 /* PhilipsHueBridge.swift */,
-				FC8EB7D8CAA2A130080AA37B3165A108 /* PhilipsHueDiscoveryManager.swift */,
-				78514A183A679888DB8E802A848A9B9E /* PhilipsHueGroup.swift */,
-				7B906332E09C8194EC4D081501A6256C /* PhilipsHueLight.swift */,
-				021593C10FF8A1F521E40BF0B4F3D9C4 /* PhilipsHueResult.swift */,
-				49791FD882C7F2C18B7A16384F8AFD14 /* Support Files */,
-			);
-			name = PhilipsHue;
-			path = ../PhilipsHue;
-			sourceTree = "<group>";
-		};
-		6731389A40A93E034AB163CF3A3752C1 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				A763A726754F9BB3C89DA73489285B5E /* CFNetwork.framework */,
-				DF73A897A0B9BA615D7264D209B46A9C /* Foundation.framework */,
-				3E8A7152E9C08ABF1B7DBF9A78FF5CB6 /* Security.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
-				B0E9161A8864D420EA70FCFC80B0E8FD /* Development Pods */,
-				225087F052A513CE82B8A296061A26C0 /* Frameworks */,
+				C89A22F6C9E00DD1115030927BA18473 /* Development Pods */,
+				2A533A6CEE92DB73521C3CDE0E660F6B /* Frameworks */,
 				85523557F9627E3298B19856D8AF769A /* Pods */,
 				980FFAA3F6559C76CCC1094121D3C608 /* Products */,
 				5569A136F95F7233B332E9E92B2AB5A6 /* Targets Support Files */,
@@ -425,10 +439,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B0E9161A8864D420EA70FCFC80B0E8FD /* Development Pods */ = {
+		C89A22F6C9E00DD1115030927BA18473 /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				60B675E128C7886356CF5B7899E16EF8 /* PhilipsHue */,
+				1CBC69C77A3DB5AD2D7055225D8B5707 /* PhilipsHue */,
 			);
 			name = "Development Pods";
 			sourceTree = "<group>";
@@ -446,6 +460,21 @@
 			);
 			name = CocoaSSDP;
 			path = CocoaSSDP;
+			sourceTree = "<group>";
+		};
+		EE68AAA3CEA279A5998D32AD2B6B85EF /* PhilipsHue */ = {
+			isa = PBXGroup;
+			children = (
+				B06B61F44428A3FA5E4EEDA3C7EF4615 /* AsynchronousOperation.swift */,
+				851F5D1C005B56CCA6A58449B281A7E8 /* Math.swift */,
+				44F6F9B6D0804FA6ADD42AD37F498014 /* PhilipsHueBridge.swift */,
+				DD36ACC4B284A7A0F9CC0CD589F9E8CF /* PhilipsHueDiscoveryManager.swift */,
+				4954F558AF15363B7A6F7330504726AA /* PhilipsHueGroup.swift */,
+				3FA28645552231BD0A5AECD2CCA04896 /* PhilipsHueLight.swift */,
+				8804113C5C1754C7D19BD367BE493046 /* PhilipsHueResult.swift */,
+			);
+			name = PhilipsHue;
+			path = PhilipsHue;
 			sourceTree = "<group>";
 		};
 		FE7E647C01FDBDA8F3C9639D5FDFEF29 /* GCD */ = {
@@ -472,19 +501,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		06FABB13A93A34687E521330D124D263 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				45576DFBB611119A8EEF06CC6EE3C5AB /* PhilipsHue-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		350B70D29A68774272506F981EC94BB7 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				62FA2DC20DDC173233EE0F9092C188DE /* Pods-PhilipsHueDemo-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66C6736D524589C4A7B39B1B1B885997 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2964BA5C339286024520AEC178F286FC /* PhilipsHue-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,24 +539,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		0031AAB93280D0C05F6BA82ACE4D4F86 /* PhilipsHue */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5214AC9713BB1C6356F176FBF213B17B /* Build configuration list for PBXNativeTarget "PhilipsHue" */;
-			buildPhases = (
-				16BE0B06BBB39259A6F21F1F6CE8D79E /* Sources */,
-				A02DA794F5225762CDE117EB398479C6 /* Frameworks */,
-				06FABB13A93A34687E521330D124D263 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A884B92D95ABBF8F06B0A261CA5BEB1B /* PBXTargetDependency */,
-			);
-			name = PhilipsHue;
-			productName = PhilipsHue;
-			productReference = 023B649B1AB14918F57872F1924EF7E8 /* PhilipsHue.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		17C0B2940F655127C620E0AD7B2BB27E /* CocoaSSDP */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AADE76B12076B9FB88385A6FA474E2BA /* Build configuration list for PBXNativeTarget "CocoaSSDP" */;
@@ -561,6 +572,26 @@
 			name = Alamofire;
 			productName = Alamofire;
 			productReference = CC963509B8397BA3E938D124AF09016A /* Alamofire.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		A63EA83143AA5D6CC9421BD040562F82 /* PhilipsHue */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A99884D4B68401B5D19ED7B25520AA5C /* Build configuration list for PBXNativeTarget "PhilipsHue" */;
+			buildPhases = (
+				79582F44DCB9B81AEBD911539A62E4B7 /* Sources */,
+				90B3781C81696481CEAD548708626D99 /* Frameworks */,
+				66C6736D524589C4A7B39B1B1B885997 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6E6736891A5D80266281E32292F31946 /* PBXTargetDependency */,
+				86111FF5EFF2B2E8A3BB461FCA418167 /* PBXTargetDependency */,
+				B6BCF960E5FE4F060EF6735BEBB44B06 /* PBXTargetDependency */,
+			);
+			name = PhilipsHue;
+			productName = PhilipsHue;
+			productReference = 023B649B1AB14918F57872F1924EF7E8 /* PhilipsHue.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		AC0D2D2B4EE7C873431AB3502859CA60 /* CocoaAsyncSocket */ = {
@@ -625,28 +656,13 @@
 				88E9EC28B8B46C3631E6B242B50F4442 /* Alamofire */,
 				AC0D2D2B4EE7C873431AB3502859CA60 /* CocoaAsyncSocket */,
 				17C0B2940F655127C620E0AD7B2BB27E /* CocoaSSDP */,
-				0031AAB93280D0C05F6BA82ACE4D4F86 /* PhilipsHue */,
+				A63EA83143AA5D6CC9421BD040562F82 /* PhilipsHue */,
 				ADDABE3ADD1E82E2220849201F37C03D /* Pods-PhilipsHueDemo */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		16BE0B06BBB39259A6F21F1F6CE8D79E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				21DB4BDC7211E1DBF089ACAFFDF4DF82 /* AsynchronousOperation.swift in Sources */,
-				8594D775F9E0B1E627AA81809C02BF87 /* Math.swift in Sources */,
-				24E4935A15893D2A18C9A29A2E499F65 /* PhilipsHue-dummy.m in Sources */,
-				DFE96547AD0A89DDFB306064032524DB /* PhilipsHueBridge.swift in Sources */,
-				1602003964774E382E3CD39CEAACDE5F /* PhilipsHueDiscoveryManager.swift in Sources */,
-				5A09F80809CB19FD94E3F158537F7106 /* PhilipsHueGroup.swift in Sources */,
-				7F1684B6BBFAA8349BA783AFD6DE4907 /* PhilipsHueLight.swift in Sources */,
-				71E171E8D6CE9A760F8E8079F4914B69 /* PhilipsHueResult.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		268E865234760A34049FF5E1D066AEAA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -677,6 +693,21 @@
 				3626B94094672CB1C9DEA32B9F9502E1 /* TaskDelegate.swift in Sources */,
 				10EB23E9ECC4B33E16933BB1EA560B6A /* Timeline.swift in Sources */,
 				BBEFE2F9CEB73DC7BD97FFA66A0D9D4F /* Validation.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		79582F44DCB9B81AEBD911539A62E4B7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9EDDABE6321C7BB196F5B1DC2FBCDA4A /* AsynchronousOperation.swift in Sources */,
+				C298DAA5DE3BFD27C2AC37B15CEC9EB4 /* Math.swift in Sources */,
+				98CCCF96EED66D3EBE33ABABB6075B27 /* PhilipsHue-dummy.m in Sources */,
+				CEFA3066F859B259D7EFDEFDEBC4FEA7 /* PhilipsHueBridge.swift in Sources */,
+				4FB59D0BCF0781144C45830DE84FEE5A /* PhilipsHueDiscoveryManager.swift in Sources */,
+				83B2C47403845745768D743020FA0D28 /* PhilipsHueGroup.swift in Sources */,
+				23492B9BA689E198E9EDDEB234C0EE81 /* PhilipsHueLight.swift in Sources */,
+				6E857FAE8DCE114063A71C86E3E75D81 /* PhilipsHueResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -713,7 +744,7 @@
 		42C5F6C5AE35F75BEC27CB983009FEC7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = PhilipsHue;
-			target = 0031AAB93280D0C05F6BA82ACE4D4F86 /* PhilipsHue */;
+			target = A63EA83143AA5D6CC9421BD040562F82 /* PhilipsHue */;
 			targetProxy = 2FE0344B7013665EA1334DDEC6A3C3CD /* PBXContainerItemProxy */;
 		};
 		59EC0F44B714C053120292BE633E02B7 /* PBXTargetDependency */ = {
@@ -722,11 +753,23 @@
 			target = 88E9EC28B8B46C3631E6B242B50F4442 /* Alamofire */;
 			targetProxy = 7E5C510F6A13C73630B988931B2EB7BF /* PBXContainerItemProxy */;
 		};
+		6E6736891A5D80266281E32292F31946 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Alamofire;
+			target = 88E9EC28B8B46C3631E6B242B50F4442 /* Alamofire */;
+			targetProxy = 27EA0475D0982A1B143BEA93803C6E4F /* PBXContainerItemProxy */;
+		};
 		7DC40434D5A42F67D78ABB654C450FEA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = CocoaAsyncSocket;
 			target = AC0D2D2B4EE7C873431AB3502859CA60 /* CocoaAsyncSocket */;
 			targetProxy = 3E39454D384D52CFBC4063A5AD94A107 /* PBXContainerItemProxy */;
+		};
+		86111FF5EFF2B2E8A3BB461FCA418167 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CocoaAsyncSocket;
+			target = AC0D2D2B4EE7C873431AB3502859CA60 /* CocoaAsyncSocket */;
+			targetProxy = 20F6B5E1310ED4BAC611FC443F2D2D87 /* PBXContainerItemProxy */;
 		};
 		8EFC75C8A50554B03C1EDEED34BE7DCA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -734,11 +777,11 @@
 			target = 17C0B2940F655127C620E0AD7B2BB27E /* CocoaSSDP */;
 			targetProxy = BFBEE1E0861BEE4D5518F155EEF3AB50 /* PBXContainerItemProxy */;
 		};
-		A884B92D95ABBF8F06B0A261CA5BEB1B /* PBXTargetDependency */ = {
+		B6BCF960E5FE4F060EF6735BEBB44B06 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = Alamofire;
-			target = 88E9EC28B8B46C3631E6B242B50F4442 /* Alamofire */;
-			targetProxy = 74ECD4B4795E256C4BD482ADC48CF55E /* PBXContainerItemProxy */;
+			name = CocoaSSDP;
+			target = 17C0B2940F655127C620E0AD7B2BB27E /* CocoaSSDP */;
+			targetProxy = BD7AEA050BE7E33F630AFC3FAE98D405 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -926,9 +969,9 @@
 			};
 			name = Debug;
 		};
-		91BF7440DB720212CC2D35981747FFC8 /* Debug */ = {
+		8BB3E6F4B1E2E157117F36BABF6B1386 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CDEFC26E4B1E9E0FA50A6BCAF0FBCEFF /* PhilipsHue.xcconfig */;
+			baseConfigurationReference = 7735DC34802E6D6D9AD13BB0BD1CB135 /* PhilipsHue.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1067,6 +1110,39 @@
 			};
 			name = Release;
 		};
+		DF31BD89B080525F185F261CD0952681 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7735DC34802E6D6D9AD13BB0BD1CB135 /* PhilipsHue.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CONFIGURATION_BUILD_DIR = "$PODS_CONFIGURATION_BUILD_DIR";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/PhilipsHue/PhilipsHue-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/PhilipsHue/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/PhilipsHue/PhilipsHue.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = PhilipsHue;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		DF399E6E47E289B727CBC76BACEB7FCB /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F5EF9D8FF24C228B3AF21F3A5A067DF3 /* CocoaSSDP.xcconfig */;
@@ -1133,39 +1209,6 @@
 			};
 			name = Debug;
 		};
-		FF91A16B242ED5ACBAF4357CF4920FB9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CDEFC26E4B1E9E0FA50A6BCAF0FBCEFF /* PhilipsHue.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CONFIGURATION_BUILD_DIR = "$PODS_CONFIGURATION_BUILD_DIR";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/PhilipsHue/PhilipsHue-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/PhilipsHue/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/PhilipsHue/PhilipsHue.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = PhilipsHue;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1196,11 +1239,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5214AC9713BB1C6356F176FBF213B17B /* Build configuration list for PBXNativeTarget "PhilipsHue" */ = {
+		A99884D4B68401B5D19ED7B25520AA5C /* Build configuration list for PBXNativeTarget "PhilipsHue" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				91BF7440DB720212CC2D35981747FFC8 /* Debug */,
-				FF91A16B242ED5ACBAF4357CF4920FB9 /* Release */,
+				8BB3E6F4B1E2E157117F36BABF6B1386 /* Debug */,
+				DF31BD89B080525F185F261CD0952681 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

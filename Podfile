@@ -4,8 +4,8 @@ target 'PhilipsHueDemo' do
   use_frameworks!
 
   pod 'Alamofire'
-  pod 'CocoaSSDP',  :git => 'https://github.com/getsenic/ssdp-discovery-objc.git', :branch => 'master'
-  pod 'PhilipsHue', :path => './PhilipsHue'
+  pod 'CocoaSSDP',  :git => 'https://github.com/getsenic/ssdp-discovery-objc.git', :tag => '1.0.0'
+  pod 'PhilipsHue', :path => '.'
 end
 
 post_install do |installer|

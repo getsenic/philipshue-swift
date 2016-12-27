@@ -3,34 +3,35 @@ PODS:
   - CocoaAsyncSocket (7.5.1):
     - CocoaAsyncSocket/GCD (= 7.5.1)
   - CocoaAsyncSocket/GCD (7.5.1)
-  - CocoaSSDP (0.1.0):
+  - CocoaSSDP (1.0.0):
     - CocoaAsyncSocket
-  - PhilipsHue (0.0.1):
-    - Alamofire (= 4.2.0)
+  - PhilipsHue (1.0.0):
+    - Alamofire (~> 4.2)
+    - CocoaSSDP
 
 DEPENDENCIES:
   - Alamofire
-  - CocoaSSDP (from `https://github.com/getsenic/ssdp-discovery-objc.git`, branch `master`)
-  - PhilipsHue (from `./PhilipsHue`)
+  - CocoaSSDP (from `https://github.com/getsenic/ssdp-discovery-objc.git`, tag `1.0.0`)
+  - PhilipsHue (from `.`)
 
 EXTERNAL SOURCES:
   CocoaSSDP:
-    :branch: master
     :git: https://github.com/getsenic/ssdp-discovery-objc.git
+    :tag: 1.0.0
   PhilipsHue:
-    :path: ./PhilipsHue
+    :path: .
 
 CHECKOUT OPTIONS:
   CocoaSSDP:
-    :commit: 49c3cd2a905edaa707ef4a6ef05df1fa198d0162
     :git: https://github.com/getsenic/ssdp-discovery-objc.git
+    :tag: 1.0.0
 
 SPEC CHECKSUMS:
   Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
   CocoaAsyncSocket: e0a7e93b2ffa411592ff87e58524fbbc9b95b4fa
-  CocoaSSDP: 725914b9b59ba402a092ef18fdcc6e57cb8684f3
-  PhilipsHue: 1e5e35146ce320463b57c246f2a7bb4d2a269415
+  CocoaSSDP: c7d59fae5f968500590253be8343ecc58a80f264
+  PhilipsHue: c42f0dcff7c5492fb629296a66a6c7115948a615
 
-PODFILE CHECKSUM: 23ff3bb78b35ac7ed69af5287ed97b3a60caacc1
+PODFILE CHECKSUM: 3b6550c85cb7d4b977115d6ac3ac9673664b88d5
 
 COCOAPODS: 1.1.1
