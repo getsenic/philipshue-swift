@@ -24,5 +24,9 @@ internal extension Float {
     func toSaturation() -> Int { return Int(self.clamped() * 254.0) }
     func toMired()      -> Int { return Int(self.clamped() * Float(Int.maxMired - Int.minMired)) + Int.minMired }
 
-    fileprivate func clamped(_ minimum: Float = 0.0, _ maximum: Float = 1.0) -> Float { return max(minimum, min(maximum, self)) }
+    func clamped(_ minimum: Float = 0.0, _ maximum: Float = 1.0) -> Float { return max(minimum, min(maximum, self)) }
+}
+
+internal extension Double {
+    func clamped(_ minimum: Double = 0.0, _ maximum: Double = 1.0) -> Double { return max(minimum, min(maximum, self)) }
 }

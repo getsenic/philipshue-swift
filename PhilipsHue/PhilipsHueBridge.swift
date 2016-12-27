@@ -182,12 +182,13 @@ internal protocol PhilipsHueBridgeItem: class {
 }
 
 public protocol PhilipsHueLightItem: class {
-    var identifier:       String { get }
-    var isOn:             Bool   { get set }
-    var brightness:       Float? { get set }
-    var hue:              Float? { get set }
-    var saturation:       Float? { get set }
-    var colorTemperature: Float? { get set }
+    var identifier:         String       { get }
+    var transitionInterval: TimeInterval { get set }
+    var isOn:               Bool         { get set }
+    var brightness:         Float?       { get set }
+    var hue:                Float?       { get set }
+    var saturation:         Float?       { get set }
+    var colorTemperature:   Float?       { get set }
 
     /// Any changes to light parameters won't be sent to the light until `endUpdates()` is called
     func beginUpdates()
@@ -207,7 +208,7 @@ private class PhilipsHueLightUpdateOperation<T: PhilipsHueBridgeLightItem>: Asyn
 
     fileprivate override func main() {
         guard
-            let stateUpdateParameters = self.light?.stateUpdateParameters,
+            var stateUpdateParameters = self.light?.stateUpdateParameters,
             let light = light,
             let bridge = light.bridge,
             stateUpdateParameters.count > 0
@@ -216,6 +217,7 @@ private class PhilipsHueLightUpdateOperation<T: PhilipsHueBridgeLightItem>: Asyn
             return
         }
         light.stateUpdateParameters = [:]
+        stateUpdateParameters["transitiontime"] = Int((light.transitionInterval * 10.0).rounded().clamped(0, Double(UInt16.max))) as AnyObject
         print("write", light.stateUpdateUrl, stateUpdateParameters)
         bridge.requestJSONArray(light.stateUpdateUrl, method: .put, parameters: stateUpdateParameters) { [weak self] response in
             guard let strongSelf = self else { return }

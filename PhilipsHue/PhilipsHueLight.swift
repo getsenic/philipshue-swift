@@ -17,17 +17,18 @@ public class PhilipsHueLight: PhilipsHueBridgeLightItem {
     public private(set) var model:        String
     public private(set) var type:         LightType?
 
-    public let identifier:       String
-    public var isOn:             Bool   { didSet { addParameterUpdate(name: "on",    value: self.isOn) } }
-    public var alert:            Alert? { didSet { addParameterUpdate(name: "alert", value: self.alert?.jsonValue) } }
+    public let identifier:         String
+    public var transitionInterval: TimeInterval = 0.4
+    public var isOn:               Bool   { didSet { addParameterUpdate(name: "on",    value: self.isOn) } }
+    public var alert:              Alert? { didSet { addParameterUpdate(name: "alert", value: self.alert?.jsonValue) } }
     /// 0.0 (black) ... 1.0 (full brightness)
-    public var brightness:       Float? { didSet { addParameterUpdate(name: "bri",   value: self.brightness?.toBrightness()) } }
+    public var brightness:         Float? { didSet { addParameterUpdate(name: "bri",   value: self.brightness?.toBrightness()) } }
     /// 0.0 (red) ... 1.0 (red)
-    public var hue:              Float? { didSet { addParameterUpdate(name: "hue",   value: self.hue?.toHue()) } }
+    public var hue:                Float? { didSet { addParameterUpdate(name: "hue",   value: self.hue?.toHue()) } }
     /// 0.0 (white) ... 1.0 (full saturation)
-    public var saturation:       Float? { didSet { addParameterUpdate(name: "sat",   value: self.saturation?.toSaturation()) } }
+    public var saturation:         Float? { didSet { addParameterUpdate(name: "sat",   value: self.saturation?.toSaturation()) } }
     /// 0.0 (coldest) ... 1.0 (warmest)
-    public var colorTemperature: Float? { didSet { addParameterUpdate(name: "ct",    value: self.colorTemperature?.toMired()) } }
+    public var colorTemperature:   Float? { didSet { addParameterUpdate(name: "ct",    value: self.colorTemperature?.toMired()) } }
 
     internal var stateUpdateUrl:        String { return "lights/\(self.identifier)/state" }
     internal var stateUpdateDuration:   TimeInterval { return 0.1 }

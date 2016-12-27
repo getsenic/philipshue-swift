@@ -14,6 +14,7 @@ class LightViewController: UIViewController {
 
     @IBOutlet weak var updateModeStackView:        UIStackView!
     @IBOutlet weak var updateModeSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var transitionIntervalSlider:   UISlider!
     @IBOutlet weak var onSwitch:                   UISwitch!
     @IBOutlet weak var brightnessSlider:           UISlider!
     @IBOutlet weak var hueSlider:                  UISlider!
@@ -34,6 +35,8 @@ class LightViewController: UIViewController {
         else {
             updateModeStackView.isHidden = true
         }
+
+        transitionIntervalSlider.value = Float(light.transitionInterval)
 
         onSwitch.isOn = light.isOn
 
@@ -58,6 +61,10 @@ class LightViewController: UIViewController {
     @IBAction func didChangeUpdateMode() {
         guard let group = light as? PhilipsHueGroup else { return }
         group.updateRequestMode = [.singleGroupRequest, .multipleLightRequests][updateModeSegmentedControl.selectedSegmentIndex]
+    }
+
+    @IBAction func didChangeTransitionInterval() {
+        light.transitionInterval = TimeInterval(transitionIntervalSlider.value)
     }
 
     @IBAction func didChangeIsOn() {

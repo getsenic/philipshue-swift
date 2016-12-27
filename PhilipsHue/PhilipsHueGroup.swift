@@ -11,6 +11,7 @@ import Foundation
 public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
     public private(set) weak var bridge: PhilipsHueBridge?
     public let identifier: String
+    public var transitionInterval: TimeInterval = 0.4
 
     public private(set) var name:             String
     public private(set) var lightIdentifiers: [String]
