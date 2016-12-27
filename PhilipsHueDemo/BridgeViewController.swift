@@ -37,13 +37,17 @@ class BridgeViewController: UIViewController {
         bridge.refresh { [weak self] (result) in
             switch result {
             case .failure(let error):
-                print(error)
-                if case .unauthorizedUser = error {
+                switch error {
+                case .unauthorizedUser:
                     let alertController = UIAlertController(title: "User not authorized", message: "Do you want to request authorization?", preferredStyle: .alert)
                     alertController.addAction(UIAlertAction(title: "Yes", style: .default) { [weak self] _ in
                         self?.authorizeUser()
                     })
                     alertController.addAction(UIAlertAction(title: "No", style: .default) { _ in })
+                    self?.present(alertController, animated: true) {}
+                default:
+                    let alertController = UIAlertController(title: "Refresh failed", message: error.localizedDescription, preferredStyle: .alert)
+                    alertController.addAction(UIAlertAction(title: "Ok", style: .default) { _ in })
                     self?.present(alertController, animated: true) {}
                 }
             case .success():

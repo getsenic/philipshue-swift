@@ -51,7 +51,7 @@ extension PhilipsHueError: LocalizedError {
         case .internalBridgeError:              return "Internal bridge error"
         case .unexpectedErrorCode(let code):    return "Unexpected error code: \(code)"
         case .unexpectedResponse(let response): return "Unexpected response: \(response)"
-        case .networkError(let error):          return "Network error: \(error)"
+        case .networkError(let error):          return "Network error: \(error.localizedDescription)"
         }
     }
 }
