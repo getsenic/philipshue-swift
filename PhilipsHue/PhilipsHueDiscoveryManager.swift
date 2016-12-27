@@ -29,10 +29,8 @@ public class PhilipsHueDiscoveryManager {
     }
 
     private func startNUPnPDiscovery(timeoutInterval: TimeInterval) {
-        let request = MutableURLRequest(url: URL(string: "https://www.meethue.com/api/nupnp")!)
-        request.timeoutInterval = timeoutInterval
         apiDataRequest = Alamofire
-            .request(request as URLRequest)
+            .request(URLRequest(url: URL(string: "https://www.meethue.com/api/nupnp")!, timeoutInterval: timeoutInterval))
             .responseJSON { [weak self] response in
                 guard let strongSelf = self else { return }
                 switch response.result {
