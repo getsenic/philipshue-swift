@@ -23,6 +23,11 @@ class DiscoveryViewController: UIViewController {
         discoverBridges()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.indexPathsForSelectedRows?.forEach { tableView.deselectRow(at: $0, animated: false) }
+    }
+
     @IBAction func discoverBridges() {
         discoveryManager.startDiscovery()
     }
