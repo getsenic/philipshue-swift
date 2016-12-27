@@ -10,7 +10,7 @@ import Alamofire
 
 public class PhilipsHueBridge {
     public let host: String
-    public private(set) var username: String?
+    public var username: String?
     public private(set) var identifier: String?
 
     public private(set) var lights: [String : PhilipsHueLight] = [:]

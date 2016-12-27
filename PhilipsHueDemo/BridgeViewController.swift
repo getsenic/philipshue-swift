@@ -23,6 +23,7 @@ class BridgeViewController: UIViewController {
         super.viewDidLoad()
 
         title = bridge.host
+        bridge.username = UserDefaults.standard.string(forKey: bridge.host)
 
         refresh()
     }
@@ -53,16 +54,18 @@ class BridgeViewController: UIViewController {
 
     private func authorizeUser() {
         bridge.requestUsername(for: "Philips Hue Demo") { [weak self] result in
+            guard let strongSelf = self else { return }
             switch result {
             case .failure(let error):
                 let alertController = UIAlertController(title: "Failed authorizing user", message: "\(error.localizedDescription)\n\((error as NSError).localizedFailureReason ?? "")", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                self?.present(alertController, animated: true) {}
-            case .success(_):
-                self?.refresh()
+                strongSelf.present(alertController, animated: true) {}
+            case .success(let username):
+                UserDefaults.standard.set(username, forKey: strongSelf.bridge.host)
+                strongSelf.refresh()
                 let alertController = UIAlertController(title: "User authorization successfull", message: "Bridge is now being refreshed.", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                self?.present(alertController, animated: true) {}
+                strongSelf.present(alertController, animated: true) {}
             }
         }
     }
