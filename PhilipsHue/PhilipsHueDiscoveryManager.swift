@@ -54,7 +54,7 @@ public class PhilipsHueDiscoveryManager {
     fileprivate func didFindHost(_ host: String) {
         guard !foundHosts.contains(host) else { return }
         foundHosts += [host]
-        delegate?.philipsHueDiscoveryManager(self, didDiscoveryBridge: PhilipsHueBridge(host: host))
+        delegate?.philipsHueDiscoveryManager(self, didDiscoverBridge: PhilipsHueBridge(host: host))
     }
 
     public func cancelDiscovery() {
@@ -99,6 +99,6 @@ extension PhilipsHueDiscoveryManager: SSDPServiceBrowserDelegate {
 }
 
 public protocol PhilipsHueDiscoveryManagerDelegate: class {
-    func philipsHueDiscoveryManager(_ manager: PhilipsHueDiscoveryManager, didDiscoveryBridge bridge: PhilipsHueBridge)
+    func philipsHueDiscoveryManager(_ manager: PhilipsHueDiscoveryManager, didDiscoverBridge bridge: PhilipsHueBridge)
     func philipsHueDiscoveryManager(_ manager: PhilipsHueDiscoveryManager, didEncounterError error: PhilipsHueDiscoveryManagerError)
 }

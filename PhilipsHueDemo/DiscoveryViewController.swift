@@ -38,7 +38,7 @@ class DiscoveryViewController: UIViewController {
 }
 
 extension DiscoveryViewController: PhilipsHueDiscoveryManagerDelegate {
-    func philipsHueDiscoveryManager(_ manager: PhilipsHueDiscoveryManager, didDiscoveryBridge bridge: PhilipsHueBridge) {
+    func philipsHueDiscoveryManager(_ manager: PhilipsHueDiscoveryManager, didDiscoverBridge bridge: PhilipsHueBridge) {
         bridges[bridge.host] = bridge
         tableView.reloadData()
     }
