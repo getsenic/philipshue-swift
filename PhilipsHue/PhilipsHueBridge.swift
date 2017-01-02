@@ -33,7 +33,7 @@ public class PhilipsHueBridge {
         self.username = username
     }
 
-    public func requestUsername(for appName: String, completion: @escaping (PhilipsHueResult<String>) -> Void) {
+    public func requestUsername(for appName: String, completion: ((PhilipsHueResult<String>) -> Void)? = nil) {
         #if os(iOS) || os(tvOS)
         let deviceName = UIDevice.current.name
         #else
@@ -44,36 +44,36 @@ public class PhilipsHueBridge {
             guard let strongSelf = self else { return }
             switch response.result {
             case .failure(let error):
-                completion(.failure(error))
+                completion?(.failure(error))
             case .success(let jsonObjects):
                 guard let username = jsonObjects.flatMap({($0["success"] as? [String : AnyObject])?["username"] as? String}).first else {
-                    completion(.failure(.unexpectedResponse(jsonObjects)))
+                    completion?(.failure(.unexpectedResponse(jsonObjects)))
                     return
                 }
                 strongSelf.username = username
-                completion(.success(username))
+                completion?(.success(username))
             }
         }
     }
 
-    public func refresh(completion: @escaping (PhilipsHueResult<Void>) -> Void) {
+    public func refresh(completion: ((PhilipsHueResult<Void>) -> Void)? = nil) {
         requestJSONObject("/") { [weak self] response in
             guard let strongSelf = self else { return }
             switch response.result {
             case .failure(let error):
-                completion(.failure(error))
+                completion?(.failure(error))
             case .success(let json):
                 guard
                     let config     = json["config"]     as? [String : AnyObject],
                     let identifier = config["bridgeid"] as? String
                 else {
-                    completion(.failure(.unexpectedResponse(json)))
+                    completion?(.failure(.unexpectedResponse(json)))
                     return
                 }
                 strongSelf.identifier = identifier
                 if let jsonLights = (json["lights"] as? [String : [String : AnyObject]]) { self?.refreshBridgeItems(&strongSelf.lights, from: jsonLights) }
                 if let jsonGroups = (json["groups"] as? [String : [String : AnyObject]]) { self?.refreshBridgeItems(&strongSelf.groups, from: jsonGroups) }
-                completion(.success())
+                completion?(.success())
             }
         }
     }
