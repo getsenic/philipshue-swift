@@ -45,6 +45,7 @@ class BridgeViewController: UIViewController {
                 }
             case .success():
                 self?.tableView.reloadData()
+                self?.presentAlert(title: "Bridge Refresh", message: "Bridge refreshed successfully")
             }
         }
     }
