@@ -39,16 +39,9 @@ class BridgeViewController: UIViewController {
             case .failure(let error):
                 switch error {
                 case .unauthorizedUser:
-                    let alertController = UIAlertController(title: "User not authorized", message: "Do you want to request authorization?", preferredStyle: .alert)
-                    alertController.addAction(UIAlertAction(title: "Yes", style: .default) { [weak self] _ in
-                        self?.authorizeUser()
-                    })
-                    alertController.addAction(UIAlertAction(title: "No", style: .default) { _ in })
-                    self?.present(alertController, animated: true) {}
+                    self?.presentAlert(title: "User not authorized", message: "Do you want to request authorization?", buttons: [("Yes", { self?.authorizeUser() }), ("No", nil)])
                 default:
-                    let alertController = UIAlertController(title: "Refresh failed", message: error.localizedDescription, preferredStyle: .alert)
-                    alertController.addAction(UIAlertAction(title: "Ok", style: .default) { _ in })
-                    self?.present(alertController, animated: true) {}
+                    self?.presentAlert(title: "Refresh failed", message: error.localizedDescription)
                 }
             case .success():
                 self?.tableView.reloadData()
@@ -61,15 +54,11 @@ class BridgeViewController: UIViewController {
             guard let strongSelf = self else { return }
             switch result {
             case .failure(let error):
-                let alertController = UIAlertController(title: "Failed authorizing user", message: "\(error.localizedDescription)\n\((error as NSError).localizedFailureReason ?? "")", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                strongSelf.present(alertController, animated: true) {}
+                strongSelf.presentAlert(title: "Failed authorizing user", message: "\(error.localizedDescription)\n\((error as NSError).localizedFailureReason ?? "")")
             case .success(let username):
                 UserDefaults.standard.set(username, forKey: strongSelf.bridge.host)
                 strongSelf.refresh()
-                let alertController = UIAlertController(title: "User authorization successfull", message: "Bridge is now being refreshed.", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                strongSelf.present(alertController, animated: true) {}
+                strongSelf.presentAlert(title: "User authorization successfull", message: "Bridge is now being refreshed.")
             }
         }
     }
@@ -97,9 +86,7 @@ class BridgeViewController: UIViewController {
 
             switch result {
             case .failure(let error):
-                let alertController = UIAlertController(title: "Failed getting or creating group", message: "\(error.localizedDescription)\n\((error as NSError).localizedFailureReason ?? "")", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                strongSelf.present(alertController, animated: true) {}
+                strongSelf.presentAlert(title: "Failed getting or creating group", message: "\(error.localizedDescription)\n\((error as NSError).localizedFailureReason ?? "")")
             case .success(let group):
                 strongSelf.performSegue(withIdentifier: "light", sender: group)
             }
@@ -108,6 +95,14 @@ class BridgeViewController: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         (segue.destination as! LightViewController).light = sender as! PhilipsHueLightItem
+    }
+
+    func presentAlert(title: String, message: String, buttons: [(String, (() -> Void)?)] = [("Ok", nil)]) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        buttons.enumerated().forEach { index, element in
+            alertController.addAction(UIAlertAction(title: element.0, style: .default) { _ in element.1?() })
+        }
+        present(alertController, animated: true) {}
     }
 }
 
