@@ -218,7 +218,6 @@ private class PhilipsHueLightUpdateOperation<T: PhilipsHueBridgeLightItem>: Asyn
         }
         light.stateUpdateParameters = [:]
         stateUpdateParameters["transitiontime"] = Int((light.transitionInterval * 10.0).rounded().clamped(0, Double(UInt16.max))) as AnyObject
-        print("write", light.stateUpdateUrl, stateUpdateParameters)
         bridge.requestJSONArray(light.stateUpdateUrl, method: .put, parameters: stateUpdateParameters) { [weak self] response in
             guard let strongSelf = self else { return }
             guard let light = strongSelf.light else {
@@ -227,7 +226,6 @@ private class PhilipsHueLightUpdateOperation<T: PhilipsHueBridgeLightItem>: Asyn
             }
             switch response.result {
             case .failure(let error):
-                print(error)
                 if case .lightIsOff = error {
                     // Bridge tells us that the light is off, we update our `isOn` property as it might have the wrong state by now
                     light.beginRefreshing()
@@ -236,7 +234,6 @@ private class PhilipsHueLightUpdateOperation<T: PhilipsHueBridgeLightItem>: Asyn
                 }
                 strongSelf.complete()
             case .success(let jsonObjects):
-                print(jsonObjects)
                 // To avoid light udates being queued on the Hue bridge, we delay subsequent light updates as specified by Philips Hue, i.e. 100msec per light and 1,000msec per group
                 let remainingUpdateTime = light.stateUpdateDuration - response.duration
                 if remainingUpdateTime > 0.01 {
