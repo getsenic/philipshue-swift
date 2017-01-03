@@ -74,9 +74,9 @@ public class PhilipsHueGroup: PhilipsHueBridgeLightItem {
         self.type             = type
     }
 
-    public func setLights(_ lights: [PhilipsHueLight], completion: @escaping (PhilipsHueResult<Void>) -> Void) {
+    public func setLights(_ lights: [PhilipsHueLight], timeoutInterval: TimeInterval = 3.0, completion: @escaping (PhilipsHueResult<Void>) -> Void) {
         let lightIdentifiers = Array(Set(lights.map{ $0.identifier }))
-        bridge?.requestJSONArray("groups/\(identifier)", method: .put, parameters: ["lights" : lightIdentifiers as AnyObject]) { [weak self] response in
+        bridge?.requestJSONArray("groups/\(identifier)", method: .put, parameters: ["lights" : lightIdentifiers as AnyObject], timeoutInterval: timeoutInterval) { [weak self] response in
             switch response.result {
             case .failure(let error):
                 completion(.failure(error))

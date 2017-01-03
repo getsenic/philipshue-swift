@@ -12,15 +12,13 @@ public class PhilipsHueBridge {
     public let host: String
     public var username: String?
     public private(set) var identifier: String?
+    /// Timeout interval for each light update network request, e.g. for switching on a light or a group of lights
+    public var lightUpdateTimeoutInterval: TimeInterval = 3.0
 
     public private(set) var lights: [String : PhilipsHueLight] = [:]
     public private(set) var groups: [String : PhilipsHueGroup] = [:]
 
-    private let alamofire: SessionManager = {
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 5.0
-        return Alamofire.SessionManager(configuration: configuration)
-    }()
+    private let alamofire = Alamofire.SessionManager(configuration: URLSessionConfiguration.default)
 
     private let lightUpdateOperationQueue: OperationQueue = {
         let queue = OperationQueue()
@@ -33,14 +31,14 @@ public class PhilipsHueBridge {
         self.username = username
     }
 
-    public func requestUsername(for appName: String, completion: ((PhilipsHueResult<String>) -> Void)? = nil) {
+    public func requestUsername(for appName: String, timeoutInterval: TimeInterval = 3.0, completion: ((PhilipsHueResult<String>) -> Void)? = nil) {
         #if os(iOS) || os(tvOS)
         let deviceName = UIDevice.current.name
         #else
         //TODO: Implement device name for other platforms
         let deviceName = "unspecified"
         #endif
-        requestJSONArray("/", needsAuthorization: false, method: .post, parameters: ["devicetype" : "\(appName)#\(deviceName)" as AnyObject]) { [weak self] response in
+        requestJSONArray("/", needsAuthorization: false, method: .post, parameters: ["devicetype" : "\(appName)#\(deviceName)" as AnyObject], timeoutInterval: timeoutInterval) { [weak self] response in
             guard let strongSelf = self else { return }
             switch response.result {
             case .failure(let error):
@@ -56,8 +54,8 @@ public class PhilipsHueBridge {
         }
     }
 
-    public func refresh(completion: ((PhilipsHueResult<Void>) -> Void)? = nil) {
-        requestJSONObject("/") { [weak self] response in
+    public func refresh(timeoutInterval: TimeInterval = 3.0, completion: ((PhilipsHueResult<Void>) -> Void)? = nil) {
+        requestJSONObject("/", timeoutInterval: timeoutInterval) { [weak self] response in
             guard let strongSelf = self else { return }
             switch response.result {
             case .failure(let error):
@@ -78,7 +76,7 @@ public class PhilipsHueBridge {
         }
     }
 
-    public func getOrCreateGroup(for lights: [PhilipsHueLight], name: String, overwiteIfGroupTableIsFull: Bool = false, completion: @escaping (PhilipsHueResult<PhilipsHueGroup>) -> Void) {
+    public func getOrCreateGroup(for lights: [PhilipsHueLight], name: String, overwiteIfGroupTableIsFull: Bool = false, timeoutInterval: TimeInterval = 3.0, completion: @escaping (PhilipsHueResult<PhilipsHueGroup>) -> Void) {
         let lightIdentifiers = Array(Set(lights.map{ $0.identifier }))
         // Return an existing group if we know a group that contains exactly the same lights
         if let group = groups.values.filter({ group -> Bool in
@@ -89,7 +87,7 @@ public class PhilipsHueBridge {
             return
         }
         // Create a new group (or overwrite existing group if group table is full)
-        requestJSONArray("groups", method: .post, parameters: ["lights" : lightIdentifiers as AnyObject, "name" : name as AnyObject, "type" : "LightGroup" as AnyObject]) { [weak self] response in
+        requestJSONArray("groups", method: .post, parameters: ["lights" : lightIdentifiers as AnyObject, "name" : name as AnyObject, "type" : "LightGroup" as AnyObject], timeoutInterval: timeoutInterval) { [weak self] response in
             guard let strongSelf = self else { return }
             switch response.result {
             case .failure(let error):
@@ -137,31 +135,42 @@ public class PhilipsHueBridge {
             })
     }
 
-    internal func requestJSONObject(_ url: String, needsAuthorization: Bool = true, method: HTTPMethod = .get, parameters: [String : AnyObject]? = nil, completion: @escaping (PhilipsHueBridgeResponse<[String : AnyObject]>) -> ()) {
-        return request(url, needsAuthorization: needsAuthorization, method: method, parameters: parameters, completion: completion)
+    internal func requestJSONObject(_ url: String, needsAuthorization: Bool = true, method: HTTPMethod = .get, parameters: [String : AnyObject]? = nil, timeoutInterval: TimeInterval, completion: @escaping (PhilipsHueBridgeResponse<[String : AnyObject]>) -> ()) {
+        return request(url, needsAuthorization: needsAuthorization, method: method, parameters: parameters, timeoutInterval: timeoutInterval, completion: completion)
     }
 
-    internal func requestJSONArray(_ url: String, needsAuthorization: Bool = true, method: HTTPMethod = .get, parameters: [String : AnyObject]? = nil, completion: @escaping (PhilipsHueBridgeResponse<[[String : AnyObject]]>) -> ()) {
-        return request(url, needsAuthorization: needsAuthorization, method: method, parameters: parameters, completion: completion)
+    internal func requestJSONArray(_ url: String, needsAuthorization: Bool = true, method: HTTPMethod = .get, parameters: [String : AnyObject]? = nil, timeoutInterval: TimeInterval, completion: @escaping (PhilipsHueBridgeResponse<[[String : AnyObject]]>) -> ()) {
+        return request(url, needsAuthorization: needsAuthorization, method: method, parameters: parameters, timeoutInterval: timeoutInterval, completion: completion)
     }
 
-    private func request<Value>(_ url: String, needsAuthorization: Bool, method: HTTPMethod, parameters: [String : AnyObject]?, completion: @escaping (PhilipsHueBridgeResponse<Value>) -> ()) {
-        var requestUrl = URL(string: "http://\(host)/api")!
+    private func request<Value>(_ url: String, needsAuthorization: Bool, method: HTTPMethod, parameters: [String : AnyObject]?, timeoutInterval: TimeInterval, completion: @escaping (PhilipsHueBridgeResponse<Value>) -> ()) {
+        var requestURL = URL(string: "http://\(host)/api")!
         if needsAuthorization {
             guard let username = username else {
                 completion(PhilipsHueBridgeResponse(result: .failure(.unauthorizedUser), duration: 0))
                 return
             }
-            requestUrl = requestUrl.appendingPathComponent(username)
+            requestURL = requestURL.appendingPathComponent(username)
         }
-        requestUrl = requestUrl.appendingPathComponent(url)
+        requestURL = requestURL.appendingPathComponent(url)
+
+        var request: URLRequest
+        do {
+            request = try URLRequest(url: requestURL, method: method)
+            request = try JSONEncoding.default.encode(request, with: parameters)
+            request.timeoutInterval = timeoutInterval
+        }
+        catch {
+            completion(PhilipsHueBridgeResponse(result: .failure(.networkError(error)), duration: 0))
+            return
+        }
         let _ = alamofire
-            .request(requestUrl, method: method, parameters: parameters, encoding: JSONEncoding.default)
+            .request(request)
             .responseHueJSON { response in completion(response) }
     }
 
     internal func enqueueLightUpdate<T: PhilipsHueBridgeLightItem>(for light: T) {
-        lightUpdateOperationQueue.addOperation(PhilipsHueLightUpdateOperation(light: light))
+        lightUpdateOperationQueue.addOperation(PhilipsHueLightUpdateOperation(light: light, timeoutInterval: lightUpdateTimeoutInterval))
     }
 }
 
@@ -200,9 +209,11 @@ internal typealias PhilipsHueBridgeLightItem = PhilipsHueBridgeItem & PhilipsHue
 
 private class PhilipsHueLightUpdateOperation<T: PhilipsHueBridgeLightItem>: AsynchronousOperation {
     private weak var light: T?
+    private var timeoutInterval: TimeInterval
 
-    init(light: T) {
+    init(light: T, timeoutInterval: TimeInterval) {
         self.light = light
+        self.timeoutInterval = timeoutInterval
         super.init()
     }
 
@@ -218,7 +229,7 @@ private class PhilipsHueLightUpdateOperation<T: PhilipsHueBridgeLightItem>: Asyn
         }
         light.stateUpdateParameters = [:]
         stateUpdateParameters["transitiontime"] = Int((light.transitionInterval * 10.0).rounded().clamped(0, Double(UInt16.max))) as AnyObject
-        bridge.requestJSONArray(light.stateUpdateUrl, method: .put, parameters: stateUpdateParameters) { [weak self] response in
+        bridge.requestJSONArray(light.stateUpdateUrl, method: .put, parameters: stateUpdateParameters, timeoutInterval: timeoutInterval) { [weak self] response in
             guard let strongSelf = self else { return }
             guard let light = strongSelf.light else {
                 strongSelf.complete()
