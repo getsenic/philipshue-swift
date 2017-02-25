@@ -69,8 +69,12 @@ public class PhilipsHueBridge {
                     return
                 }
                 strongSelf.identifier = identifier
-                if let jsonLights = (json["lights"] as? [String : [String : AnyObject]]) { self?.refreshBridgeItems(&strongSelf.lights, from: jsonLights) }
-                if let jsonGroups = (json["groups"] as? [String : [String : AnyObject]]) { self?.refreshBridgeItems(&strongSelf.groups, from: jsonGroups) }
+                if let jsonLights = (json["lights"] as? [String : [String : AnyObject]]) {
+                    strongSelf.lights = strongSelf.refreshedBridgeItems(strongSelf.lights, from: jsonLights)
+                }
+                if let jsonGroups = (json["groups"] as? [String : [String : AnyObject]]) {
+                    strongSelf.groups = strongSelf.refreshedBridgeItems(strongSelf.groups, from: jsonGroups)
+                }
                 completion?(.success())
             }
         }
@@ -118,8 +122,8 @@ public class PhilipsHueBridge {
         }
     }
 
-    private func refreshBridgeItems<T: PhilipsHueBridgeItem>(_ items: inout [String : T], from jsonItems: [String : [String : AnyObject]]) {
-        items = jsonItems
+    private func refreshedBridgeItems<T: PhilipsHueBridgeItem>(_ items: [String : T], from jsonItems: [String : [String : AnyObject]]) -> [String : T] {
+        return jsonItems
             .flatMap { (identifier: String, json: [String : AnyObject]) -> T? in
                 guard var item = T(bridge: self, identifier: identifier, json: json) else { return nil }
                 if let existingItem = items[identifier] {
