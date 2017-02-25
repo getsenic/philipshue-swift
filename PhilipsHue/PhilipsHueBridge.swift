@@ -38,8 +38,7 @@ public class PhilipsHueBridge {
         //TODO: Implement device name for other platforms
         let deviceName = "unspecified"
         #endif
-        requestJSONArray("/", needsAuthorization: false, method: .post, parameters: ["devicetype" : "\(appName)#\(deviceName)" as AnyObject], timeoutInterval: timeoutInterval) { [weak self] response in
-            guard let strongSelf = self else { return }
+        requestJSONArray("/", needsAuthorization: false, method: .post, parameters: ["devicetype" : "\(appName)#\(deviceName)" as AnyObject], timeoutInterval: timeoutInterval) { response in
             switch response.result {
             case .failure(let error):
                 completion?(.failure(error))
@@ -48,15 +47,14 @@ public class PhilipsHueBridge {
                     completion?(.failure(.unexpectedResponse(jsonObjects)))
                     return
                 }
-                strongSelf.username = username
+                self.username = username
                 completion?(.success(username))
             }
         }
     }
 
     public func refresh(timeoutInterval: TimeInterval = 3.0, completion: ((PhilipsHueResult<Void>) -> Void)? = nil) {
-        requestJSONObject("/", timeoutInterval: timeoutInterval) { [weak self] response in
-            guard let strongSelf = self else { return }
+        requestJSONObject("/", timeoutInterval: timeoutInterval) { response in
             switch response.result {
             case .failure(let error):
                 completion?(.failure(error))
@@ -68,12 +66,12 @@ public class PhilipsHueBridge {
                     completion?(.failure(.unexpectedResponse(json)))
                     return
                 }
-                strongSelf.identifier = identifier
+                self.identifier = identifier
                 if let jsonLights = (json["lights"] as? [String : [String : AnyObject]]) {
-                    strongSelf.lights = strongSelf.refreshedBridgeItems(strongSelf.lights, from: jsonLights)
+                    self.lights = self.refreshedBridgeItems(self.lights, from: jsonLights)
                 }
                 if let jsonGroups = (json["groups"] as? [String : [String : AnyObject]]) {
-                    strongSelf.groups = strongSelf.refreshedBridgeItems(strongSelf.groups, from: jsonGroups)
+                    self.groups = self.refreshedBridgeItems(self.groups, from: jsonGroups)
                 }
                 completion?(.success())
             }
@@ -91,13 +89,12 @@ public class PhilipsHueBridge {
             return
         }
         // Create a new group (or overwrite existing group if group table is full)
-        requestJSONArray("groups", method: .post, parameters: ["lights" : lightIdentifiers as AnyObject, "name" : name as AnyObject, "type" : "LightGroup" as AnyObject], timeoutInterval: timeoutInterval) { [weak self] response in
-            guard let strongSelf = self else { return }
+        requestJSONArray("groups", method: .post, parameters: ["lights" : lightIdentifiers as AnyObject, "name" : name as AnyObject, "type" : "LightGroup" as AnyObject], timeoutInterval: timeoutInterval) { response in
             switch response.result {
             case .failure(let error):
                 // If group table is already full and `overwiteIfGroupTableIsFull` is `true`, we overwrite an existing group with the same name, if any
                 if case .groupTableFull = error, overwiteIfGroupTableIsFull {
-                    guard let group = strongSelf.groups.values.filter({ $0.name == name }).first else {
+                    guard let group = self.groups.values.filter({ $0.name == name }).first else {
                         completion(.failure(.groupTableFull))
                         return
                     }
@@ -115,8 +112,8 @@ public class PhilipsHueBridge {
                     completion(.failure(.unexpectedResponse(jsonObjects)))
                     return
                 }
-                let group = PhilipsHueGroup(bridge: strongSelf, identifier: groupIdentifier, name: name, lightIdentifiers: lightIdentifiers, type: .group)
-                strongSelf.groups[groupIdentifier] = group
+                let group = PhilipsHueGroup(bridge: self, identifier: groupIdentifier, name: name, lightIdentifiers: lightIdentifiers, type: .group)
+                self.groups[groupIdentifier] = group
                 completion(.success(group))
             }
         }
@@ -233,10 +230,9 @@ private class PhilipsHueLightUpdateOperation<T: PhilipsHueBridgeLightItem>: Asyn
         }
         light.stateUpdateParameters = [:]
         stateUpdateParameters["transitiontime"] = Int((light.transitionInterval * 10.0).rounded().clamped(0, Double(UInt16.max))) as AnyObject
-        bridge.requestJSONArray(light.stateUpdateUrl, method: .put, parameters: stateUpdateParameters, timeoutInterval: timeoutInterval) { [weak self] response in
-            guard let strongSelf = self else { return }
-            guard let light = strongSelf.light else {
-                strongSelf.complete()
+        bridge.requestJSONArray(light.stateUpdateUrl, method: .put, parameters: stateUpdateParameters, timeoutInterval: timeoutInterval) { response in
+            guard let light = self.light else {
+                self.complete()
                 return
             }
             switch response.result {
@@ -247,15 +243,15 @@ private class PhilipsHueLightUpdateOperation<T: PhilipsHueBridgeLightItem>: Asyn
                     light.isOn = false
                     light.endRefreshing()
                 }
-                strongSelf.complete()
+                self.complete()
             case .success(let jsonObjects):
                 // To avoid light udates being queued on the Hue bridge, we delay subsequent light updates as specified by Philips Hue, i.e. 100msec per light and 1,000msec per group
                 let remainingUpdateTime = light.stateUpdateDuration - response.duration
                 if remainingUpdateTime > 0.01 {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + remainingUpdateTime) { strongSelf.complete() }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + remainingUpdateTime) { self.complete() }
                 }
                 else {
-                    strongSelf.complete()
+                    self.complete()
                 }
             }
         }
