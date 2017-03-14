@@ -73,6 +73,13 @@ public class PhilipsHueBridge {
                 if let jsonGroups = (json["groups"] as? [String : [String : AnyObject]]) {
                     self.groups = self.refreshedBridgeItems(self.groups, from: jsonGroups)
                 }
+                let allLightsGroup = PhilipsHueGroup(bridge: self, identifier: "0", name: "All lights", lightIdentifiers: Array(self.lights.keys), type: .group)
+                if let existingAllLightsGroup = self.groups["0"] {
+                    allLightsGroup.refresh(from: allLightsGroup)
+                }
+                else {
+                    self.groups["0"] = allLightsGroup
+                }
                 completion?(.success())
             }
         }
